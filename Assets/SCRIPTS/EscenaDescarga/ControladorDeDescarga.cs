@@ -36,7 +36,7 @@ public class ControladorDeDescarga : MonoBehaviour
 	float TempoBonus;
 	
 	
-	public AnimMngDesc ObjAnimado;
+	public AnimadorDePuerta ObjAnimado;
 
 	
 	//--------------------------------------------------------------//
@@ -52,7 +52,7 @@ public class ControladorDeDescarga : MonoBehaviour
 		CollCamion = Pj.GetComponentInChildren<MeshCollider>();
 		Pj.SetContrDesc(this);
 		if(ObjAnimado != null)
-			ObjAnimado.ContrDesc = this;
+			ObjAnimado.controlador = this;
 	}
 	
 	// Update is called once per frame
@@ -121,7 +121,7 @@ public class ControladorDeDescarga : MonoBehaviour
 			}
 		}
 		//animacion
-		ObjAnimado.Entrar();
+		ObjAnimado.AnimarEntrada();
 		
 	}
 	
@@ -166,7 +166,7 @@ public class ControladorDeDescarga : MonoBehaviour
 	
 	void Finalizacion()
 	{
-		ObjAnimado.Salir();
+		ObjAnimado.AnimarSalida();
 	}
 	
 	public Pallet GetPalletEnMov()
@@ -186,10 +186,10 @@ public class ControladorDeDescarga : MonoBehaviour
 		
 		for (int i = 0; i < Componentes.Length; i++)
 		{
-			Componentes[i].SetActiveRecursively(false);
+			Componentes[i].SetActive(false);
 		}
 		
-		CamaraConduccion.SetActiveRecursively(true);
+		CamaraConduccion.SetActive(true);
 		
 		CollCamion.enabled = true;
 		
