@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
 	public ControladorDeDescarga ContrDesc;
 	public ContrCalibracion ContrCalib;
 	public ContrTutorial ContrTuto;
-	
+	public Frenado Frenado;
+
 	Visualizacion MiVisualizacion;
 	
 	//------------------------------------------------------------------//
@@ -31,7 +32,8 @@ public class Player : MonoBehaviour
 			Bolasas[i] = null;
 		
 		MiVisualizacion = GetComponent<Visualizacion>();
-	}
+		Frenado = GetComponent<Frenado>();
+    }
 	
 	// Update is called once per frame
 	void Update () 

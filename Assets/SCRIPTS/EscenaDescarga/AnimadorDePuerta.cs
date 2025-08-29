@@ -10,10 +10,12 @@ public class AnimadorDePuerta : MonoBehaviour
     [SerializeField] public ControladorDeDescarga controlador;
     private AnimationActual _animacionActual = AnimationActual.Quieta;
     private Animation _animacionPuerta;
+    private Animation _enterExitAnimations;
 
     private void Awake()
     {
         _animacionPuerta = _puerta.GetComponent<Animation>();
+        _enterExitAnimations = GetComponent<Animation>();
     }
 
     void Update()
@@ -22,7 +24,7 @@ public class AnimadorDePuerta : MonoBehaviour
         {
             case AnimationActual.Cerrando:
 
-                if (_animacionPuerta.IsPlaying(_nombreDeSalida))
+                if (!_enterExitAnimations.IsPlaying(_nombreDeSalida))
                 {
                     _animacionActual = AnimationActual.Quieta;
                     controlador.FinAnimSalida();
@@ -35,14 +37,14 @@ public class AnimadorDePuerta : MonoBehaviour
     public void AnimarEntrada()
     {
         _animacionActual = AnimationActual.Abriendo;
-        _animacionPuerta.Play(_nombreDeEntrada);
+        _enterExitAnimations.Play(_nombreDeEntrada);
         AnimarPuerta();
     }
 
     public void AnimarSalida()
     {
         _animacionActual = AnimationActual.Cerrando;
-        _animacionPuerta.Play(_nombreDeSalida);
+        _enterExitAnimations.Play(_nombreDeSalida);
         AnimarPuerta();
     }
 

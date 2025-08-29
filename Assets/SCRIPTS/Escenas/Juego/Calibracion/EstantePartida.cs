@@ -3,9 +3,7 @@ using System.Collections;
 
 public class EstantePartida : ManejoPallets
 {
-	//public Cinta CintaReceptora;//cinta que debe recibir la bolsa
 	public GameObject ManoReceptora;
-	//public Pallet.Valores Valor;
 	
 	void OnTriggerEnter(Collider other)
 	{
@@ -15,9 +13,7 @@ public class EstantePartida : ManejoPallets
 			Dar(recept);
 		}
 	}
-	
-	//------------------------------------------------------------//
-	
+
 	public override void Dar(ManejoPallets receptor)
 	{
         if (receptor.Recibir(Pallets[0])) {

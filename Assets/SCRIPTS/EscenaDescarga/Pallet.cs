@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class Pallet : MonoBehaviour 
 {
@@ -16,14 +15,16 @@ public class Pallet : MonoBehaviour
 	
 	
 	public float TiempSmoot = 0.3f;
-	float TempoSmoot = 0;
 	public bool EnSmoot = false;
+	private float _tempoSmoot = 0;
+	public Renderer Renderer;
 	
-	//----------------------------------------------//
-	
+
 	void Start()
 	{
-		Pasaje();
+		Renderer = GetComponent<Renderer>();
+
+        Pasaje();
 	}
 	
 	void LateUpdate () 
@@ -32,11 +33,11 @@ public class Pallet : MonoBehaviour
 		{
 			if(EnSmoot)
 			{
-				TempoSmoot += T.GetDT();
-				if(TempoSmoot >= TiempSmoot)
+				_tempoSmoot += T.GetDT();
+				if(_tempoSmoot >= TiempSmoot)
 				{
 					EnSmoot = false;
-					TempoSmoot = 0;
+					_tempoSmoot = 0;
 				}
 				else
 				{
@@ -77,6 +78,6 @@ public class Pallet : MonoBehaviour
 	public void Pasaje()
 	{
 		EnSmoot = true;
-		TempoSmoot = 0;
+		_tempoSmoot = 0;
 	}
 }
