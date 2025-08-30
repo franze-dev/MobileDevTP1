@@ -29,7 +29,7 @@ public class Cinta : ManejoPallets
 		//animacion de parpadeo
 		if(Encendida)
 		{
-			AnimTempo += T.GetDT();
+			AnimTempo += Time.deltaTime;
 			if(AnimTempo > Permanencia)
 			{
 				if(_renderizadorDeCinta.material.color == ColorParpadeo)
@@ -56,9 +56,9 @@ public class Cinta : ManejoPallets
 				if(!Pallets[i].EnSmoot)
 				{
 					Pallets[i].enabled = false;
-					Pallets[i].TempoEnCinta += T.GetDT();
+					Pallets[i].TempoEnCinta += Time.deltaTime;
 					
-					Pallets[i].transform.position += transform.right * Velocidad * T.GetDT();
+					Pallets[i].transform.position += transform.right * Velocidad * Time.deltaTime;
 					Vector3 vAux = Pallets[i].transform.localPosition;
 					vAux.y = 3.61f;//altura especifica
 					Pallets[i].transform.localPosition = vAux;					

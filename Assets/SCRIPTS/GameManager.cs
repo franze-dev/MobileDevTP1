@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
 			
 			if(ConteoRedresivo)
 			{
-				ConteoParaInicion -= T.GetDT();
+				ConteoParaInicion -= Time.deltaTime;
 				if(ConteoParaInicion < 0)
 				{
 					EmpezarCarrera();
@@ -141,11 +141,7 @@ public class GameManager : MonoBehaviour
 			else
 			{
 				//baja el tiempo del juego
-				TiempoDeJuego -= T.GetDT();
-				if(TiempoDeJuego <= 0)
-				{
-					//termina el juego
-				}
+				TiempoDeJuego -= Time.deltaTime;
 			}
 			
 			break;
@@ -199,6 +195,7 @@ public class GameManager : MonoBehaviour
 		
 		GUI.skin = null;
 	}
+	
 	public void IniciarCalibracion()
 	{
 		for(int i = 0; i < ObjsCalibracion1.Length; i++)
@@ -268,22 +265,6 @@ public class GameManager : MonoBehaviour
 		Player1?.ContrDesc?.FinDelJuego();
 		Player2?.ContrDesc?.FinDelJuego();
 	}
-	
-	/*
-	public static ControladorDeDescarga GetContrDesc(int pjID)
-	{
-		switch (pjID)
-		{
-		case 1:
-			return ContrDesc1;
-			break;
-			
-		case 2:
-			return ContrDesc2;
-			break;
-		}
-		return null;
-	}*/
 	
 	//se encarga de posicionar la camara derecha para el jugador que esta a la derecha y viseversa
 	void SetPosicion(PlayerInfo pjInf)

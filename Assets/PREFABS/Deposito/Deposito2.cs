@@ -12,17 +12,11 @@ public class Deposito2 : MonoBehaviour
 	
 	Collider[] PjColl;
 	
-	//----------------------------------------------//
-
 	void Start () 
 	{
-		Contr1 = GameObject.Find("ContrDesc1").GetComponent<ControladorDeDescarga>();
-		Contr2 = GameObject.Find("ContrDesc2").GetComponent<ControladorDeDescarga>();
-		
 		Physics.IgnoreLayerCollision(8,9,false);
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
 		if(!Vacio)
@@ -31,8 +25,6 @@ public class Deposito2 : MonoBehaviour
 			PjActual.transform.forward = transform.forward;
 		}
 	}
-	
-	//----------------------------------------------//
 	
 	public void Soltar()
 	{
@@ -48,8 +40,6 @@ public class Deposito2 : MonoBehaviour
 		
 		PjActual = null;
 		Vacio = true;
-		
-	
 	}
 	
 	public void Entrar(Player pj)

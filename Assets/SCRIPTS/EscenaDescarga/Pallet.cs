@@ -33,7 +33,7 @@ public class Pallet : MonoBehaviour
 		{
 			if(EnSmoot)
 			{
-				_tempoSmoot += T.GetDT();
+				_tempoSmoot += Time.deltaTime;
 				if(_tempoSmoot >= TiempSmoot)
 				{
 					EnSmoot = false;
@@ -46,7 +46,7 @@ public class Pallet : MonoBehaviour
 					if(Portador.GetComponent<ManoRecept>() != null)
 						transform.position = Portador.transform.position - Vector3.up * 1.2f;
 					else
-						transform.position = Vector3.Lerp(transform.position, Portador.transform.position, T.GetDT() * 10);
+						transform.position = Vector3.Lerp(transform.position, Portador.transform.position, Time.deltaTime * 10);
 				}
 				
 			}
@@ -62,17 +62,6 @@ public class Pallet : MonoBehaviour
 			}
 		}
 			
-	}
-	
-	//----------------------------------------------//
-	
-	public float GetBonus()
-	{
-		if(Tiempo > 0)
-		{
-			//calculo del bonus
-		}
-		return -1;
 	}
 	
 	public void Pasaje()

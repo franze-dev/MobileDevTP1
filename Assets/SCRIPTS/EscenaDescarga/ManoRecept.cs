@@ -14,19 +14,14 @@ public class ManoRecept : ManejoPallets
 	{
 		ManejoPallets recept = other.GetComponent<ManejoPallets>();
 		if(recept != null)
-		{
 			Dar(recept);
-		}
-		
 	}
-	
-	//---------------------------------------------------------//	
 	
 	public override bool Recibir(Pallet pallet)
 	{
 		if(!Tenencia())
 		{
-			pallet.Portador = this.gameObject;
+			pallet.Portador = gameObject;
 			base.Recibir(pallet);
 			return true;
 		}
@@ -36,35 +31,19 @@ public class ManoRecept : ManejoPallets
 	
 	public override void Dar(ManejoPallets receptor)
 	{
-		//Debug.Log(gameObject.name+ " / Dar()");
 		switch (receptor.tag)
 		{
 		case "Mano":
 			if(Tenencia())
-			{
-				//Debug.Log(gameObject.name+ " / Dar()"+" / Tenencia=true");
 				if(receptor.name == "Right Hand")
-				{
 					if(receptor.Recibir(Pallets[0]))
-					{
-						//Debug.Log(gameObject.name+ " / Dar()"+" / Tenencia=true"+" / receptor.Recibir(Pallets[0])=true");
 						Pallets.RemoveAt(0);
-						//Debug.Log("pallet entregado a Mano de Mano");
-					}
-				}
-				
-			}
 			break;
 			
 		case "Cinta":
 			if(Tenencia())
-			{
 				if(receptor.Recibir(Pallets[0]))
-				{
 					Pallets.RemoveAt(0);
-					//Debug.Log("pallet entregado a Cinta de Mano");
-				}
-			}
 			break;
 			
 		case "Estante":

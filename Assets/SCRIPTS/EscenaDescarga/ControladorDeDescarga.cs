@@ -62,12 +62,10 @@ public class ControladorDeDescarga : MonoBehaviour
 			if(TempoBonus > 0)
 			{
 				Bonus = (TempoBonus * (float)PEnMov.Valor) / PEnMov.Tiempo;
-				TempoBonus -= T.GetDT();
+				TempoBonus -= Time.deltaTime;
 			}
 			else
-			{
 				Bonus = 0;
-			}		
 		}
 		
 		
@@ -88,7 +86,7 @@ public class ControladorDeDescarga : MonoBehaviour
 		
 			
 		CollCamion.enabled = false;
-		Camion.CambiarADescarga();
+		Camion?.CambiarADescarga();
 		
 		
 		GameObject go;

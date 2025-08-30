@@ -8,36 +8,15 @@ public class ContrTutorial : MonoBehaviour
 	public float Tempo = 0;
 	
 	public bool Finalizado = false;
-	bool Iniciado = false;
 	
-	GameManager GM;
+	[SerializeField] private GameManager GM;
 	
 	//------------------------------------------------------------------//
 
 	// Use this for initialization
 	void Start () 
 	{
-		GM = GameObject.Find("GameMgr").GetComponent<GameManager>();
-		
 		Pj.ContrTuto = this;
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		/*
-		if(Iniciado)
-		{
-			if(Tempo < TiempTuto)
-			{
-				Tempo += T.GetDT();
-				if(Tempo >= TiempTuto)
-				{
-					Finalizar();
-				}
-			}
-		}
-		*/
 	}
 	
 	void OnTriggerEnter(Collider other)
@@ -50,16 +29,15 @@ public class ContrTutorial : MonoBehaviour
 	
 	public void Iniciar()
 	{
-		Pj.GetComponent<Frenado>().RestaurarVel();
-		Iniciado = true;
+		Pj.Frenado.RestaurarVel();
 	}
 	
 	public void Finalizar()
 	{
 		Finalizado = true;
 		GM.FinTutorial(Pj.IdPlayer);
-		Pj.GetComponent<Frenado>().Frenar();
-		Pj.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+		Pj.Frenado.Frenar();
+		Pj.Rigidbody.linearVelocity = Vector3.zero;
 		Pj.VaciarInv();
 	}
 }

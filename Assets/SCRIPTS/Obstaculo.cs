@@ -13,18 +13,11 @@ public class Obstaculo : MonoBehaviour
 	bool Chocado = false;
 	bool Desapareciendo = false;
 
-	// Use this for initialization
-	void Start () 
-	{
-		
-	}
-	
-	// Update is called once per frame
 	void Update () 
 	{
 		if(Chocado)
 		{
-			Tempo1 += T.GetDT();
+			Tempo1 += Time.deltaTime;
 			if(Tempo1 > TiempEmpDesapa)
 			{
 				Chocado = false;
@@ -38,24 +31,18 @@ public class Obstaculo : MonoBehaviour
 		{
 			//animacion de desaparecer
 			
-			Tempo2 += T.GetDT();
+			Tempo2 += Time.deltaTime;
 			if(Tempo2 > TiempDesapareciendo)
-			{
-				gameObject.SetActiveRecursively(false);
-			}
+				gameObject.SetActive(false);
 		}
 	}
 	
 	void OnCollisionEnter(Collision coll)
 	{
 		if(coll.transform.tag == PlayerTag)
-		{
 			Chocado = true;
-		}
 	}
-	
-	//------------------------------------------------//
-	
+
 	protected virtual void Desaparecer()
 	{}
 	

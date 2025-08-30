@@ -20,12 +20,10 @@ public class Player : MonoBehaviour
 	public ContrCalibracion ContrCalib;
 	public ContrTutorial ContrTuto;
 	public Frenado Frenado;
+	public Rigidbody Rigidbody;
 
 	Visualizacion MiVisualizacion;
 	
-	//------------------------------------------------------------------//
-
-	// Use this for initialization
 	void Start () 
 	{
 		for(int i = 0; i< Bolasas.Length;i++)
@@ -33,15 +31,8 @@ public class Player : MonoBehaviour
 		
 		MiVisualizacion = GetComponent<Visualizacion>();
 		Frenado = GetComponent<Frenado>();
+		Rigidbody = GetComponent<Rigidbody>();
     }
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	
-	}
-	
-	//------------------------------------------------------------------//
 	
 	public bool AgregarBolsa(Bolsa b)
 	{

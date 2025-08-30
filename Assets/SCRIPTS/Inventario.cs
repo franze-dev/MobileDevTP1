@@ -21,18 +21,9 @@ public class Inventario : MonoBehaviour
 	Rect R;
 	public GUISkin GS;
 	
-	//------------------------------------------------------------------//
-	
-	// Use this for initialization
 	void Start () 
 	{
 		Pj = GetComponent<Player>();
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	
 	}
 	
 	void OnGUI()

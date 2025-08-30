@@ -269,7 +269,6 @@ public class Visualizacion : MonoBehaviour
 		
 		if(LadoAct == Visualizacion.Lado.Der)
 			R.x = VolantePos[1].x *Screen.width /100;
-			//R.x = (Screen.width) - ((Screen.width/2) - R.x);
 		
 		Vector2 centro;
 		centro.x = R.x + R.width/2;
@@ -308,7 +307,7 @@ public class Visualizacion : MonoBehaviour
 				GS_Inv.box.normal.background = TextInvDer[contador];
 			else
 			{
-				TempParp += T.GetDT();
+				TempParp += Time.deltaTime;
 				
 				if(TempParp >= Parpadeo)
 				{
@@ -336,7 +335,7 @@ public class Visualizacion : MonoBehaviour
 				GS_Inv.box.normal.background = TextInvIzq[contador];
 			else
 			{
-				TempParp += T.GetDT();
+				TempParp += Time.deltaTime;
 				
 				if(TempParp >= Parpadeo)
 				{
@@ -348,13 +347,9 @@ public class Visualizacion : MonoBehaviour
 				}
 				
 				if(PrimIma)
-				{
 					GS_Inv.box.normal.background = TextInvIzq[3];
-				}
 				else
-				{
 					GS_Inv.box.normal.background = TextInvIzq[4];
-				}
 			}
 		}
 		
@@ -367,29 +362,25 @@ public class Visualizacion : MonoBehaviour
 		string res = "";
 		
 		if(dinero < 1)//sin ditero
-		{
 			res = "";
-		}else if(strDinero.Length == 6)//cientos de miles
+		else if(strDinero.Length == 6)//cientos de miles
 		{
 			for(int i = 0; i < strDinero.Length; i++)
 			{
 				res += strDinero[i];
 				
 				if(i == 2)
-				{
 					res += ".";
-				}
 			}
-		}else if(strDinero.Length == 7)//millones
+		}
+		else if(strDinero.Length == 7)//millones
 		{
 			for(int i = 0; i < strDinero.Length; i++)
 			{
 				res += strDinero[i];
 				
 				if(i == 0 || i == 3)
-				{
 					res += ".";
-				}
 			}
 		}
 		

@@ -6,11 +6,6 @@ public class Frenado : MonoBehaviour
 	public float VelEntrada = 0;
 	public string TagDeposito = "Deposito";
 	
-	ControlDireccion KInput;
-	
-	
-	float DagMax = 15f;
-	float DagIni = 1f;
 	int Contador = 0;
 	int CantMensajes = 10;
 	float TiempFrenado = 0.5f;
@@ -19,37 +14,19 @@ public class Frenado : MonoBehaviour
 	Vector3 Destino;
 	
 	public bool Frenando = false;
-	bool ReduciendoVel = false;
 	
-	//-----------------------------------------------------//
-	
-	// Use this for initialization
 	void Start () 
 	{
-		//RestaurarVel();
 		Frenar();
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	
 	}
 	
 	void FixedUpdate ()
 	{
 		if(Frenando)
 		{
-			Tempo += T.GetFDT();
+			Tempo += Time.fixedDeltaTime;
 			if(Tempo >= (TiempFrenado / CantMensajes) * Contador)
-			{
 				Contador++;
-				//gameObject.SendMessage("SetDragZ", (float) (DagMax / CantMensajes) * Contador);
-			}
-			if(Tempo >= TiempFrenado)
-			{
-				//termino de frenar, que haga lo que quiera
-			}
 		}
 	}
 	
@@ -71,19 +48,14 @@ public class Frenado : MonoBehaviour
 		}
 	}
 	
-	//-----------------------------------------------------------//
-	
 	public void Frenar()
 	{
-		//Debug.Log(gameObject.name + "frena");
 		GetComponent<ControlDireccion>().enabled = false;
 		gameObject.GetComponent<CarController>().SetAcel(0);
 
         GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
 		
 		Frenando = true;
-		
-		//gameObject.SendMessage("SetDragZ", 25f);
 		Tempo = 0;
 		Contador = 0;
 	}
