@@ -34,10 +34,8 @@ public class MngPts : MonoBehaviour
 
     void Start()
     {
-        SetGanador();
+        DefinirGanador();
     }
-
-    // Update is called once per frame
     void Update()
     {
         //PARA JUGAR
@@ -121,7 +119,7 @@ public class MngPts : MonoBehaviour
         GUI.skin = null;
     }
 
-    void SetGanador()
+    void DefinirGanador()
     {
         switch (DatosPartida.LadoGanadaor)
         {
