@@ -53,10 +53,10 @@ public class Inventario : MonoBehaviour
 					R.x = SlotPrimPos.x * Screen.width / 100 + Separacion.x * i * Screen.width / 100;
 					R.y = SlotPrimPos.y * Screen.height / 100 + Separacion.y * j * Screen.height / 100;
 					
-					if(contador < Pj.Bolasas.Length )//&& Pj.Bolasas[contador] != null)
+					if(contador < Pj.Bolsas.Length )//&& Pj.Bolasas[contador] != null)
 					{
-						if(Pj.Bolasas[contador]!=null)
-							GS.box.normal.background = Pj.Bolasas[contador].ImagenInventario;
+						if(Pj.Bolsas[contador]!=null)
+							GS.box.normal.background = Pj.Bolsas[contador].ImagenInventario;
 						else
 							GS.box.normal.background = TexturaVacia;
 					

@@ -23,7 +23,7 @@ public class EstanteLlegada : ManejoPallets
 	
 	//--------------------------------------------------//
 	
-	public override bool Recibir(Pallet p)
+	public override bool Recibir(BolsaLogica p)
 	{
         p.Portador = this.gameObject;
         base.Recibir(p);

@@ -10,7 +10,7 @@ public class ContrCalibracion : MonoBehaviour
 
     public ManejoPallets Partida;
     public ManejoPallets Llegada;
-    public Pallet P;
+    public BolsaLogica P;
     public ManejoPallets palletsMover;
 
     public enum EstadoCalibracion { Calibrando, Tutorial, Finalizado }

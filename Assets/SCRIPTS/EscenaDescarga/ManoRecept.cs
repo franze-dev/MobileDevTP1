@@ -17,7 +17,7 @@ public class ManoRecept : ManejoPallets
 			Dar(recept);
 	}
 	
-	public override bool Recibir(Pallet pallet)
+	public override bool Recibir(BolsaLogica pallet)
 	{
 		if(!Tenencia())
 		{

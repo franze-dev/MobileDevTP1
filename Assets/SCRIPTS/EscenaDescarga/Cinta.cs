@@ -81,7 +81,7 @@ public class Cinta : ManejoPallets
 			Dar(recept);
 	}
 	
-	public override bool Recibir(Pallet p)
+	public override bool Recibir(BolsaLogica p)
 	{
         Controlador.LlegadaPallet(p);
         p.Portador = gameObject;

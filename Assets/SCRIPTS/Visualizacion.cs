@@ -226,7 +226,7 @@ public class Visualizacion : MonoBehaviour
             GUI.skin = GS_FondoBonusColor;
 
             R.width = ColorFondoEsc.x * Screen.width / 100;
-            R.height = (ColorFondoEsc.y * Screen.height / 100) * (Pj.ContrDesc.Bonus / (int)Pallet.Valores.Valor2);
+            R.height = (ColorFondoEsc.y * Screen.height / 100) * (Pj.ContrDesc.Bonus / (int)BolsaLogica.Valores.Valor2);
             R.x = ColorFondoPos.x * Screen.width / 100;
             R.y = (ColorFondoPos.y * Screen.height / 100) - R.height;
             if (LadoAct == Visualizacion.Lado.Der)
@@ -316,7 +316,7 @@ public class Visualizacion : MonoBehaviour
         int contador = 0;
         for (int i = 0; i < 3; i++)
         {
-            if (Pj.Bolasas[i] != null)
+            if (Pj.Bolsas[i] != null)
                 contador++;
         }
 

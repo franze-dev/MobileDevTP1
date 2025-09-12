@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class ControladorDeDescarga : MonoBehaviour 
 {
@@ -9,10 +8,10 @@ public class ControladorDeDescarga : MonoBehaviour
 	
 	public GameObject[] Escenas;//todos los componentes que debe activar en esta escena
 	
-	public Player Camion;//jugador
+	public Player Camion;
 	private MeshCollider CollCamion;
 	
-	public Pallet PEnMov = null;
+	public BolsaLogica PEnMov = null;
 	
 	//las camaras que enciende y apaga
 	public GameObject CamaraConduccion;
@@ -36,10 +35,6 @@ public class ControladorDeDescarga : MonoBehaviour
 	
 	public AnimadorDePuerta ObjAnimado;
 
-	
-	//--------------------------------------------------------------//
-
-	// Use this for initialization
 	void Start () 
 	{
 		for (int i = 0; i < Escenas.Length; i++)
@@ -53,7 +48,6 @@ public class ControladorDeDescarga : MonoBehaviour
 			ObjAnimado.controlador = this;
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
 		//contador de tiempo
@@ -71,8 +65,6 @@ public class ControladorDeDescarga : MonoBehaviour
 		
 	}
 	
-	//--------------------------------------------------------------//
-			
 	public void Activar(Deposito d)
 	{
 		Dep = d;//recibe el deposito para que sepa cuando dejarlo ir al camion
@@ -91,38 +83,38 @@ public class ControladorDeDescarga : MonoBehaviour
 		
 		GameObject go;
 		//asigna los pallets a las estanterias
-		for(int i = 0; i < Camion.Bolasas.Length; i++)
+		for(int i = 0; i < Camion.Bolsas.Length; i++)
 		{
-			if(Camion.Bolasas[i] != null)
+			if(Camion.Bolsas[i] != null)
 			{
 				Contador++;
 				
-				switch(Camion.Bolasas[i].Monto)
+				switch(Camion.Bolsas[i].Monto)
 				{
-				case Pallet.Valores.Valor1:
-					go = (GameObject) Instantiate(Pallet1);
-					Est1.Recibir(go.GetComponent<Pallet>());
+				case BolsaLogica.Valores.Valor1:
+					go = Instantiate(Pallet1);
+					Est1.Recibir(go.GetComponent<BolsaLogica>());
 					break;
 					
-				case Pallet.Valores.Valor2:
-					go = (GameObject) Instantiate(Pallet2);
-					Est2.Recibir(go.GetComponent<Pallet>());
+				case BolsaLogica.Valores.Valor2:
+					go = Instantiate(Pallet2);
+					Est2.Recibir(go.GetComponent<BolsaLogica>());
 					break;
 					
-				case Pallet.Valores.Valor3:
-					go = (GameObject) Instantiate(Pallet3);
-					Est3.Recibir(go.GetComponent<Pallet>());
+				case BolsaLogica.Valores.Valor3:
+					go = Instantiate(Pallet3);
+					Est3.Recibir(go.GetComponent<BolsaLogica>());
 					break;
 				}
 			}
 		}
-		//animacion
+
 		ObjAnimado.AnimarEntrada();
 		
 	}
 	
 	//cuando sale de un estante
-	public void SalidaPallet(Pallet p)
+	public void SalidaPallet(BolsaLogica p)
 	{
 		PEnMov = p;
 		TempoBonus = p.Tiempo;
@@ -131,7 +123,7 @@ public class ControladorDeDescarga : MonoBehaviour
 	}
 	
 	//cuando llega a la cinta
-	public void LlegadaPallet(Pallet p)
+	public void LlegadaPallet(BolsaLogica p)
 	{
 		//termina el contador y suma los pts
 		
@@ -165,7 +157,7 @@ public class ControladorDeDescarga : MonoBehaviour
 		ObjAnimado.AnimarSalida();
 	}
 	
-	public Pallet GetPalletEnMov()
+	public BolsaLogica GetPalletEnMov()
 	{
 		return PEnMov;
 	}

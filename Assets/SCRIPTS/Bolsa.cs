@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Bolsa : MonoBehaviour
 {
-	public Pallet.Valores Monto;
+	public BolsaLogica.Valores Monto;
 	//public int IdPlayer = 0;
 	public string TagPlayer = "";
 	public Texture2D ImagenInventario;
@@ -16,7 +16,7 @@ public class Bolsa : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		Monto = Pallet.Valores.Valor2;
+		Monto = BolsaLogica.Valores.Valor2;
 		
 		
 		if(Particulas != null)

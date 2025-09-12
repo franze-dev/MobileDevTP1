@@ -21,7 +21,7 @@ public class EstantePartida : ManejoPallets
         }
     }
 	
-	public override bool Recibir (Pallet pallet)
+	public override bool Recibir (BolsaLogica pallet)
 	{
 		//pallet.CintaReceptora = CintaReceptora.gameObject;
 		pallet.Portador = gameObject;

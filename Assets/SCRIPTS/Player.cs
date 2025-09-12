@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 	public int Dinero = 0;
 	public int IdPlayer = 0;
 	
-	public Bolsa[] Bolasas;
+	public Bolsa[] Bolsas;
 	int CantBolsAct = 0;
 	public string TagBolsas = "";
 	
@@ -28,8 +28,8 @@ public class Player : MonoBehaviour
 
     void Start () 
 	{
-		for(int i = 0; i< Bolasas.Length;i++)
-			Bolasas[i] = null;
+		for(int i = 0; i< Bolsas.Length;i++)
+			Bolsas[i] = null;
 		
 		MiVisualizacion = GetComponent<Visualizacion>();
 		Frenado = GetComponent<Frenado>();
@@ -40,9 +40,9 @@ public class Player : MonoBehaviour
 	
 	public bool AgregarBolsa(Bolsa b)
 	{
-		if(CantBolsAct + 1 <= Bolasas.Length)
+		if(CantBolsAct + 1 <= Bolsas.Length)
 		{
-			Bolasas[CantBolsAct] = b;
+			Bolsas[CantBolsAct] = b;
 			CantBolsAct++;
 			Dinero += (int)b.Monto;
 			b.Desaparecer();
@@ -56,17 +56,17 @@ public class Player : MonoBehaviour
 	
 	public void VaciarInv()
 	{
-		for(int i = 0; i< Bolasas.Length;i++)
-			Bolasas[i] = null;
+		for(int i = 0; i< Bolsas.Length;i++)
+			Bolsas[i] = null;
 		
 		CantBolsAct = 0;
 	}
 	
 	public bool ConBolasas()
 	{
-		for(int i = 0; i< Bolasas.Length;i++)
+		for(int i = 0; i< Bolsas.Length;i++)
 		{
-			if(Bolasas[i] != null)
+			if(Bolsas[i] != null)
 			{
 				return true;
 			}
@@ -111,11 +111,11 @@ public class Player : MonoBehaviour
 	
 	public void SacarBolasa()
 	{
-		for(int i = 0; i < Bolasas.Length; i++)
+		for(int i = 0; i < Bolsas.Length; i++)
 		{
-			if(Bolasas[i] != null)
+			if(Bolsas[i] != null)
 			{
-				Bolasas[i] = null;
+				Bolsas[i] = null;
 				return;
 			}				
 		}

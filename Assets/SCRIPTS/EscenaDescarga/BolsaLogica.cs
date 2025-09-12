@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Pallet : MonoBehaviour 
+public class BolsaLogica : MonoBehaviour 
 {
 	public Valores Valor;
 	public float Tiempo;

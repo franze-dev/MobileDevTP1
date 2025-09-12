@@ -4,7 +4,7 @@ using System.Collections;
 public class Estanteria : ManejoPallets
 {	
 	public Cinta CintaReceptora;//cinta que debe recibir la bolsa
-	public Pallet.Valores Valor;
+	public BolsaLogica.Valores Valor;
 	PilaPalletMng Contenido;
 	public bool Anim = false;
 	
@@ -80,7 +80,7 @@ public class Estanteria : ManejoPallets
         }
     }
 	
-	public override bool Recibir (Pallet pallet)
+	public override bool Recibir (BolsaLogica pallet)
 	{
 		pallet.CintaReceptora = CintaReceptora.gameObject;
 		pallet.Portador = this.gameObject;
