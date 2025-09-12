@@ -27,7 +27,9 @@ public class Deposito : MonoBehaviour
 	
 	public void Soltar()
 	{
-		PjActual.VaciarInv();
+		GameManager.Instancia.EnDeposito = false;
+
+        PjActual.VaciarInv();
 		PjActual.Frenado.RestaurarVel();
 		PjActual.Respawn.Respawnear(transform.position, transform.forward);
 		
@@ -65,7 +67,9 @@ public class Deposito : MonoBehaviour
 	}
 	
 	public void Entro()
-	{		
+	{
+		GameManager.Instancia.EnDeposito = true;
+
 		if(PjActual.IdPlayer == 0)
 			Contr1.Activar(this);
 		else

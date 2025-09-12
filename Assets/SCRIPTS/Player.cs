@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public int IdPlayer = 0;
 
     public Bolsa[] Bolsas;
-    int CantBolsAct = 0;
+    public int CantBolsAct = 0;
     public string TagBolsas = "";
 
     public enum Estados { EnDescarga, EnConduccion, EnCalibracion, EnTutorial }

@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     //la pista de carreras
     public GameObject[] ObjsCarrera;
     [SerializeField] private GameObject CanvasJuego;
+    public bool EnDeposito = false;
 
     void Awake()
     {
@@ -123,6 +124,12 @@ public class GameManager : MonoBehaviour
 
                 break;
             case GestionadoDeEstados.Estados.Jugando:
+
+                if (EnDeposito && CanvasJuego.activeSelf)
+                    CanvasJuego.SetActive(false);
+                else if (!EnDeposito && !CanvasJuego.activeSelf)
+                    CanvasJuego.SetActive(true);
+
                 //SKIP LA CARRERA
                 if (Input.GetKey(KeyCode.Mouse1) &&
                    Input.GetKey(KeyCode.Keypad0))
