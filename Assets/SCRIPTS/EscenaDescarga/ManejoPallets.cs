@@ -7,10 +7,12 @@ public class ManejoPallets : MonoBehaviour
 	public ControladorDeDescarga Controlador;
 	protected int Contador = 0;
 	public Renderer Renderer;
+    public Collider Collider;
 
     private void Awake()
     {
         Renderer = GetComponent<Renderer>();
+		Collider = GetComponent<Collider>();
     }
 
     public virtual bool Recibir(Pallet pallet)

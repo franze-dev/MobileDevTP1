@@ -5,7 +5,7 @@ public class ControladorDeDescarga : MonoBehaviour
 {
 	int Contador = 0;
 	
-	private Deposito2 Dep;
+	private Deposito Dep;
 	
 	public GameObject[] Escenas;//todos los componentes que debe activar en esta escena
 	
@@ -73,7 +73,7 @@ public class ControladorDeDescarga : MonoBehaviour
 	
 	//--------------------------------------------------------------//
 			
-	public void Activar(Deposito2 d)
+	public void Activar(Deposito d)
 	{
 		Dep = d;//recibe el deposito para que sepa cuando dejarlo ir al camion
 		CamaraConduccion.SetActive(false);//apaga la camara de conduccion

@@ -34,8 +34,12 @@ public class Frenado : MonoBehaviour
 	{
 		if(other.tag == TagDeposito)
 		{
-			Deposito2 dep = other.GetComponent<Deposito2>();
-			if(dep.Vacio)
+			Deposito dep = other.GetComponent<Deposito>();
+
+			if (dep == null)
+				Debug.LogError("El objeto con tag " + TagDeposito + " no tiene el script Deposito. (" + other.gameObject.name + ")");
+
+            if (dep.Vacio)
 			{	
 				if(this.GetComponent<Player>().ConBolasas())
 				{

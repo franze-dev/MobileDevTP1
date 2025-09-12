@@ -20,11 +20,13 @@ public class Player : MonoBehaviour
 	public ContrCalibracion ContrCalib;
 	public ContrTutorial ContrTuto;
 	public Frenado Frenado;
+    public Respawn Respawn;
 	public Rigidbody Rigidbody;
+    public Collider[] Colliders;
 
 	Visualizacion MiVisualizacion;
-	
-	void Start () 
+
+    void Start () 
 	{
 		for(int i = 0; i< Bolasas.Length;i++)
 			Bolasas[i] = null;
@@ -32,6 +34,8 @@ public class Player : MonoBehaviour
 		MiVisualizacion = GetComponent<Visualizacion>();
 		Frenado = GetComponent<Frenado>();
 		Rigidbody = GetComponent<Rigidbody>();
+		Respawn = GetComponent<Respawn>();
+		Colliders = GetComponentsInChildren<Collider>();
     }
 	
 	public bool AgregarBolsa(Bolsa b)
