@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -13,8 +12,7 @@ public class Player : MonoBehaviour
     public enum Estados { EnDescarga, EnConduccion, EnCalibracion, EnTutorial }
     public Estados EstAct = Estados.EnConduccion;
 
-    public bool EnConduccion = true;
-    public bool EnDescarga = false;
+    public GameObject CanvasPlayer;
 
     [HideInInspector] public ControladorDeDescarga ContrDesc;
     [HideInInspector] public ContrCalibracion ContrCalib;
@@ -28,6 +26,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        if (CanvasPlayer == null)
+            Debug.LogWarning("No se han asignado los elementos de UI del jugador " + IdPlayer);
+
         for (int i = 0; i < Bolsas.Length; i++)
             Bolsas[i] = null;
 
@@ -121,5 +122,19 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ChequearDescarga()
+    {
+        if (EstAct == Estados.EnDescarga)
+        {
+            if (CanvasPlayer.activeSelf)
+                CanvasPlayer.SetActive(false);
+        }
 
+        if (EstAct != Estados.EnDescarga)
+        {
+            if (CanvasPlayer.activeSelf == false)
+                CanvasPlayer.SetActive(true);
+        }
+
+    }
 }

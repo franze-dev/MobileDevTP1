@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EstadisticasUI : MonoBehaviour
@@ -14,15 +15,32 @@ public class EstadisticasUI : MonoBehaviour
 
     [SerializeField] private List<GameObject> ProgresoBolsas;
     [SerializeField] private GameObject FinalBolsas;
+    [SerializeField] private string TextoDineroBase = "$ ";
+    [SerializeField] private TextMeshProUGUI TextoDinero;
     private float TimerFlash = 0f;
 
     private void Awake()
     {
+        if (Camion == null)
+        {
+            Debug.LogWarning("Falta el Player en " + gameObject.name);
+            return;
+        }
+
         CantBolsasMax = Camion.Bolsas.Length;
+        if (TextoDinero == null)
+            Debug.LogError("Falta el TextoDinero en " + gameObject.name);
+
+        TextoDinero.text = TextoDineroBase + "0";
     }
 
     private void Update()
     {
+        if (Camion == null)
+            return;
+
+        TextoDinero.text = TextoDineroBase + Camion.Dinero.ToString();
+
         if (Camion.CantBolsAct == CantBolsasMax)
         {
             if (TimerFlash >= CooldownFlash)

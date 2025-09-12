@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour
     //la pista de carreras
     public GameObject[] ObjsCarrera;
     [SerializeField] private GameObject CanvasJuego;
-    public bool EnDeposito = false;
 
     void Awake()
     {
@@ -76,17 +75,15 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
 
-        if (GestionEstados.EstAct == GestionadoDeEstados.Estados.Jugando)
-            CanvasJuego.SetActive(true);
-        else
-            CanvasJuego.SetActive(false);
-
         switch (GestionEstados.EstAct)
         {
             case GestionadoDeEstados.Estados.Calibrando:
 
+                if (CanvasJuego.activeSelf)
+                    CanvasJuego.SetActive(false);
+
                 //SKIP EL TUTORIAL
-                    if (Input.GetKey(KeyCode.Mouse0) &&
+                if (Input.GetKey(KeyCode.Mouse0) &&
                        Input.GetKey(KeyCode.Keypad0))
                     {
                         if (PlayerInfo1 != null && PlayerInfo2 != null)
@@ -125,10 +122,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GestionadoDeEstados.Estados.Jugando:
 
-                if (EnDeposito && CanvasJuego.activeSelf)
-                    CanvasJuego.SetActive(false);
-                else if (!EnDeposito && !CanvasJuego.activeSelf)
-                    CanvasJuego.SetActive(true);
+                CanvasJuego.SetActive(true);
+                Player1.ChequearDescarga();
+                Player2.ChequearDescarga();
 
                 //SKIP LA CARRERA
                 if (Input.GetKey(KeyCode.Mouse1) &&
@@ -158,6 +154,7 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case GestionadoDeEstados.Estados.Finalizado:
+                CanvasJuego.SetActive(false);
                 TiempEspMuestraPts -= Time.deltaTime;
                 if (TiempEspMuestraPts <= 0)
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
