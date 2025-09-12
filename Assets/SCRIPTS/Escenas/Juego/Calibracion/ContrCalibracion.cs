@@ -8,10 +8,10 @@ public class ContrCalibracion : MonoBehaviour
 
     [SerializeField] private GestionadoDeEstados GestionEstados;
 
-    public ManejoPallets Partida;
-    public ManejoPallets Llegada;
+    public ManejoBolsas Partida;
+    public ManejoBolsas Llegada;
     public BolsaLogica P;
-    public ManejoPallets palletsMover;
+    public ManejoBolsas bolsasMover;
 
     public enum EstadoCalibracion { Calibrando, Tutorial, Finalizado }
     public EstadoCalibracion EstAct = EstadoCalibracion.Calibrando;
@@ -23,7 +23,10 @@ public class ContrCalibracion : MonoBehaviour
         if (GestionEstados == null)
             Debug.LogError("Falta el GestionadoDeEstados en " + gameObject.name);
 
-        palletsMover.enabled = false;
+        if (bolsasMover == null)
+            Debug.LogError("Falta el BolsasMover en " + gameObject.name);
+
+        bolsasMover.enabled = false;
         Pj.ContrCalib = this;
 
         P.CintaReceptora = Llegada.gameObject;
@@ -52,13 +55,13 @@ public class ContrCalibracion : MonoBehaviour
     public void IniciarTesteo()
     {
         EstAct = EstadoCalibracion.Tutorial;
-        palletsMover.enabled = true;
+        bolsasMover.enabled = true;
     }
 
     public void FinTutorial()
     {
         EstAct = EstadoCalibracion.Finalizado;
-        palletsMover.enabled = false;
+        bolsasMover.enabled = false;
         GM.FinCalibracion(Pj.IdPlayer);
     }
 

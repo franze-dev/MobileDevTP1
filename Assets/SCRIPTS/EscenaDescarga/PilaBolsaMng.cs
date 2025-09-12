@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PilaPalletMng : MonoBehaviour 
+public class PilaBolsaMng : MonoBehaviour 
 {
 	public System.Collections.Generic.List<GameObject> BolasasEnCamion = new System.Collections.Generic.List<GameObject>();
 	public int CantAct = 0;

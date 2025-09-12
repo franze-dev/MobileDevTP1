@@ -17,10 +17,11 @@ public class ControladorDeDescarga : MonoBehaviour
 	public GameObject CamaraConduccion;
 	public GameObject CamaraDescarga;
 	
-	//los prefab de los pallets
-	public GameObject Pallet1;
-	public GameObject Pallet2;
-	public GameObject Pallet3;
+	//los prefab de los
+	//s
+	public GameObject Bolsa1;
+	public GameObject Bolsa2;
+	public GameObject Bolsa3;
 	
 	
 	public Estanteria Est1;
@@ -82,7 +83,7 @@ public class ControladorDeDescarga : MonoBehaviour
 		
 		
 		GameObject go;
-		//asigna los pallets a las estanterias
+		//asigna los bolsas a las estanterias
 		for(int i = 0; i < Camion.Bolsas.Length; i++)
 		{
 			if(Camion.Bolsas[i] != null)
@@ -92,17 +93,17 @@ public class ControladorDeDescarga : MonoBehaviour
 				switch(Camion.Bolsas[i].Monto)
 				{
 				case BolsaLogica.Valores.Valor1:
-					go = Instantiate(Pallet1);
+					go = Instantiate(Bolsa1);
 					Est1.Recibir(go.GetComponent<BolsaLogica>());
 					break;
 					
 				case BolsaLogica.Valores.Valor2:
-					go = Instantiate(Pallet2);
+					go = Instantiate(Bolsa2);
 					Est2.Recibir(go.GetComponent<BolsaLogica>());
 					break;
 					
 				case BolsaLogica.Valores.Valor3:
-					go = Instantiate(Pallet3);
+					go = Instantiate(Bolsa3);
 					Est3.Recibir(go.GetComponent<BolsaLogica>());
 					break;
 				}
@@ -114,7 +115,7 @@ public class ControladorDeDescarga : MonoBehaviour
 	}
 	
 	//cuando sale de un estante
-	public void SalidaPallet(BolsaLogica p)
+	public void SalidaBolsa(BolsaLogica p)
 	{
 		PEnMov = p;
 		TempoBonus = p.Tiempo;
@@ -123,7 +124,7 @@ public class ControladorDeDescarga : MonoBehaviour
 	}
 	
 	//cuando llega a la cinta
-	public void LlegadaPallet(BolsaLogica p)
+	public void LlegadaBolsa(BolsaLogica p)
 	{
 		//termina el contador y suma los pts
 		
@@ -157,7 +158,7 @@ public class ControladorDeDescarga : MonoBehaviour
 		ObjAnimado.AnimarSalida();
 	}
 	
-	public BolsaLogica GetPalletEnMov()
+	public BolsaLogica GetBolsaEnMov()
 	{
 		return PEnMov;
 	}

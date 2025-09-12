@@ -48,11 +48,8 @@ public class Bolsa : MonoBehaviour
 		if(coll.tag == TagPlayer)
 		{
 			Pj = coll.GetComponent<Player>();
-			//if(IdPlayer == Pj.IdPlayer)
-			//{
 				if(Pj.AgregarBolsa(this))
 					Desaparecer();
-			//}
 		}
 	}
 	

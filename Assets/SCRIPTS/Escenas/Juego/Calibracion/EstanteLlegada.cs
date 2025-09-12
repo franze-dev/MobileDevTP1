@@ -1,27 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class EstanteLlegada : ManejoPallets
+public class EstanteLlegada : ManejoBolsas
 {
-
 	public GameObject Mano;
 	public ContrCalibracion ContrCalib;
-	
-	//-----------------------------------------------//
-
-	// Use this for initialization
-	void Start () 
-	{
-	
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-	
-	}
-	
-	//--------------------------------------------------//
 	
 	public override bool Recibir(BolsaLogica p)
 	{

@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class ManejoPallets : MonoBehaviour 
+public class ManejoBolsas : MonoBehaviour 
 {
-	protected System.Collections.Generic.List<BolsaLogica> Pallets = new System.Collections.Generic.List<BolsaLogica>();
+	protected System.Collections.Generic.List<BolsaLogica> Bolsas = new System.Collections.Generic.List<BolsaLogica>();
 	public ControladorDeDescarga Controlador;
 	protected int Contador = 0;
 	public Renderer Renderer;
@@ -15,24 +15,24 @@ public class ManejoPallets : MonoBehaviour
 		Collider = GetComponent<Collider>();
     }
 
-    public virtual bool Recibir(BolsaLogica pallet)
+    public virtual bool Recibir(BolsaLogica bolsa)
 	{
 		Debug.Log(gameObject.name+" / Recibir()");
-		Pallets.Add(pallet);
-		pallet.Pasaje();
+		Bolsas.Add(bolsa);
+        bolsa.Pasaje();
 		return true;
 	}
 	
 	public bool Tenencia()
 	{
 		
-		if(Pallets.Count != 0)
+		if(Bolsas.Count != 0)
 			return true;
 		else
 			return false;
 	}
 	
-	public virtual void Dar(ManejoPallets receptor)
+	public virtual void Dar(ManejoBolsas receptor)
 	{
 		//es el encargado de decidir si le da o no la bolsa
 	}

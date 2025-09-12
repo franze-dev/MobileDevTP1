@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Cinta : ManejoPallets 
+public class Cinta : ManejoBolsas 
 {
 	public bool Encendida;//lo que hace la animacion
 	public float Velocidad = 1;
@@ -48,24 +48,24 @@ public class Cinta : ManejoPallets
 			}
 		}
 		
-		//movimiento del pallet
-		for(int i = 0; i < Pallets.Count; i++)
+		//movimiento del bolsa
+		for(int i = 0; i < Bolsas.Count; i++)
 		{
-			if(Pallets[i].Renderer.enabled)
+			if(Bolsas[i].Renderer.enabled)
 			{
-				if(!Pallets[i].EnSmoot)
+				if(!Bolsas[i].EnSmoot)
 				{
-					Pallets[i].enabled = false;
-					Pallets[i].TempoEnCinta += Time.deltaTime;
+					Bolsas[i].enabled = false;
+					Bolsas[i].TempoEnCinta += Time.deltaTime;
 					
-					Pallets[i].transform.position += transform.right * Velocidad * Time.deltaTime;
-					Vector3 vAux = Pallets[i].transform.localPosition;
+					Bolsas[i].transform.position += transform.right * Velocidad * Time.deltaTime;
+					Vector3 vAux = Bolsas[i].transform.localPosition;
 					vAux.y = 3.61f;//altura especifica
-					Pallets[i].transform.localPosition = vAux;					
+					Bolsas[i].transform.localPosition = vAux;					
 					
-					if(Pallets[i].TempoEnCinta >= Pallets[i].TiempEnCinta)
+					if(Bolsas[i].TempoEnCinta >= Bolsas[i].TiempEnCinta)
 					{
-						Pallets[i].TempoEnCinta = 0;
+						Bolsas[i].TempoEnCinta = 0;
 						ObjAct.gameObject.SetActive(false);
 					}
 				}
@@ -75,7 +75,7 @@ public class Cinta : ManejoPallets
 	
 	void OnTriggerEnter(Collider other)
 	{
-		ManejoPallets recept = other.GetComponent<ManejoPallets>();
+		ManejoBolsas recept = other.GetComponent<ManejoBolsas>();
 
 		if(recept)
 			Dar(recept);
@@ -83,7 +83,7 @@ public class Cinta : ManejoPallets
 	
 	public override bool Recibir(BolsaLogica p)
 	{
-        Controlador.LlegadaPallet(p);
+        Controlador.LlegadaBolsa(p);
         p.Portador = gameObject;
         ObjAct = p.transform;
         base.Recibir(p);

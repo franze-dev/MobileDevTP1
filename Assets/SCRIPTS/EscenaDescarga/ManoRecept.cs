@@ -1,49 +1,49 @@
 using UnityEngine;
 using System.Collections;
 
-public class ManoRecept : ManejoPallets 
+public class ManoRecept : ManejoBolsas 
 {
-	public bool TengoPallet = false;
+	public bool TengoBolsa = false;
 	
 	void FixedUpdate () 
 	{
-		TengoPallet = Tenencia();
+		TengoBolsa = Tenencia();
 	}
 	
 	void OnTriggerEnter(Collider other)
 	{
-		ManejoPallets recept = other.GetComponent<ManejoPallets>();
+		ManejoBolsas recept = other.GetComponent<ManejoBolsas>();
 		if(recept != null)
 			Dar(recept);
 	}
 	
-	public override bool Recibir(BolsaLogica pallet)
+	public override bool Recibir(BolsaLogica bolsa)
 	{
 		if(!Tenencia())
 		{
-			pallet.Portador = gameObject;
-			base.Recibir(pallet);
+			bolsa.Portador = gameObject;
+			base.Recibir(bolsa);
 			return true;
 		}
 		else
 			return false;
 	}
 	
-	public override void Dar(ManejoPallets receptor)
+	public override void Dar(ManejoBolsas receptor)
 	{
 		switch (receptor.tag)
 		{
 		case "Mano":
 			if(Tenencia())
 				if(receptor.name == "Right Hand")
-					if(receptor.Recibir(Pallets[0]))
-						Pallets.RemoveAt(0);
+					if(receptor.Recibir(Bolsas[0]))
+						Bolsas.RemoveAt(0);
 			break;
 			
 		case "Cinta":
 			if(Tenencia())
-				if(receptor.Recibir(Pallets[0]))
-					Pallets.RemoveAt(0);
+				if(receptor.Recibir(Bolsas[0]))
+					Bolsas.RemoveAt(0);
 			break;
 			
 		case "Estante":

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PalletMover : ManejoPallets {
+public class BolsaMover : ManejoBolsas {
 
     public MoveType miInput;
     public enum MoveType {
@@ -10,7 +10,7 @@ public class PalletMover : ManejoPallets {
         Arrows
     }
 
-    public ManejoPallets Desde, Hasta;
+    public ManejoBolsas Desde, Hasta;
     bool segundoCompleto = false;
 
     private void Update() {
@@ -47,7 +47,7 @@ public class PalletMover : ManejoPallets {
         segundoCompleto = false;
     }
     void SegundoPaso() {
-        base.Pallets[0].transform.position = transform.position;
+        base.Bolsas[0].transform.position = transform.position;
         segundoCompleto = true;
     }
     void TercerPaso() {
@@ -55,17 +55,17 @@ public class PalletMover : ManejoPallets {
         segundoCompleto = false;
     }
 
-    public override void Dar(ManejoPallets receptor) {
+    public override void Dar(ManejoBolsas receptor) {
         if (Tenencia()) {
-            if (receptor.Recibir(Pallets[0])) {
-                Pallets.RemoveAt(0);
+            if (receptor.Recibir(Bolsas[0])) {
+                Bolsas.RemoveAt(0);
             }
         }
     }
-    public override bool Recibir(BolsaLogica pallet) {
+    public override bool Recibir(BolsaLogica bolsa) {
         if (!Tenencia()) {
-            pallet.Portador = this.gameObject;
-            base.Recibir(pallet);
+            bolsa.Portador = this.gameObject;
+            base.Recibir(bolsa);
             return true;
         }
         else

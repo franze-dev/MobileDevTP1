@@ -1,30 +1,30 @@
 using UnityEngine;
 using System.Collections;
 
-public class EstantePartida : ManejoPallets
+public class EstantePartida : ManejoBolsas
 {
 	public GameObject ManoReceptora;
 	
 	void OnTriggerEnter(Collider other)
 	{
-		ManejoPallets recept = other.GetComponent<ManejoPallets>();
+		ManejoBolsas recept = other.GetComponent<ManejoBolsas>();
 		if(recept != null)
 		{
 			Dar(recept);
 		}
 	}
 
-	public override void Dar(ManejoPallets receptor)
+	public override void Dar(ManejoBolsas receptor)
 	{
-        if (receptor.Recibir(Pallets[0])) {
-            Pallets.RemoveAt(0);
+        if (receptor.Recibir(Bolsas[0])) {
+            Bolsas.RemoveAt(0);
         }
     }
 	
-	public override bool Recibir (BolsaLogica pallet)
+	public override bool Recibir (BolsaLogica bolsa)
 	{
-		//pallet.CintaReceptora = CintaReceptora.gameObject;
-		pallet.Portador = gameObject;
-		return base.Recibir (pallet);
+		//bolsa.CintaReceptora = CintaReceptora.gameObject;
+		bolsa.Portador = gameObject;
+		return base.Recibir (bolsa);
 	}
 }
