@@ -7,7 +7,7 @@ public class Bolsa : MonoBehaviour
 	//public int IdPlayer = 0;
 	public string TagPlayer = "";
 	public Texture2D ImagenInventario;
-	Player Pj = null;
+	Jugador Pj = null;
 	
 	bool Desapareciendo;
 	public GameObject Particulas;
@@ -47,7 +47,7 @@ public class Bolsa : MonoBehaviour
 	{
 		if(coll.tag == TagPlayer)
 		{
-			Pj = coll.GetComponent<Player>();
+			Pj = coll.GetComponent<Jugador>();
 				if(Pj.AgregarBolsa(this))
 					Desaparecer();
 		}

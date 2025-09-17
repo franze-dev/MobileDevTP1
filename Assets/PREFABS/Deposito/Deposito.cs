@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Deposito : MonoBehaviour 
 {
-	Player PjActual;
+	Jugador PjActual;
 	public string PlayerTag = "Player";
 	public bool Vacio = true;
 	public ControladorDeDescarga Contr1;
@@ -41,7 +41,7 @@ public class Deposito : MonoBehaviour
 		Vacio = true;
 	}
 	
-	public void Entrar(Player pj)
+	public void Entrar(Jugador pj)
 	{
 		if(pj.ConBolasas())
 		{

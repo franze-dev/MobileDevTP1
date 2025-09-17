@@ -12,11 +12,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ContrCalibracion ContrCalib1;
     [SerializeField] private ContrCalibracion ContrCalib2;
 
-    public PlayerInfo PlayerInfo1 = null;
-    public PlayerInfo PlayerInfo2 = null;
+    public InfoJugador PlayerInfo1 = null;
+    public InfoJugador PlayerInfo2 = null;
 
-    public Player Player1;
-    public Player Player2;
+    public Jugador Player1;
+    public Jugador Player2;
 
     bool ConteoRedresivo = true;
     public Rect ConteoPosEsc;
@@ -79,33 +79,32 @@ public class GameManager : MonoBehaviour
         {
             case GestionadoDeEstados.Estados.Calibrando:
 
-                if (CanvasJuego.activeSelf)
-                    CanvasJuego.SetActive(false);
+                CanvasJuego.SetActive(false);
 
                 //SKIP EL TUTORIAL
                 if (Input.GetKey(KeyCode.Mouse0) &&
                        Input.GetKey(KeyCode.Keypad0))
+                {
+                    if (PlayerInfo1 != null && PlayerInfo2 != null)
                     {
-                        if (PlayerInfo1 != null && PlayerInfo2 != null)
-                        {
-                            FinCalibracion(0);
-                            FinCalibracion(1);
+                        FinCalibracion(0);
+                        FinCalibracion(1);
 
-                            FinTutorial(0);
-                            FinTutorial(1);
-                        }
+                        FinTutorial(0);
+                        FinTutorial(1);
                     }
+                }
 
                 if (PlayerInfo1.PJ == null && Input.GetKeyDown(KeyCode.W))
                 {
-                    PlayerInfo1 = new PlayerInfo(0, Player1);
+                    PlayerInfo1 = new InfoJugador(0, Player1);
                     PlayerInfo1.LadoAct = Visualizacion.Lado.Izq;
                     SetPosicion(PlayerInfo1);
                 }
 
                 if (PlayerInfo2.PJ == null && Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    PlayerInfo2 = new PlayerInfo(1, Player2);
+                    PlayerInfo2 = new InfoJugador(1, Player2);
                     PlayerInfo2.LadoAct = Visualizacion.Lado.Der;
                     SetPosicion(PlayerInfo2);
                 }
@@ -191,10 +190,10 @@ public class GameManager : MonoBehaviour
     void EmpezarCarrera()
     {
         Player1.Frenado.RestaurarVel();
-        Player1.GetComponent<ControlDireccion>().Habilitado = true;
+        Player1.Direccion.Habilitado = true;
 
-        Player2.GetComponent<Frenado>().RestaurarVel();
-        Player2.GetComponent<ControlDireccion>().Habilitado = true;
+        Player2.Frenado.RestaurarVel();
+        Player2.Direccion.Habilitado = true;
     }
 
     void FinalizarCarrera()
@@ -228,17 +227,17 @@ public class GameManager : MonoBehaviour
             DatosPartida.PtsPerdedor = Player1.Dinero;
         }
 
-        Player1?.GetComponent<Frenado>().Frenar();
-        Player2?.GetComponent<Frenado>().Frenar();
+        Player1?.Frenado.Frenar();
+        Player2?.Frenado.Frenar();
 
         Player1?.ContrDesc?.FinDelJuego();
         Player2?.ContrDesc?.FinDelJuego();
     }
 
     //se encarga de posicionar la camara derecha para el jugador que esta a la derecha y viseversa
-    void SetPosicion(PlayerInfo pjInf)
+    void SetPosicion(InfoJugador pjInf)
     {
-        pjInf.PJ.GetComponent<Visualizacion>().SetLado(pjInf.LadoAct);
+        pjInf.PJ.MiVisualizacion.SetLado(pjInf.LadoAct);
         //en este momento, solo la primera vez, deberia setear la otra camara asi no se superponen
         pjInf.PJ.ContrCalib.IniciarTesteo();
 
@@ -246,16 +245,16 @@ public class GameManager : MonoBehaviour
         if (pjInf.PJ == Player1)
         {
             if (pjInf.LadoAct == Visualizacion.Lado.Izq)
-                Player2.GetComponent<Visualizacion>().SetLado(Visualizacion.Lado.Der);
+                Player2.MiVisualizacion.SetLado(Visualizacion.Lado.Der);
             else
-                Player2.GetComponent<Visualizacion>().SetLado(Visualizacion.Lado.Izq);
+                Player2.MiVisualizacion.SetLado(Visualizacion.Lado.Izq);
         }
         else
         {
             if (pjInf.LadoAct == Visualizacion.Lado.Izq)
-                Player1.GetComponent<Visualizacion>().SetLado(Visualizacion.Lado.Der);
+                Player1.MiVisualizacion.SetLado(Visualizacion.Lado.Der);
             else
-                Player1.GetComponent<Visualizacion>().SetLado(Visualizacion.Lado.Izq);
+                Player1.MiVisualizacion.SetLado(Visualizacion.Lado.Izq);
         }
 
     }
@@ -295,19 +294,19 @@ public class GameManager : MonoBehaviour
         }
 
         Player1.transform.forward = Vector3.forward;
-        Player1.GetComponent<Frenado>().Frenar();
+        Player1.Frenado.Frenar();
         Player1.CambiarAConduccion();
 
         Player2.transform.forward = Vector3.forward;
-        Player2.GetComponent<Frenado>().Frenar();
+        Player2.Frenado.Frenar();
         Player2.CambiarAConduccion();
 
         //los deja andando
-        Player1.GetComponent<Frenado>().RestaurarVel();
-        Player2.GetComponent<Frenado>().RestaurarVel();
+        Player1.Frenado.RestaurarVel();
+        Player2.Frenado.RestaurarVel();
         //cancela la direccion
-        Player1.GetComponent<ControlDireccion>().Habilitado = false;
-        Player2.GetComponent<ControlDireccion>().Habilitado = false;
+        Player1.Direccion.Habilitado = false;
+        Player2.Direccion.Habilitado = false;
         //les de direccion
         Player1.transform.forward = Vector3.forward;
         Player2.transform.forward = Vector3.forward;
@@ -352,9 +351,9 @@ public class GameManager : MonoBehaviour
     }
 
     [System.Serializable]
-    public class PlayerInfo
+    public class InfoJugador
     {
-        public PlayerInfo(int tipoDeInput, Player pj)
+        public InfoJugador(int tipoDeInput, Jugador pj)
         {
             TipoDeInput = tipoDeInput;
             PJ = pj;
@@ -368,7 +367,7 @@ public class GameManager : MonoBehaviour
 
         public int TipoDeInput = -1;
 
-        public Player PJ;
+        public Jugador PJ;
     }
 
 }

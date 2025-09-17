@@ -8,7 +8,7 @@ public class ControladorDeDescarga : MonoBehaviour
 	
 	public GameObject[] Escenas;//todos los componentes que debe activar en esta escena
 	
-	public Player Camion;
+	public Jugador Camion;
 	private MeshCollider CollCamion;
 	
 	public BolsaLogica PEnMov = null;
@@ -78,7 +78,8 @@ public class ControladorDeDescarga : MonoBehaviour
 		}
 		
 			
-		CollCamion.enabled = false;
+		if (CollCamion != null)
+            CollCamion.enabled = false;
 		Camion?.CambiarADescarga();
 		
 		

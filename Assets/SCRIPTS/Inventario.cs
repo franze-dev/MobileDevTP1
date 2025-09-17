@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Inventario : MonoBehaviour 
 {
-	Player Pj;
+	Jugador Pj;
 	
 	public Vector2 FondoPos = Vector2.zero;
 	public Vector2 FondoEsc = Vector2.zero;
@@ -23,7 +23,7 @@ public class Inventario : MonoBehaviour
 	
 	void Start () 
 	{
-		Pj = GetComponent<Player>();
+		Pj = GetComponent<Jugador>();
 	}
 	
 	void OnGUI()
@@ -31,7 +31,7 @@ public class Inventario : MonoBehaviour
 		
 		switch(Pj.EstAct)
 		{
-		case Player.Estados.EnConduccion:
+		case Jugador.Estados.EnConduccion:
 			GUI.skin = GS;
 		
 			//fondo

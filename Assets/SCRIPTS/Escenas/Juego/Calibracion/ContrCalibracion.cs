@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ContrCalibracion : MonoBehaviour
 {
-    public Player Pj;
+    public Jugador Pj;
     public float TiempEspCalib = 3;
     float Tempo2 = 0;
 

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ContrTutorial : MonoBehaviour 
 {
-	public Player Pj;
+	public Jugador Pj;
 	public float TiempTuto = 15;
 	public float Tempo = 0;
 	
@@ -21,7 +21,7 @@ public class ContrTutorial : MonoBehaviour
 	
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.GetComponent<Player>() == Pj)
+		if(other.GetComponent<Jugador>() == Pj)
 			Finalizar();
 	}
 	

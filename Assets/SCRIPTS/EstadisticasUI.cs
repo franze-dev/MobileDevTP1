@@ -11,7 +11,7 @@ public class EstadisticasUI : MonoBehaviour
     private float CooldownFlash = 0.2f;
     //dinero ganado
     //jugador correspondiente
-    [SerializeField] private Player Camion;
+    [SerializeField] private Jugador Camion;
 
     [SerializeField] private List<GameObject> ProgresoBolsas;
     [SerializeField] private GameObject FinalBolsas;
