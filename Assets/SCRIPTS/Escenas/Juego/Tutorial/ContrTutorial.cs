@@ -35,7 +35,6 @@ public class ContrTutorial : MonoBehaviour
 	public void Finalizar()
 	{
 		Finalizado = true;
-		GM.FinTutorial(Pj.IdPlayer);
 		Pj.Frenado.Frenar();
 		Pj.Rigidbody.linearVelocity = Vector3.zero;
 		Pj.VaciarInv();

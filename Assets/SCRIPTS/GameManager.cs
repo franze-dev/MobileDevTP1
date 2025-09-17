@@ -32,16 +32,11 @@ public class GameManager : MonoBehaviour
     //la pos 0 es para la izquierda y la 1 para la derecha
     public Vector3[] PosCamionesCarrera = new Vector3[2];
     //posiciones de los camiones para el tutorial
-    public Vector3 PosCamion1Tuto = Vector3.zero;
-    public Vector3 PosCamion2Tuto = Vector3.zero;
 
     //listas de GO que activa y desactiva por sub-escena
     //escena de calibracion
     public GameObject[] ObjsCalibracion1;
     public GameObject[] ObjsCalibracion2;
-    //escena de tutorial
-    public GameObject[] ObjsTuto1;
-    public GameObject[] ObjsTuto2;
     //la pista de carreras
     public GameObject[] ObjsCarrera;
     [SerializeField] private GameObject CanvasJuego;
@@ -89,9 +84,6 @@ public class GameManager : MonoBehaviour
                     {
                         FinCalibracion(0);
                         FinCalibracion(1);
-
-                        FinTutorial(0);
-                        FinTutorial(1);
                     }
                 }
 
@@ -170,12 +162,6 @@ public class GameManager : MonoBehaviour
         {
             ObjsCalibracion1[i].SetActive(true);
             ObjsCalibracion2[i].SetActive(true);
-        }
-
-        for (int i = 0; i < ObjsTuto2.Length; i++)
-        {
-            ObjsTuto2[i].SetActive(false);
-            ObjsTuto1[i].SetActive(false);
         }
 
         for (int i = 0; i < ObjsCarrera.Length; i++)
@@ -267,20 +253,6 @@ public class GameManager : MonoBehaviour
         //desactivacion de la calibracion
         PlayerInfo1.FinCalibrado = true;
 
-        for (int i = 0; i < ObjsTuto1.Length; i++)
-            ObjsTuto1[i].SetActive(true);
-
-        for (int i = 0; i < ObjsCalibracion1.Length; i++)
-            ObjsCalibracion1[i].SetActive(false);
-
-        PlayerInfo2.FinCalibrado = true;
-
-        for (int i = 0; i < ObjsCalibracion2.Length; i++)
-            ObjsCalibracion2[i].SetActive(false);
-
-        for (int i = 0; i < ObjsTuto2.Length; i++)
-            ObjsTuto2[i].SetActive(true);
-
         //posiciona los camiones dependiendo de que lado de la pantalla esten
         if (PlayerInfo1.LadoAct == Visualizacion.Lado.Izq)
         {
@@ -312,24 +284,6 @@ public class GameManager : MonoBehaviour
         Player2.transform.forward = Vector3.forward;
 
         GestionEstados.EstAct = GestionadoDeEstados.Estados.Jugando;
-    }
-
-    public void FinTutorial(int playerID)
-    {
-        if (playerID == 0)
-        {
-            PlayerInfo1.FinTuto2 = true;
-
-        }
-        else if (playerID == 1)
-        {
-            PlayerInfo2.FinTuto2 = true;
-        }
-
-        if (PlayerInfo1.FinTuto2 && PlayerInfo2.FinTuto2)
-        {
-            CambiarACarrera();
-        }
     }
 
     public void FinCalibracion(int playerID)
