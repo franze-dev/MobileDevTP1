@@ -11,9 +11,6 @@ public class ContrTutorial : MonoBehaviour
 	
 	[SerializeField] private GameManager GM;
 	
-	//------------------------------------------------------------------//
-
-	// Use this for initialization
 	void Start () 
 	{
 		Pj.ContrTuto = this;
@@ -24,8 +21,6 @@ public class ContrTutorial : MonoBehaviour
 		if(other.GetComponent<Jugador>() == Pj)
 			Finalizar();
 	}
-	
-	//------------------------------------------------------------------//
 	
 	public void Iniciar()
 	{

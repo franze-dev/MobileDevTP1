@@ -111,7 +111,7 @@ public class Respawn : MonoBehaviour
 		IgnorarColision(true);
 	}
 	
-	public void AgregarCP(CheakPoint cp)
+	public void AgregarCheakPoint(CheakPoint cp)
 	{
 		if(cp != CPAct)
 		{

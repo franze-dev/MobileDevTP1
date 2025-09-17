@@ -8,12 +8,15 @@ public class LoopTextura : MonoBehaviour
 	
 	public Texture2D[] Imagenes;
 	int Contador = 0;
+	private Renderer Renderer;
 
 	// Use this for initialization
 	void Start () 
 	{
-		if(Imagenes.Length > 0)
-			GetComponent<Renderer>().material.mainTexture = Imagenes[0];
+		Renderer = GetComponent<Renderer>();
+
+        if (Imagenes.Length > 0)
+            Renderer.material.mainTexture = Imagenes[0];
 	}
 	
 	// Update is called once per frame
@@ -29,7 +32,7 @@ public class LoopTextura : MonoBehaviour
 			{
 				Contador = 0;
 			}
-			GetComponent<Renderer>().material.mainTexture = Imagenes[Contador];
+			Renderer.material.mainTexture = Imagenes[Contador];
 		}
 	}
 }

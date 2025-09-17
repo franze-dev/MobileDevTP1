@@ -11,9 +11,14 @@ public class AcelerAuto : MonoBehaviour
 	bool Avil = true;
 	public float TiempRecColl = 0;
 	float Tempo = 0;
+	private Rigidbody Rb;
 
-	// Update is called once per frame
-	void Update ()
+    private void Awake()
+    {
+        Rb = GetComponent<Rigidbody>();
+    }
+
+    void Update ()
 	{
 		if(Avil)
 		{
@@ -30,17 +35,17 @@ public class AcelerAuto : MonoBehaviour
 	{
 		if(Velocidad < VelMax)
 			Velocidad += AcelPorSeg * Time.fixedDeltaTime;
-		
-		GetComponent<Rigidbody>().AddForce(this.transform.forward * Velocidad);
+
+        Rb.AddForce(this.transform.forward * Velocidad);
 	}
 	
 	 void OnCollisionEnter(Collision collision)
 	{
 		if(!Avil)
 		{
-			Obstaculo = collision.transform.GetComponent<ReductorVelColl>();
+			Obstaculo = collision.gameObject.GetComponent<ReductorVelColl>();
 			if(Obstaculo != null)
-				GetComponent<Rigidbody>().linearVelocity /= 2;
+                Rb.linearVelocity /= 2;
 
 			Obstaculo = null;
 		}
@@ -48,7 +53,7 @@ public class AcelerAuto : MonoBehaviour
 	
 	public void Chocar(ReductorVelColl obst)
 	{
-		GetComponent<Rigidbody>().linearVelocity /= 2;
+		Rb.linearVelocity /= 2;
 	}
 	
 }

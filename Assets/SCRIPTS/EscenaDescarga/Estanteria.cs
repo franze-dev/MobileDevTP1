@@ -8,7 +8,6 @@ public class Estanteria : ManejoBolsas
     PilaBolsaMng Contenido;
     public bool Anim = false;
 
-
     //animacion de parpadeo
     public float Intervalo = 0.7f;
     public float Permanencia = 0.2f;
@@ -16,13 +15,13 @@ public class Estanteria : ManejoBolsas
     public GameObject ModelSuelo;
     public Color32 ColorParpadeo;
     Color32 ColorOrigModel;
-
-    //--------------------------------//	
+    private Renderer RendererSuelo;
 
     void Start()
     {
         Contenido = GetComponent<PilaBolsaMng>();
         ColorOrigModel = ModelSuelo.GetComponent<Renderer>().material.color;
+        RendererSuelo = ModelSuelo.GetComponent<Renderer>();
     }
 
     void Update()
@@ -33,18 +32,18 @@ public class Estanteria : ManejoBolsas
             AnimTempo += Time.deltaTime;
             if (AnimTempo > Permanencia)
             {
-                if (ModelSuelo.GetComponent<Renderer>().material.color == ColorParpadeo)
+                if (RendererSuelo.material.color == ColorParpadeo)
                 {
                     AnimTempo = 0;
-                    ModelSuelo.GetComponent<Renderer>().material.color = ColorOrigModel;
+                    RendererSuelo.material.color = ColorOrigModel;
                 }
             }
             if (AnimTempo > Intervalo)
             {
-                if (ModelSuelo.GetComponent<Renderer>().material.color == ColorOrigModel)
+                if (RendererSuelo.material.color == ColorOrigModel)
                 {
                     AnimTempo = 0;
-                    ModelSuelo.GetComponent<Renderer>().material.color = ColorParpadeo;
+                    RendererSuelo.material.color = ColorParpadeo;
                 }
             }
         }
@@ -59,8 +58,6 @@ public class Estanteria : ManejoBolsas
         }
     }
 
-    //------------------------------------------------------------//
-
     public override void Dar(ManejoBolsas receptor)
     {
         if (Tenencia())
@@ -73,11 +70,10 @@ public class Estanteria : ManejoBolsas
                     //cambia la textura de cuantos bolsa le queda
                     CintaReceptora.Encender();
                     Controlador.SalidaBolsa(Bolsas[0]);
-                    Bolsas[0].GetComponent<Renderer>().enabled = true;
+                    Bolsas[0].Renderer.enabled = true;
                     Bolsas.RemoveAt(0);
                     Contenido.Sacar();
                     ApagarAnim();
-                    //Debug.Log("bolsa entregado a Mano de Estanteria");
                 }
             }
         }
@@ -88,18 +84,18 @@ public class Estanteria : ManejoBolsas
         bolsa.CintaReceptora = CintaReceptora.gameObject;
         bolsa.Portador = this.gameObject;
         Contenido.Agregar();
-        bolsa.GetComponent<Renderer>().enabled = false;
+        bolsa.Renderer.enabled = false;
         return base.Recibir(bolsa);
     }
 
     public void ApagarAnim()
     {
         Anim = false;
-        ModelSuelo.GetComponent<Renderer>().material.color = ColorOrigModel;
+        RendererSuelo.material.color = ColorOrigModel;
     }
     public void EncenderAnim()
     {
         Anim = true;
-        ModelSuelo.GetComponent<Renderer>().material.color = ColorOrigModel;
+        RendererSuelo.material.color = ColorOrigModel;
     }
 }

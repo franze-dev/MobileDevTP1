@@ -32,7 +32,7 @@ public class CheakPoint : MonoBehaviour
 	{
 		if(other.tag == PlayerTag)
 		{
-			other.GetComponent<Respawn>().AgregarCP(this);
+			other.GetComponent<Respawn>().AgregarCheakPoint(this);
 		}	
 	}
 	

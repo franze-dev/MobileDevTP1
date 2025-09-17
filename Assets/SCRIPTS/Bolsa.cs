@@ -13,8 +13,12 @@ public class Bolsa : MonoBehaviour
 	public GameObject Particulas;
 	public float TiempParts = 2.5f;
 
-	// Use this for initialization
-	void Start () 
+	private Renderer Renderer;
+	private Collider Collider;
+	private ParticleSystem ParticleSystem;
+
+    // Use this for initialization
+    void Start () 
 	{
 		Monto = BolsaLogica.Valores.Valor2;
 		
@@ -22,7 +26,10 @@ public class Bolsa : MonoBehaviour
 		if(Particulas != null)
 			Particulas.SetActive(false);
 			
-	}
+		Renderer = GetComponent<Renderer>();
+		Collider = GetComponent<Collider>();
+		ParticleSystem = Particulas?.GetComponent<ParticleSystem>();
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -33,10 +40,10 @@ public class Bolsa : MonoBehaviour
 			TiempParts -= Time.deltaTime;
 			if(TiempParts <= 0)
 			{
-				GetComponent<Renderer>().enabled = true;
-				GetComponent<Collider>().enabled = true;
+				Renderer.enabled = true;
+				Collider.enabled = true;
 				
-				Particulas.GetComponent<ParticleSystem>().Stop();
+				ParticleSystem.Stop();
 				gameObject.SetActive(false);
 			}
 		}
@@ -55,15 +62,15 @@ public class Bolsa : MonoBehaviour
 	
 	public void Desaparecer()
 	{
-		Particulas.GetComponent<ParticleSystem>().Play();
+		ParticleSystem.Play();
 		Desapareciendo = true;
 		
-		GetComponent<Renderer>().enabled = false;
-		GetComponent<Collider>().enabled = false;
+		Renderer.enabled = false;
+		Collider.enabled = false;
 		
 		if(Particulas != null)
 		{
-			Particulas.GetComponent<ParticleSystem>().Play();
+            ParticleSystem.Play();
 		}
 	
 	}

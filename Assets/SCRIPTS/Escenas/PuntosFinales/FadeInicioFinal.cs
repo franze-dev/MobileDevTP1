@@ -12,6 +12,7 @@ public class FadeInicioFinal : MonoBehaviour
 	Color aux;
 	
 	bool MngAvisado = false;
+	Renderer Renderer;
 
 	// Use this for initialization
 	void Start ()
@@ -19,10 +20,12 @@ public class FadeInicioFinal : MonoBehaviour
 		//renderer.material = IniFin;
 		Mng = (MngPts)GameObject.FindObjectOfType(typeof (MngPts));
 		TiempInicial = Mng.TiempEspReiniciar;
-		
-		aux = GetComponent<Renderer>().material.color;
+
+		Renderer = GetComponent<Renderer>();
+
+        aux = Renderer.material.color;
 		aux.a = 0;
-		GetComponent<Renderer>().material.color = aux;
+        Renderer.material.color = aux;
 	}
 	
 	// Update is called once per frame
@@ -31,15 +34,15 @@ public class FadeInicioFinal : MonoBehaviour
 		
 		if(Mng.TiempEspReiniciar > TiempInicial - Duracion)//aparicion
 		{
-			aux = GetComponent<Renderer>().material.color;
+			aux = Renderer.material.color;
 			aux.a += Time.deltaTime / Duracion;
-			GetComponent<Renderer>().material.color = aux;			
+			Renderer.material.color = aux;			
 		}
 		else if(Mng.TiempEspReiniciar < Duracion)//desaparicion
 		{
-			aux = GetComponent<Renderer>().material.color;
+			aux = Renderer.material.color;
 			aux.a -= Time.deltaTime / Duracion;
-			GetComponent<Renderer>().material.color = aux;
+			Renderer.material.color = aux;
 			
 			if(!MngAvisado)
 			{

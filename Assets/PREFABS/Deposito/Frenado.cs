@@ -14,10 +14,18 @@ public class Frenado : MonoBehaviour
 	Vector3 Destino;
 	
 	public bool Frenando = false;
-	
-	void Start () 
+	private Jugador Jugador;
+	private ControlDireccion ControlDireccion;
+	private CarController CarController;
+	private Rigidbody Rigidbody;
+
+    void Start () 
 	{
-		Frenar();
+		Jugador = GetComponent<Jugador>();
+		ControlDireccion = GetComponent<ControlDireccion>();
+		CarController = gameObject.GetComponent<CarController>();
+		Rigidbody = GetComponent<Rigidbody>();
+        Frenar();
 	}
 	
 	void FixedUpdate ()
@@ -41,9 +49,9 @@ public class Frenado : MonoBehaviour
 
             if (dep.Vacio)
 			{	
-				if(this.GetComponent<Jugador>().ConBolasas())
+				if(Jugador.ConBolasas())
 				{
-					dep.Entrar(this.GetComponent<Jugador>());
+					dep.Entrar(Jugador);
 					Destino = other.transform.position;
 					transform.forward = Destino - transform.position;
 					Frenar();
@@ -54,10 +62,10 @@ public class Frenado : MonoBehaviour
 	
 	public void Frenar()
 	{
-		GetComponent<ControlDireccion>().enabled = false;
-		gameObject.GetComponent<CarController>().SetAcel(0);
+		ControlDireccion.enabled = false;
+		CarController.SetAcel(0);
 
-        GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+        Rigidbody.linearVelocity = Vector3.zero;
 		
 		Frenando = true;
 		Tempo = 0;
@@ -66,12 +74,10 @@ public class Frenado : MonoBehaviour
 	
 	public void RestaurarVel()
 	{
-		//Debug.Log(gameObject.name + "restaura la velociad");
-		GetComponent<ControlDireccion>().enabled = true;
-        gameObject.GetComponent<CarController>().SetAcel(1);
+		ControlDireccion.enabled = true;
+        CarController.SetAcel(1);
         Frenando = false;
 		Tempo = 0;
 		Contador = 0;
-		//gameObject.SendMessage("SetDragZ", 1f);
 	}
 }

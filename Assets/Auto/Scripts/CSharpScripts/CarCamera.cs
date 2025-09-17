@@ -18,23 +18,31 @@ public class CarCamera : MonoBehaviour
 	private LayerMask raycastLayers = -1;
 	
 	private Vector3 currentVelocity = Vector3.zero;
-	
-	void Start()
+	private Rigidbody targetRootRigidBody;
+	private Camera Camera;
+
+    void Start()
 	{
 		raycastLayers = ~ignoreLayers;
-	}
+		if (target != null)
+            targetRootRigidBody = target?.root.GetComponent<Rigidbody>();
+		Camera = GetComponent<Camera>();
+    }
 
 	void FixedUpdate()
 	{
-		currentVelocity = Vector3.Lerp(prevVelocity, target.root.GetComponent<Rigidbody>().linearVelocity, velocityDamping * Time.deltaTime);
+		currentVelocity = Vector3.Lerp(prevVelocity, targetRootRigidBody.linearVelocity, velocityDamping * Time.deltaTime);
 		currentVelocity.y = 0;
 		prevVelocity = currentVelocity;
 	}
 	
 	void LateUpdate()
 	{
-		float speedFactor = Mathf.Clamp01(target.root.GetComponent<Rigidbody>().linearVelocity.magnitude / 70.0f);
-		GetComponent<Camera>().fieldOfView = Mathf.Lerp(55, 72, speedFactor);
+		if (targetRootRigidBody && target != null)
+			targetRootRigidBody = target?.root.GetComponent<Rigidbody>();
+
+        float speedFactor = Mathf.Clamp01(targetRootRigidBody.linearVelocity.magnitude / 70.0f);
+		Camera.fieldOfView = Mathf.Lerp(55, 72, speedFactor);
 		float currentDistance = Mathf.Lerp(7.5f, 6.5f, speedFactor);
 		
 		currentVelocity = currentVelocity.normalized;

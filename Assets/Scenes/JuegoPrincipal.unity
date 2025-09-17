@@ -31637,7 +31637,7 @@ Transform:
   m_GameObject: {fileID: 3099}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.061218, y: 40.98424, z: 1.6227722}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31722,12 +31722,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &6257 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4827866222774608, guid: b81b1a58a0f14c9439cbdd014e695f71,
-    type: 3}
-  m_PrefabInstance: {fileID: 629314373}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6264
 Transform:
   m_ObjectHideFlags: 0
@@ -76745,11 +76739,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9f882e3740d1d4f862635421ea961f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 6257}
-  height: 5.9
+  target: {fileID: 0}
+  height: 1
   positionDamping: 3
   velocityDamping: 3
-  distance: 6
+  distance: 4
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -76841,11 +76835,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9f882e3740d1d4f862635421ea961f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1103461344}
-  height: 5.9
+  target: {fileID: 0}
+  height: 1
   positionDamping: 3
   velocityDamping: 3
-  distance: 6
+  distance: 4
   ignoreLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -105578,12 +105572,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1103417399}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1103461344 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4827866222774608, guid: b81b1a58a0f14c9439cbdd014e695f71,
-    type: 3}
-  m_PrefabInstance: {fileID: 27660009}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1108272076
 GameObject:
   m_ObjectHideFlags: 0
