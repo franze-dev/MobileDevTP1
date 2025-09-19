@@ -7106,7 +7106,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4827866222774608}
   - component: {fileID: 54983393838270490}
-  - component: {fileID: 114643806136207610}
   - component: {fileID: 114998836577221504}
   - component: {fileID: 65677508709927354}
   - component: {fileID: 114915911208098546}
@@ -7170,32 +7169,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114643806136207610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1753749050268706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7272f53a2d4f7174a8c5cb502d24bb0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Dinero: 0
-  IdPlayer: 0
-  Bolsas: []
-  CantBolsAct: 0
-  TagBolsas: 
-  EstAct: 1
-  CanvasPlayer: {fileID: 0}
-  ContrDesc: {fileID: 0}
-  ContrCalib: {fileID: 0}
-  ContrTuto: {fileID: 0}
-  Frenado: {fileID: 0}
-  Respawn: {fileID: 0}
-  Rigidbody: {fileID: 0}
-  Colliders: []
 --- !u!114 &114998836577221504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7282,63 +7255,6 @@ MonoBehaviour:
   CamCalibracion: {fileID: 0}
   CamConduccion: {fileID: 0}
   CamDescarga: {fileID: 0}
-  DinPos:
-  - {x: 26.6, y: 2}
-  - {x: 56, y: 0}
-  DinEsc: {x: 65, y: 10}
-  GS_Din: {fileID: 11400000, guid: a1178ef47c618c5428390819d0d07769, type: 2}
-  VolantePos:
-  - {x: 0, y: 65}
-  - {x: 78.5, y: 0}
-  VolanteEsc: 21
-  GS_Volante: {fileID: 11400000, guid: 0802f0b6d1306b847805173b70c639ed, type: 2}
-  FondoPos:
-  - {x: -10.6, y: 1}
-  - {x: 45.2, y: 0}
-  FondoEsc: {x: 64.3, y: 8}
-  TexturaVacia: {fileID: 2800000, guid: 2b0d2a055d82d8148ad6ac959868983c, type: 3}
-  TextFondo: {fileID: 2800000, guid: 912b5d8f45e197c428ac754e9b960b09, type: 3}
-  Parpadeo: 0.5
-  TempParp: 0
-  PrimIma: 1
-  TextInvIzq:
-  - {fileID: 2800000, guid: a8fac8bd806f25e48a5bb1a409917617, type: 3}
-  - {fileID: 2800000, guid: 199c137dd8d75bc4f8c27827f02d1e1a, type: 3}
-  - {fileID: 2800000, guid: c57b4dee21dacdc4b840149d65a50d2d, type: 3}
-  - {fileID: 2800000, guid: 18291cd4e29d9c34d9be61940a4d35df, type: 3}
-  - {fileID: 2800000, guid: 43b47ea21177fe44fb41eeb12d4499ba, type: 3}
-  TextInvDer:
-  - {fileID: 2800000, guid: d90d44545d0620248a544f5ccdfb2310, type: 3}
-  - {fileID: 2800000, guid: 74431e206eebc984e9513761aee247e8, type: 3}
-  - {fileID: 2800000, guid: 2477d3f5a73069247ae53c56a2a58ab3, type: 3}
-  - {fileID: 2800000, guid: e97a2ba8d88e2344e8c7d0826601fa37, type: 3}
-  - {fileID: 2800000, guid: 3377540740d871c428246b5286a591ce, type: 3}
-  GS_Inv: {fileID: 11400000, guid: 120e5f4722216d74581034ef9fe42fc3, type: 2}
-  BonusPos: {x: 13.4, y: 62.9}
-  BonusEsc: {x: 40, y: 10.5}
-  ColorFondoBolsa:
-    serializedVersion: 2
-    rgba: 0
-  ColorFondoPos: {x: 20, y: 95}
-  ColorFondoEsc: {x: 9, y: 70}
-  ColorFondoFondoPos: {x: 20, y: 65.8}
-  ColorFondoFondoEsc: {x: 14, y: 28.5}
-  GS_FondoBonusColor: {fileID: 11400000, guid: c9433b381425ee64ebfda693c823ade0, type: 2}
-  GS_FondoFondoBonusColor: {fileID: 11400000, guid: dd165e8b07fd1804784579aed42df7be,
-    type: 2}
-  GS_Bonus: {fileID: 11400000, guid: 9ab8afb4b197a3849b8041cdcfbf6c8a, type: 2}
-  ReadyPos: {x: 10, y: 10}
-  ReadyEsc: {x: 20, y: 20}
-  ImagenesDelTuto:
-  - {fileID: 2800000, guid: 2c1dbd8d7a064714ea1cc385fbf9d456, type: 3}
-  - {fileID: 2800000, guid: e0c241340ecf53845a3a49a12ffb1074, type: 3}
-  - {fileID: 2800000, guid: 08801a8d77b7d9c4682b2e93a23f23a2, type: 3}
-  Intervalo: 1.4
-  ImaEnPosicion: {fileID: 2800000, guid: 48648979bb4580542a7d1d9ebe2ffd59, type: 3}
-  ImaReady: {fileID: 2800000, guid: cd96293139f94fb4b925e67c2069bc43, type: 3}
-  GS_TutoCalib: {fileID: 11400000, guid: 6fa63b773a784494e9d99a05e00dbfbc, type: 2}
-  TextNum1: {fileID: 2800000, guid: 555234cde9ba4444497c727928ac2408, type: 3}
-  TextNum2: {fileID: 2800000, guid: caaa7acdd895e5d4f8d15f1abdc3c07e, type: 3}
   Techo: {fileID: 1680706187421350}
 --- !u!114 &114672682756068064
 MonoBehaviour:

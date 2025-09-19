@@ -17,12 +17,12 @@ public class BolsaLogica : MonoBehaviour
 	public float TiempSmoot = 0.3f;
 	public bool EnSmoot = false;
 	private float _tempoSmoot = 0;
-	public Renderer Renderer;
+	public MeshRenderer Renderer;
 	
 
 	void Start()
 	{
-		Renderer = GetComponent<Renderer>();
+		Renderer = GetComponent<MeshRenderer>();
 
         Pasaje();
 	}

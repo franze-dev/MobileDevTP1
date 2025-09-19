@@ -50,7 +50,7 @@ public class ContrCalibracion : MonoBehaviour
         }
     }
 
-    
+
 
     public void IniciarTesteo()
     {
@@ -73,6 +73,13 @@ public class ContrCalibracion : MonoBehaviour
         if (Llegada.Renderer != null)
             Llegada.Renderer.enabled = estado;
         Llegada.Collider.enabled = estado;
+
+        if (P == null)
+            Debug.LogError("No se ha asignado la bolsa de calibracion en " + gameObject.name);
+
+        if (P.Renderer == null && P != null)
+            Debug.LogError("No se ha asignado el Renderer de la bolsa de calibracion en " + P.gameObject);
+
         P.Renderer.enabled = estado;
     }
 }

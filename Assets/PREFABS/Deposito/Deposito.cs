@@ -13,7 +13,10 @@ public class Deposito : MonoBehaviour
 	
 	void Start () 
 	{
-		Physics.IgnoreLayerCollision(8,9,false);
+		if (!Contr1 || !Contr2)
+			Debug.LogError("No se han asignado los controladores de descarga en el deposito");
+
+        Physics.IgnoreLayerCollision(8,9,false);
 	}
 	
 	void Update () 
@@ -45,7 +48,6 @@ public class Deposito : MonoBehaviour
 	{
 		if(pj.ConBolasas())
 		{
-			
 			PjActual = pj;
 
 			PjColl = PjActual.Colliders;
