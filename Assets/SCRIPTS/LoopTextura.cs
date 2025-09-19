@@ -10,7 +10,6 @@ public class LoopTextura : MonoBehaviour
 	int Contador = 0;
 	private Renderer Renderer;
 
-	// Use this for initialization
 	void Start () 
 	{
 		Renderer = GetComponent<Renderer>();
@@ -18,8 +17,7 @@ public class LoopTextura : MonoBehaviour
         if (Imagenes.Length > 0)
             Renderer.material.mainTexture = Imagenes[0];
 	}
-	
-	// Update is called once per frame
+
 	void Update () 
 	{
 		Tempo += Time.deltaTime;

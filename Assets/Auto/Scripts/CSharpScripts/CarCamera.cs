@@ -11,6 +11,7 @@ public class CarCamera : MonoBehaviour
 	public LayerMask ignoreLayers = -1;
 	
 	public float LejaniaZ = 1;
+	private float speedFactor;
 
 	private RaycastHit hit = new RaycastHit();
 
@@ -34,14 +35,12 @@ public class CarCamera : MonoBehaviour
 		currentVelocity = Vector3.Lerp(prevVelocity, targetRootRigidBody.linearVelocity, velocityDamping * Time.deltaTime);
 		currentVelocity.y = 0;
 		prevVelocity = currentVelocity;
-	}
+
+        speedFactor = Mathf.Clamp01(targetRootRigidBody.linearVelocity.magnitude / 70.0f);
+    }
 	
 	void LateUpdate()
 	{
-		if (targetRootRigidBody && target != null)
-			targetRootRigidBody = target?.root.GetComponent<Rigidbody>();
-
-        float speedFactor = Mathf.Clamp01(targetRootRigidBody.linearVelocity.magnitude / 70.0f);
 		Camera.fieldOfView = Mathf.Lerp(55, 72, speedFactor);
 		float currentDistance = Mathf.Lerp(7.5f, 6.5f, speedFactor);
 		

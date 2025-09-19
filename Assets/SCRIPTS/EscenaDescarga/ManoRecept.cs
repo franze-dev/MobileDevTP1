@@ -3,12 +3,7 @@ using System.Collections;
 
 public class ManoRecept : ManejoBolsas 
 {
-	public bool TengoBolsa = false;
-	
-	void FixedUpdate () 
-	{
-		TengoBolsa = Tenencia();
-	}
+	public bool TengoBolsa => Tenencia();
 	
 	void OnTriggerEnter(Collider other)
 	{

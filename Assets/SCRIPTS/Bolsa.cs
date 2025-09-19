@@ -17,7 +17,6 @@ public class Bolsa : MonoBehaviour
 	private Collider Collider;
 	private ParticleSystem ParticleSystem;
 
-    // Use this for initialization
     void Start () 
 	{
 		Monto = BolsaLogica.Valores.Valor2;
@@ -31,10 +30,8 @@ public class Bolsa : MonoBehaviour
 		ParticleSystem = Particulas?.GetComponent<ParticleSystem>();
     }
 	
-	// Update is called once per frame
 	void Update ()
 	{
-		
 		if(Desapareciendo)
 		{
 			TiempParts -= Time.deltaTime;

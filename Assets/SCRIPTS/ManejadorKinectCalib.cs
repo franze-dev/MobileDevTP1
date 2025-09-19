@@ -5,7 +5,6 @@ public class ManejadorKinectCalib : MonoBehaviour
 {
 	public GameObject[] ParaAct;
 
-	// Use this for initialization
 	void Start ()
 	{
 		for(int i = 0; i < ParaAct.Length; i++)
@@ -14,7 +13,6 @@ public class ManejadorKinectCalib : MonoBehaviour
 		}
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
 		//DISTINTAS CAMARAS

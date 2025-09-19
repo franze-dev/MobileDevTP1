@@ -11,13 +11,11 @@ public class CollContraObst : MonoBehaviour
 	enum Colisiones {ConTodo, EspDesact, SinObst}
 	Colisiones Colisiono = CollContraObst.Colisiones.ConTodo;
 
-	// Use this for initialization
 	void Start () 
 	{
 		Physics.IgnoreLayerCollision(8,10,false);
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
 		switch (Colisiono)

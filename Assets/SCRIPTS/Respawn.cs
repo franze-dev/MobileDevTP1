@@ -16,23 +16,21 @@ public class Respawn : MonoBehaviour
 	bool IgnorandoColision = false;
 	public float TiempDeNoColision = 2;
 	float Tempo = 0;
-	
-	//--------------------------------------------------------//
 
-	// Use this for initialization
+	private Rigidbody Rigidbody;
+	private CarController CarController;
+	private Visualizacion Visualizacion;
+
 	void Start () 
 	{
-		/*
-		//a modo de prueba
-		TiempDeNoColision = 100;
-		IgnorarColision(true);
-		*/
-		
 		//restaura las colisiones
 		Physics.IgnoreLayerCollision(8,9,false);
-	}
+
+		Rigidbody = GetComponent<Rigidbody>();
+		CarController = GetComponent<CarController>();
+        Visualizacion = GetComponent<Visualizacion>();
+    }
 	
-	// Update is called once per frame
 	void Update ()
 	{
 		if(CPAct != null)
@@ -56,18 +54,16 @@ public class Respawn : MonoBehaviour
 		}
 		
 	}
-	
-	//--------------------------------------------------------//
-	
+
 	public void Respawnear()
 	{
-		GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-		
-		gameObject.GetComponent<CarController>().SetGiro(0f);
+        Rigidbody.linearVelocity = Vector3.zero;
+
+        CarController.SetGiro(0f);
 		
 		if(CPAct.Habilitado())
 		{
-			if(GetComponent<Visualizacion>().LadoAct == Visualizacion.Lado.Der)
+			if(Visualizacion.LadoAct == Visualizacion.Lado.Der)
 				transform.position = CPAct.transform.position + CPAct.transform.right * Random.Range(RangMinDer, RangMaxDer);
 			else 
 				transform.position = CPAct.transform.position + CPAct.transform.right * Random.Range(RangMinDer * (-1), RangMaxDer * (-1));
@@ -75,7 +71,7 @@ public class Respawn : MonoBehaviour
 		}
 		else if(CPAnt != null)
 		{
-			if(GetComponent<Visualizacion>().LadoAct == Visualizacion.Lado.Der)
+			if(Visualizacion.LadoAct == Visualizacion.Lado.Der)
 				transform.position = CPAnt.transform.position + CPAnt.transform.right * Random.Range(RangMinDer, RangMaxDer);
 			else
 				transform.position = CPAnt.transform.position + CPAnt.transform.right * Random.Range(RangMinDer * (-1), RangMaxDer * (-1));
@@ -83,16 +79,13 @@ public class Respawn : MonoBehaviour
 		}
 		
 		IgnorarColision(true);
-		
-		//animacion de resp
-		
 	}
 	
 	public void Respawnear(Vector3 pos)
 	{
-		GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+        Rigidbody.linearVelocity = Vector3.zero;
 		
-		gameObject.GetComponent<CarController>().SetGiro(0f);
+		CarController.SetGiro(0f);
 		
 		transform.position = pos;
 		
@@ -101,9 +94,9 @@ public class Respawn : MonoBehaviour
 	
 	public void Respawnear(Vector3 pos, Vector3 dir)
 	{
-		GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+		Rigidbody.linearVelocity = Vector3.zero;
 		
-		gameObject.GetComponent<CarController>().SetGiro(0f);
+		CarController.SetGiro(0f);
 		
 		transform.position = pos;
 		transform.forward = dir;
@@ -122,17 +115,8 @@ public class Respawn : MonoBehaviour
 	
 	void IgnorarColision(bool b)
 	{
-		//no contempla si los dos camiones respawnean relativamente cerca en el espacio 
-		//temporal y uno de ellos va contra el otro, 
-		//justo el segundo cancela las colisiones e inmediatamente el 1º las reactiva, 
-		//entonces colisionan, pero es dificil que suceda. 
-		
 		Physics.IgnoreLayerCollision(8,9,b);
 		IgnorandoColision = b;	
 		Tempo = 0;
 	}
-	
-	
-	
-	
 }

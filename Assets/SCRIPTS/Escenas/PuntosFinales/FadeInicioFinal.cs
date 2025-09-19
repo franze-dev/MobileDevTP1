@@ -14,7 +14,6 @@ public class FadeInicioFinal : MonoBehaviour
 	bool MngAvisado = false;
 	Renderer Renderer;
 
-	// Use this for initialization
 	void Start ()
 	{
 		//renderer.material = IniFin;
@@ -28,10 +27,8 @@ public class FadeInicioFinal : MonoBehaviour
         Renderer.material.color = aux;
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
-		
 		if(Mng.TiempEspReiniciar > TiempInicial - Duracion)//aparicion
 		{
 			aux = Renderer.material.color;

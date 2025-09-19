@@ -1,10 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-/// <summary>
-/// basicamente lo que hace es que viaja en linea recta y ocacionalmente gira para un cosatado
-/// previamente verificado, tambien cuando llega al final del recorrido se reinicia en la pos. orig.
-/// </summary>
 public class TaxiComp : MonoBehaviour 
 {
 	public string FinTaxiTag = "FinTaxi";
@@ -22,14 +18,13 @@ public class TaxiComp : MonoBehaviour
 	public string TagTerreno = "";
 	
 	public bool Girando = false;
-	Vector3 RotIni;//pasa saber como volver a su posicion original
+	Vector3 RotIni;//para saber como volver a su posicion original
 	Vector3 PosIni;//para saber donde reiniciar al taxi
 	
 	float TiempEntreGiro = 0;
 	float TempoEntreGiro = 0;
 	
 	public float AngDeGiro = 30;
-	float TiempPGiro = 1;//1 es el tiempo que tarda en llegar al otro quaternion
 	
 	RaycastHit RH;
 	
@@ -38,9 +33,6 @@ public class TaxiComp : MonoBehaviour
 	
 	enum Lado{Der, Izq}
 	
-	//-----------------------------------------------------------------//
-
-	// Use this for initialization
 	void Start () 
 	{
 		TiempEntreGiro = (float) Random.Range(TiempCadaCuantoDobla_MaxMin.x, TiempCadaCuantoDobla_MaxMin.y);
@@ -48,10 +40,8 @@ public class TaxiComp : MonoBehaviour
 		PosIni = transform.position;
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
-		
 		if(Respawneando)
 		{
 			if(Medicion())
