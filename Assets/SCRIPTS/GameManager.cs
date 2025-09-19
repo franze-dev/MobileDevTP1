@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Application.runInBackground = true;
+
         Instancia = this;
 
         if (GestionEstados == null)
@@ -61,6 +63,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (!Application.isFocused == false && Time.timeScale > 0)
+            Time.timeScale = 0;
+        else if (Time.timeScale == 0)
+            Time.timeScale = 1;
+
         //REINICIAR
         if (Input.GetKey(KeyCode.Mouse1) &&
            Input.GetKey(KeyCode.Keypad0))
