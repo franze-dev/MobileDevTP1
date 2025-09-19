@@ -25,7 +25,6 @@ public class ManejoBolsas : MonoBehaviour
 	
 	public bool Tenencia()
 	{
-		
 		if(Bolsas.Count != 0)
 			return true;
 		else

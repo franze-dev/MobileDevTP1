@@ -40,12 +40,18 @@ public class GameManager : MonoBehaviour
     //la pista de carreras
     public GameObject[] ObjsCarrera;
     [SerializeField] private GameObject CanvasJuego;
+    [SerializeField] private InputDetector GestorInput;
+
+    public bool Multijugador = true;
 
     void Awake()
     {
         Application.runInBackground = true;
 
         Instancia = this;
+
+        if (GestorInput == null)
+            Debug.LogError("Falta el Input Detector en " + gameObject.name);
 
         if (GestionEstados == null)
             Debug.LogError("Falta el GestionadoDeEstados en " + gameObject.name);
@@ -63,6 +69,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        GestorInput.DetectorGestos.Actualizar();
+
         if (!Application.isFocused == false && Time.timeScale > 0)
             Time.timeScale = 0;
         else if (Time.timeScale == 0)
@@ -94,18 +102,29 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
-                if (PlayerInfo1.PJ == null && Input.GetKeyDown(KeyCode.W))
+                if (GestorInput.InputAct == InputDetector.TipoInput.Teclado)
                 {
-                    PlayerInfo1 = new InfoJugador(0, Player1);
-                    PlayerInfo1.LadoAct = Visualizacion.Lado.Izq;
-                    SetPosicion(PlayerInfo1);
-                }
+                    if (PlayerInfo1.PJ == null && Input.GetKeyDown(KeyCode.W))
+                    {
+                        InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
+                    }
 
-                if (PlayerInfo2.PJ == null && Input.GetKeyDown(KeyCode.UpArrow))
+                    if (PlayerInfo2.PJ == null && Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        InitInfo(out PlayerInfo2, Player2, Visualizacion.Lado.Der);
+                    }
+                }
+                else
                 {
-                    PlayerInfo2 = new InfoJugador(1, Player2);
-                    PlayerInfo2.LadoAct = Visualizacion.Lado.Der;
-                    SetPosicion(PlayerInfo2);
+                    if (PlayerInfo1.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaIzquierda))
+                    {
+                        InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
+                    }
+
+                    if (PlayerInfo2.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaDerecha))
+                    {
+                        InitInfo(out PlayerInfo2, Player2, Visualizacion.Lado.Der);
+                    }
                 }
 
                 //cuando los 2 pj terminaron los tutoriales empiesa la carrera
@@ -161,6 +180,13 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    private void InitInfo(out InfoJugador PlayerInfo, Jugador Jugador, Visualizacion.Lado lado)
+    {
+        PlayerInfo = new InfoJugador(0, Jugador);
+        PlayerInfo.LadoAct = lado;
+        SetPosicion(PlayerInfo);
     }
 
     public void IniciarCalibracion()
@@ -309,6 +335,19 @@ public class GameManager : MonoBehaviour
             if (PlayerInfo1.FinTuto1 && PlayerInfo2.FinTuto1)
                 CambiarACarrera();
 
+    }
+
+    public Rect ZonaCorrespondeA(int camionId)
+    {
+        if (Multijugador)
+        {
+            if (camionId == 0)
+                return DetectorGestos.ZonaIzquierda;
+
+            return DetectorGestos.ZonaDerecha;
+        }
+
+        return DetectorGestos.ZonaPantalla;
     }
 
     [System.Serializable]

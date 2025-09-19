@@ -1,75 +1,55 @@
 using UnityEngine;
-using System.Collections;
 
 public class ControlDireccion : MonoBehaviour
 {
-    public enum TipoInput { Mouse, Kinect, AWSD, Arrows }
+    public enum TipoInput { Mouse, AWSD, Flechas, Gestos }
     public TipoInput InputAct = ControlDireccion.TipoInput.Mouse;
 
     public Transform ManoDer;
     public Transform ManoIzq;
 
     public float MaxAng = 90;
-    public float DesSencibilidad = 90;
+    public float DesSensibilidad = 90;
 
-    float Giro = 0;
-
-    public enum Sentido { Der, Izq }
-    Sentido DirAct;
+    private float Giro = 0;
 
     public bool Habilitado = true;
-    CarController CarController;
+    private CarController CarController;
+    [SerializeField] int CamionId = 0;
+    private GameManager GameManager => GameManager.Instancia;
+    private Rect ZonaCorrespondiente;
+
+    [SerializeField] private InputDetector InputDetector;
 
     void Start()
     {
         CarController = gameObject.GetComponent<CarController>();
+
+        if (InputDetector == null)
+            Debug.LogError("Falta el Input Detector en " + gameObject.name);
+
+        if (InputDetector.DetectorGestos == null)
+            Debug.LogError("Falta el Detector de Gestos en " + gameObject.name);
+
+        if (InputDetector.InputAct == InputDetector.TipoInput.Touch)
+        {
+            InputAct = TipoInput.Gestos;
+
+            ZonaCorrespondiente = GameManager.ZonaCorrespondeA(CamionId);
+        }
     }
 
     void Update()
     {
+        if (InputDetector.InputAct == InputDetector.TipoInput.Touch)
+            InputDetector.DetectorGestos.Actualizar();
+
         switch (InputAct)
         {
             case TipoInput.Mouse:
                 if (Habilitado)
                     CarController.SetGiro(MousePos.Relation(MousePos.AxisRelation.Horizontal));
 
-                break;
-
-            case TipoInput.Kinect:
-
-                if (ManoIzq.position.y > ManoDer.position.y)
-                {
-                    DirAct = Sentido.Der;
-                }
-                else
-                {
-                    DirAct = Sentido.Izq;
-                }
-
-                switch (DirAct)
-                {
-                    case Sentido.Der:
-                        if (Angulo() <= MaxAng)
-                            Giro = Angulo() / (MaxAng + DesSencibilidad);
-                        else
-                            Giro = 1;
-
-                        if (Habilitado)
-                            CarController.SetGiro(Giro);
-
-                        break;
-
-                    case Sentido.Izq:
-                        if (Angulo() <= MaxAng)
-                            Giro = (Angulo() / (MaxAng + DesSencibilidad)) * (-1);
-                        else
-                            Giro = (-1);
-
-                        if (Habilitado)
-                            CarController.SetGiro(Giro);
-
-                        break;
-                }
                 break;
             case TipoInput.AWSD:
                 if (Habilitado)
@@ -84,7 +64,7 @@ public class ControlDireccion : MonoBehaviour
                     }
                 }
                 break;
-            case TipoInput.Arrows:
+            case TipoInput.Flechas:
                 if (Habilitado)
                 {
                     if (Input.GetKey(KeyCode.LeftArrow))
@@ -97,6 +77,19 @@ public class ControlDireccion : MonoBehaviour
                     }
                 }
                 break;
+            case TipoInput.Gestos:
+                if (Habilitado)
+                {
+                    if (InputDetector.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Izq, ZonaCorrespondiente))
+                    {
+                        CarController.SetGiro(-1);
+                    }
+                    if (InputDetector.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Der, ZonaCorrespondiente))
+                    {
+                        CarController.SetGiro(1);
+                    }
+                }
+                break;
         }
     }
 
@@ -104,13 +97,4 @@ public class ControlDireccion : MonoBehaviour
     {
         return Giro;
     }
-
-    float Angulo()
-    {
-        Vector2 diferencia = new Vector2(ManoDer.localPosition.x, ManoDer.localPosition.y)
-                           - new Vector2(ManoIzq.localPosition.x, ManoIzq.localPosition.y);
-
-        return Vector2.Angle(diferencia, new Vector2(1, 0));
-    }
-
 }

@@ -50,8 +50,6 @@ public class ContrCalibracion : MonoBehaviour
         }
     }
 
-
-
     public void IniciarTesteo()
     {
         EstAct = EstadoCalibracion.Tutorial;
