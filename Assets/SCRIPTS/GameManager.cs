@@ -71,11 +71,6 @@ public class GameManager : MonoBehaviour
     {
         GestorInput.DetectorGestos.Actualizar();
 
-        if (!Application.isFocused == false && Time.timeScale > 0)
-            Time.timeScale = 0;
-        else if (Time.timeScale == 0)
-            Time.timeScale = 1;
-
         switch (GestionEstados.EstAct)
         {
             case GestionadoDeEstados.Estados.Calibrando:
