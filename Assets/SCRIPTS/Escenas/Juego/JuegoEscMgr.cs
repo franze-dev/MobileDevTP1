@@ -19,7 +19,7 @@ public class JuegoEscMgr : MonoBehaviour
 			if(Tempo > TiempoEsperaFin)
 			{
 				Tempo = 0;
-				Application.LoadLevel(0);
+				DespachadorEventos.Despachar<IEventoActivarEscena>(new EventoActivarJuego(gameObject));
 			}
 		}
 		
@@ -29,7 +29,7 @@ public class JuegoEscMgr : MonoBehaviour
 			if(Tempo > TiempoEsperaInicio)
 			{
 				Tempo2 = 0;
-				Application.LoadLevel(0);
+                DespachadorEventos.Despachar<IEventoActivarEscena>(new EventoActivarJuego(gameObject));
 			}
 		}		
 		
@@ -38,11 +38,6 @@ public class JuegoEscMgr : MonoBehaviour
 			Application.Quit();
 		}
 		
-		//reinicia
-		if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-		{
-			Application.LoadLevel(Application.loadedLevel);
-		}
 	}
 	
 	//---------------------------------------------------//
