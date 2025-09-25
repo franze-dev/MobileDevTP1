@@ -30,9 +30,9 @@ public class CargadorEscenas : MonoBehaviour
         Application.Quit();
     }
 
-    public void CargarEscena(int nuevaEscena, int transicion)
+    public void CargarEscena(int nuevaEscena, int transicion, bool unloadPrevious = true)
     {
-        StartCoroutine(CorrutinaCargarEscena(nuevaEscena, transicion));
+        StartCoroutine(CorrutinaCargarEscena(nuevaEscena, transicion, unloadPrevious));
     }
 
     public int EscenaActiva()
@@ -51,20 +51,50 @@ public class CargadorEscenas : MonoBehaviour
         listaEscenas.Clear();
     }
 
-    public IEnumerator CorrutinaCargarEscena(int nuevaEscena, int transicion)
+    public IEnumerator CorrutinaCargarEscena(int nuevaEscena, int transicion, bool unloadPrevious = true)
     {
         if (EstaCargada(nuevaEscena))
             yield break;
 
         var anterior = EscenaActiva();
 
-        SceneManager.LoadScene(transicion);
-        yield return SceneManager.UnloadSceneAsync(anterior);
-        yield return null;
-        yield return SceneManager.LoadSceneAsync(nuevaEscena);
+        if (!EstaCargada(transicion))
+            SceneManager.LoadScene(transicion, LoadSceneMode.Additive);
+        if (unloadPrevious)
+        {
+            yield return SceneManager.UnloadSceneAsync(anterior);
+            yield return null;
+        }
+        var cargando = SceneManager.LoadSceneAsync(nuevaEscena, LoadSceneMode.Additive);
+        yield return cargando;
+        listaEscenas.Add(ObtenerEscena(nuevaEscena));
         yield return null;
         yield return SceneManager.UnloadSceneAsync(transicion);
+
+        ActivarEscena(nuevaEscena);
     }
+    
+    private Scene ObtenerEscena(int indice)
+    {
+        return SceneManager.GetSceneByBuildIndex(indice);
+    }
+
+    public Scene BuscarEnLista(int nuevaEscena)
+    {
+        Scene escena = new();
+
+        foreach (var miEscena in listaEscenas)
+        {
+            escena = miEscena;
+            bool esLaMisma = miEscena.buildIndex == (int)nuevaEscena;
+            if (esLaMisma)
+                return miEscena;
+        }
+
+        Debug.LogWarning($"{nuevaEscena} is not loaded yet");
+        return escena;
+    }
+
 
     public bool ActivarEscena(int nuevaEscena)
     {
@@ -100,22 +130,7 @@ public class CargadorEscenas : MonoBehaviour
         DescargarEscena(escena);
     }
 
-    public Scene BuscarEnLista(int nuevaEscena)
-    {
-        Scene escena = new();
-
-        foreach (var miEscena in listaEscenas)
-        {
-            escena = miEscena;
-            bool esLaMisma = miEscena.buildIndex == (int)nuevaEscena;
-            if (esLaMisma)
-                return miEscena;
-        }
-
-        Debug.LogWarning($"{nuevaEscena} is not loaded yet");
-        return escena;
-    }
-
+    
     public bool EstaCargada(int indice)
     {
         foreach (var escena in listaEscenas)

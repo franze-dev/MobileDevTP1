@@ -27,10 +27,13 @@ public class ControladorFlujoEscenas : MonoBehaviour
         var escenaActivaIndice = Cargador.EscenaActiva();
 
         if (escenaActivaIndice == indice)
+        {
+            Debug.Log("Se trato de cargar una misma escena dos veces. " + escenaActivaIndice);
             return;
+        }
 
         if (!EstaCargada(indice))
-            Cargador.CargarEscena(indice, Contenedor.EscenaCargandoIndice);
+            Cargador.CargarEscena(indice, Contenedor.EscenaCargandoIndice, evento.UnloadPrevious);
         else
             Cargador.ActivarEscena(indice);
     }

@@ -38,42 +38,12 @@ public class MngPts : MonoBehaviour
     }
     void Update()
     {
-        //PARA JUGAR
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) ||
-           Input.GetKeyDown(KeyCode.Return) ||
-           Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            Application.LoadLevel(0);
-        }
-
-        //REINICIAR
-        if (Input.GetKeyDown(KeyCode.Mouse1) ||
-           Input.GetKeyDown(KeyCode.Keypad0))
-        {
-            Application.LoadLevel(Application.loadedLevel);
-        }
-
-        //CIERRA LA APLICACION
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-
-        //CALIBRACION DEL KINECT
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            Application.LoadLevel(3);
-        }
-
 
         TiempEspReiniciar -= Time.deltaTime;
         if (TiempEspReiniciar <= 0)
         {
             Application.LoadLevel(0);
         }
-
-
-
 
         if (ActivadoAnims)
         {

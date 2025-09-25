@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a293b5e3226e284fb6c02971d7c0c61, type: 3}
+  m_Name: ContenerorEscenas
+  m_EditorClassIdentifier: 
+  MenuIndice: 0
+  JuegoIndice: 1
+  CargandoIndice: 3
+  FinalIndice: 2
+  ComienzoIndice: 0
+  EscenaMenu: {fileID: 0}
+  EscenaJuego: {fileID: 102900000, guid: 6a990c81459e9b04c87adbbd2d639bbd, type: 3}
+  EscenaFinal: {fileID: 102900000, guid: 3fed48a553168ae458bbf014c512a5cd, type: 3}
+  EscenaCarga: {fileID: 102900000, guid: d8129d6653e49c34abe86ed365a064e3, type: 3}
+  EscenaComienzo: {fileID: 102900000, guid: 81f65ca30d6361a40b9a706c31c0ee78, type: 3}
