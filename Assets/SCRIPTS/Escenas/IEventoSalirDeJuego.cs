@@ -10,7 +10,7 @@ public interface IEventoSalirDeJuego : IEvento
 public class ExitGameEvent : IEventoSalirDeJuego
 {
     private GameObject _gameObject;
-    public GameObject TriggeredByGO => _gameObject;
+    public GameObject ObjetoPadre => _gameObject;
 
     public ExitGameEvent(GameObject gameObject)
     {

@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IEvento
 {
-    GameObject TriggeredByGO { get; }
+    GameObject ObjetoPadre { get; }
 }

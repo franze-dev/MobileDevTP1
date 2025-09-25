@@ -76,15 +76,6 @@ public class GameManager : MonoBehaviour
         else if (Time.timeScale == 0)
             Time.timeScale = 1;
 
-        //REINICIAR
-        if (Input.GetKey(KeyCode.Mouse1) &&
-           Input.GetKey(KeyCode.Keypad0))
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
-        //CIERRA LA APLICACION
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
-
         switch (GestionEstados.EstAct)
         {
             case GestionadoDeEstados.Estados.Calibrando:
@@ -174,7 +165,7 @@ public class GameManager : MonoBehaviour
                 CanvasJuego.SetActive(false);
                 TiempEspMuestraPts -= Time.deltaTime;
                 if (TiempEspMuestraPts <= 0)
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                    DespachadorEventos.Despachar<IEventoActivarEscena>(new EventoActivarFinal(gameObject));
 
                 break;
             default:

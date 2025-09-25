@@ -129,7 +129,7 @@ public class CargadorEscenas : MonoBehaviour
 
     public bool EsJuego(int indice)
     {
-        return indice == GameplaySceneData.Index;
+        return indice == DatosEscenaJuego.Index;
     }
 
 #if UNITY_EDITOR    
