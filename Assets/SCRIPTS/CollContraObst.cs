@@ -70,9 +70,7 @@ public class CollContraObst : MonoBehaviour
 	}
 	
 	void IgnorarColls(bool b)
-	{
-		print("IgnorarColls() / b = " + b);
-		
+	{	
 		if(name == "Camion1")
 		{
 			Physics.IgnoreLayerCollision(8,10,b);

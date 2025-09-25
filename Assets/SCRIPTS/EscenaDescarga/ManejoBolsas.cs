@@ -17,7 +17,6 @@ public class ManejoBolsas : MonoBehaviour
 
     public virtual bool Recibir(BolsaLogica bolsa)
 	{
-		Debug.Log(gameObject.name+" / Recibir()");
 		Bolsas.Add(bolsa);
         bolsa.Pasaje();
 		return true;
