@@ -33,14 +33,7 @@ public class JuegoEscMgr : MonoBehaviour
 			}
 		}		
 		
-		if(Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.Quit();
-		}
-		
 	}
-	
-	//---------------------------------------------------//
 	
 	public void JuegoFinalizar()
 	{

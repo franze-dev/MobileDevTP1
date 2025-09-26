@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a293b5e3226e284fb6c02971d7c0c61, type: 3}
   m_Name: ContenerorEscenas
   m_EditorClassIdentifier: 
-  MenuIndice: 0
-  JuegoIndice: 1
-  CargandoIndice: 3
-  FinalIndice: 2
+  MenuIndice: 1
+  JuegoIndice: 2
+  CargandoIndice: 4
+  FinalIndice: 3
   ComienzoIndice: 0
-  EscenaMenu: {fileID: 0}
+  EscenaMenu: {fileID: 102900000, guid: e0a0652c6afa9024b9bb6d017010f244, type: 3}
   EscenaJuego: {fileID: 102900000, guid: 6a990c81459e9b04c87adbbd2d639bbd, type: 3}
   EscenaFinal: {fileID: 102900000, guid: 3fed48a553168ae458bbf014c512a5cd, type: 3}
   EscenaCarga: {fileID: 102900000, guid: d8129d6653e49c34abe86ed365a064e3, type: 3}

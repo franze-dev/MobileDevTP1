@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,8 +25,7 @@ public class PantallaCarga : MonoBehaviour
 
     private void Cargar(IEventoCarga carga)
     {
-        if (!BarraCarga.gameObject.activeSelf)
-            gameObject.SetActive(true);
+        gameObject.SetActive(true);
 
         var progreso = Mathf.Clamp01(carga.Progreso / 0.9f);
 

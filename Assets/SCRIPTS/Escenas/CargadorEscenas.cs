@@ -66,6 +66,12 @@ public class CargadorEscenas : MonoBehaviour
 
         var cargando = SceneManager.LoadSceneAsync(nuevaEscena, LoadSceneMode.Additive);
 
+        if (!EstaCargada(transicion))
+        {
+            yield return SceneManager.LoadSceneAsync(transicion, LoadSceneMode.Additive);
+            listaEscenas.Add(ObtenerEscena(transicion));
+        }
+
         ActivarEscena(transicion);
 
         while (!cargando.isDone)

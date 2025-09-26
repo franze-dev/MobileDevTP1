@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     //la pista de carreras
     public GameObject[] ObjsCarrera;
     [SerializeField] private GameObject CanvasJuego;
-    [SerializeField] private InputDetector GestorInput;
+    [SerializeField] private DetectorInput GestorInput;
 
     public bool Multijugador = true;
 
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
-                if (GestorInput.InputAct == InputDetector.TipoInput.Teclado)
+                if (GestorInput.InputAct == DetectorInput.TipoInput.Teclado)
                 {
                     if (PlayerInfo1.PJ == null && Input.GetKeyDown(KeyCode.W))
                     {

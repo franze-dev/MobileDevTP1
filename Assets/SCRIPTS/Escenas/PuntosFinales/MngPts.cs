@@ -8,8 +8,6 @@ public class MngPts : MonoBehaviour
     public float TiempEmpAnims = 2.5f;
     float Tempo = 0;
 
-    int IndexGanador = 0;
-
     public Vector2[] DineroPos;
     public Vector2 DineroEsc;
     public GUISkin GS_Dinero;

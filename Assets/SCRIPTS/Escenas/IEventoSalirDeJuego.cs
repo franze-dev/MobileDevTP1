@@ -7,12 +7,12 @@ public interface IEventoSalirDeJuego : IEvento
 /// <summary>
 /// Event that is called to exit the game
 /// </summary>
-public class ExitGameEvent : IEventoSalirDeJuego
+public class EventoSalirDeJuego : IEventoSalirDeJuego
 {
     private GameObject _gameObject;
     public GameObject ObjetoPadre => _gameObject;
 
-    public ExitGameEvent(GameObject gameObject)
+    public EventoSalirDeJuego(GameObject gameObject)
     {
         _gameObject = gameObject;
     }

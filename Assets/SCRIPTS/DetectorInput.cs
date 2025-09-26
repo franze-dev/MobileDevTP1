@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InputDetector : MonoBehaviour
+public class DetectorInput : MonoBehaviour
 {
     public enum TipoInput
     {

@@ -19,7 +19,7 @@ public class ControlDireccion : MonoBehaviour
     private GameManager GameManager => GameManager.Instancia;
     private Rect ZonaCorrespondiente;
 
-    [SerializeField] private InputDetector InputDetector;
+    [SerializeField] private DetectorInput InputDetector;
 
     void Start()
     {
@@ -31,7 +31,7 @@ public class ControlDireccion : MonoBehaviour
         if (InputDetector.DetectorGestos == null)
             Debug.LogError("Falta el Detector de Gestos en " + gameObject.name);
 
-        if (InputDetector.InputAct == InputDetector.TipoInput.Touch)
+        if (InputDetector.InputAct == DetectorInput.TipoInput.Touch)
         {
             InputAct = TipoInput.Gestos;
 
@@ -41,7 +41,7 @@ public class ControlDireccion : MonoBehaviour
 
     void Update()
     {
-        if (InputDetector.InputAct == InputDetector.TipoInput.Touch)
+        if (InputDetector.InputAct == DetectorInput.TipoInput.Touch)
             InputDetector.DetectorGestos.Actualizar();
 
         switch (InputAct)

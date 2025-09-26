@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BolsaMover : ManejoBolsas
 {
-    [SerializeField] private InputDetector InputDetector;
+    [SerializeField] private DetectorInput InputDetector;
 
     public MoveType miInput;
     public enum MoveType
@@ -29,7 +29,7 @@ public class BolsaMover : ManejoBolsas
         if (InputDetector == null)
             Debug.LogError("Falta detector de input en " + gameObject.name);
 
-        if (InputDetector.InputAct == InputDetector.TipoInput.Touch)
+        if (InputDetector.InputAct == DetectorInput.TipoInput.Touch)
         {
             miInput = MoveType.Gestos;
 

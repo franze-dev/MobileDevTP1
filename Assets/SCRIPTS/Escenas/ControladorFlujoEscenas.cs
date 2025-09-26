@@ -33,7 +33,7 @@ public class ControladorFlujoEscenas : MonoBehaviour
         }
 
         if (!EstaCargada(indice))
-            Cargador.CargarEscena(indice, Contenedor.EscenaCargandoIndice, evento.UnloadPrevious);
+            Cargador.CargarEscena(indice, Contenedor.EscenaCargandoIndice, evento.DescargaAnterior);
         else
             Cargador.ActivarEscena(indice);
     }
