@@ -30,11 +30,14 @@ public class GestionadoDeMenues : MonoBehaviour
         if (EstadoActual == estado)
             return;
 
+        if (EstadoActual != null && estado is EstadoPausa)
+            return;
 
         EstadoAnterior = EstadoActual;
         EstadoActual = estado;
         EsconderObjetos();
         FondoObjeto.SetActive(true);
+
         EstadoActual.Entrar(this);
     }
 
@@ -85,7 +88,7 @@ public class EstadoPausa : IEstadoMenu
     {
         GestionadoDePausa.Pausado = true;
 
-        gestion.MostrarObjeto(gestion.MenuPrincipalObjeto);
+        gestion.MostrarObjeto(gestion.MenuPausaObjeto);
     }
 }
 

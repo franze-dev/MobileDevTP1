@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 734386600}
   - component: {fileID: 734386602}
   - component: {fileID: 734386601}
+  - component: {fileID: 734386603}
   m_Layer: 0
   m_Name: FlujoEscenas
   m_TagString: Untagged
@@ -177,6 +178,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97446d92a95156a4284f4e29749c6007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &734386603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734386599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b5b24d4816ecc846b0334553b0b1345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2056942892
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,6 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2056942893}
   - component: {fileID: 2056942894}
+  - component: {fileID: 2056942895}
   m_Layer: 0
   m_Name: Comienzo
   m_TagString: Untagged
@@ -221,6 +235,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e94bfa1fb3e50c4aa2a4bf667f836f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!81 &2056942895
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056942892}
+  m_Enabled: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

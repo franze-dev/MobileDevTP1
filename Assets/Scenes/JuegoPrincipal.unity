@@ -16017,7 +16017,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6246}
   - component: {fileID: 13082}
-  - component: {fileID: 12392}
   m_Layer: 0
   m_Name: GameMgr
   m_TagString: Untagged
@@ -74449,14 +74448,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6171545, y: 4.803228, z: 0.9808152}
   m_Center: {x: 0.19142276, y: 3.0148237, z: 0.009236515}
---- !u!81 &12392
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3099}
-  m_Enabled: 1
 --- !u!108 &12399
 Light:
   m_ObjectHideFlags: 0

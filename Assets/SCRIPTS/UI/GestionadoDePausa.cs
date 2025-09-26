@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class GestionadoDePausa : MonoBehaviour
 {
-    [SerializeField] private KeyCode teclaPausa = KeyCode.Escape;
-    private static bool _paused = false;
+    private KeyCode TeclaPausa = KeyCode.Escape;
 
-    public static bool Pausado { get => _paused; set => _paused = value; }
+    public static bool Pausado { get; set; }
 
     private void Start()
     {
@@ -16,7 +15,7 @@ public class GestionadoDePausa : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(teclaPausa))
+        if (Input.GetKeyUp(TeclaPausa))
             DespachadorEventos.Despachar<IEventoPausa>(new EventoPausa(gameObject));
     }
     private void OnDestroy()
@@ -26,9 +25,14 @@ public class GestionadoDePausa : MonoBehaviour
 
     private void Pausar(IEventoPausa pauseEvent)
     {
+        ProveedorServicios.IntentarObtenerServicio<GestionadoDeMenues>(out var gestion);
+
+        if (gestion.EstadoActual != null && gestion.EstadoActual is not EstadoPausa)
+            return;
+
         Pausado = !Pausado;
 
-        Time.timeScale = Pausado ? 0f : 1f;
+            Time.timeScale = Pausado ? 0f : 1f;
 
         if (Pausado)
             DespachadorEventos.Despachar<IEventoActivarEscena>(new EventoActivarMenu(new EstadoPausa(), gameObject, false));

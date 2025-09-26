@@ -32,6 +32,12 @@ public class ControladorFlujoEscenas : MonoBehaviour
             return;
         }
 
+        if (evento.Indice == DatosEscenaJuego.Index)
+        {
+            ProveedorServicios.IntentarObtenerServicio<GestionadoDeMenues>(out var gestion);
+            gestion.EstadoActual = null;
+        }
+
         if (!EstaCargada(indice))
             Cargador.CargarEscena(indice, Contenedor.EscenaCargandoIndice, evento.DescargaAnterior);
         else
