@@ -58,22 +58,30 @@ public class CargadorEscenas : MonoBehaviour
 
         var anterior = EscenaActiva();
 
-        if (!EstaCargada(transicion))
-            SceneManager.LoadScene(transicion, LoadSceneMode.Additive);
         if (unloadPrevious)
         {
             yield return SceneManager.UnloadSceneAsync(anterior);
             yield return null;
         }
+
         var cargando = SceneManager.LoadSceneAsync(nuevaEscena, LoadSceneMode.Additive);
+
+        ActivarEscena(transicion);
+
+        while (!cargando.isDone)
+        {
+            DespachadorEventos.Despachar<IEventoCarga>(new EventoCarga(gameObject, cargando.progress));
+            yield return null;
+        }
+
         yield return cargando;
         listaEscenas.Add(ObtenerEscena(nuevaEscena));
         yield return null;
-        yield return SceneManager.UnloadSceneAsync(transicion);
 
         ActivarEscena(nuevaEscena);
+        DespachadorEventos.Despachar<IEventoReiniciarCarga>(new EventoReiniciarCarga(gameObject));
     }
-    
+
     private Scene ObtenerEscena(int indice)
     {
         return SceneManager.GetSceneByBuildIndex(indice);
@@ -130,7 +138,7 @@ public class CargadorEscenas : MonoBehaviour
         DescargarEscena(escena);
     }
 
-    
+
     public bool EstaCargada(int indice)
     {
         foreach (var escena in listaEscenas)
