@@ -43,9 +43,7 @@ public class ContrCalibracion : MonoBehaviour
             {
                 Tempo2 += Time.deltaTime;
                 if (Tempo2 > TiempEspCalib)
-                {
                     SetActivComp(true);
-                }
             }
         }
     }

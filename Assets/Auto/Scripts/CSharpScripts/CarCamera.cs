@@ -26,7 +26,7 @@ public class CarCamera : MonoBehaviour
 	{
 		raycastLayers = ~ignoreLayers;
 		if (target != null)
-            targetRootRigidBody = target?.root.GetComponent<Rigidbody>();
+            targetRootRigidBody = target?.GetComponent<Rigidbody>();
 		Camera = GetComponent<Camera>();
     }
 

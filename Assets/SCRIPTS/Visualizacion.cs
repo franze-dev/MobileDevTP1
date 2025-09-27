@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class Visualizacion : MonoBehaviour
 {
-    public enum Lado { Izq, Der }
+    public enum Lado { Izq, Der, Non }
     public Lado LadoAct;
 
     Jugador Pj;
@@ -64,6 +64,10 @@ public class Visualizacion : MonoBehaviour
 
         Rect r = new Rect();
         r.width = CamConduccion.rect.width;
+
+        if (lado == Lado.Non)
+            r.width = 1;
+
         r.height = CamConduccion.rect.height;
         r.y = CamConduccion.rect.y;
 
@@ -75,6 +79,7 @@ public class Visualizacion : MonoBehaviour
 
 
             case Lado.Izq:
+            case Lado.Non:
                 r.x = 0;
                 break;
         }

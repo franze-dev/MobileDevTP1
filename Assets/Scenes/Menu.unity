@@ -1216,7 +1216,7 @@ GameObject:
   - component: {fileID: 367050889}
   - component: {fileID: 367050888}
   m_Layer: 0
-  m_Name: Dropdown
+  m_Name: JugadoresOpciones
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1239,10 +1239,10 @@ RectTransform:
   - {fileID: 318120040}
   m_Father: {fileID: 917909318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1421.3, y: -552.47614}
-  m_SizeDelta: {x: 529.6, y: 76.1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &367050888
 MonoBehaviour:
@@ -1352,13 +1352,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 395285712}
+  - component: {fileID: 395285713}
   m_Layer: 0
   m_Name: ModosDeJuego
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &395285712
 Transform:
   m_ObjectHideFlags: 0
@@ -1375,6 +1376,25 @@ Transform:
   - {fileID: 917909318}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &395285713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395285711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e2dd1c3fcbbf2c468c3adc314476e4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MultijugadorID: 0
+  UnJugadorID: 1
+  FacilID: 1
+  NormalID: 0
+  DificilID: 2
+  JugadoresOpciones: {fileID: 367050888}
+  DificultadOpciones: {fileID: 2082042390}
 --- !u!1 &425187042
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,10 +2282,10 @@ RectTransform:
   - {fileID: 695831958}
   m_Father: {fileID: 917909318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1421.3, y: -956.5161}
-  m_SizeDelta: {x: 529.6, y: 76.1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &643380252
 MonoBehaviour:
@@ -6675,10 +6695,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 917909318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1421.3, y: -350.45615}
-  m_SizeDelta: {x: 529.6, y: 76.1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2043724837
 MonoBehaviour:
@@ -6829,7 +6849,7 @@ GameObject:
   - component: {fileID: 2082042391}
   - component: {fileID: 2082042390}
   m_Layer: 0
-  m_Name: Dropdown (1)
+  m_Name: DificultadOpciones
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6852,10 +6872,10 @@ RectTransform:
   - {fileID: 880726433}
   m_Father: {fileID: 917909318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1421.3, y: -754.49615}
-  m_SizeDelta: {x: 529.6, y: 76.1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2082042390
 MonoBehaviour:

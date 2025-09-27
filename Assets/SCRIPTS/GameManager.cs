@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     bool ConteoRedresivo = true;
     public Rect ConteoPosEsc;
-    public float ConteoParaInicion = 3;
+    public float ConteoParaInicio = 3;
     public GUISkin GS_ConteoInicio;
 
     public Rect TiempoGUI = new Rect();
@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] ObjsCarrera;
     [SerializeField] private GameObject CanvasJuego;
     [SerializeField] private DetectorInput GestorInput;
+
+    private GestionDeModoDeJuego gestion;
 
     public bool Multijugador = true;
 
@@ -64,6 +66,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        ProveedorServicios.IntentarObtenerServicio<GestionDeModoDeJuego>(out gestion);
+
         IniciarCalibracion();
     }
 
@@ -95,10 +99,11 @@ public class GameManager : MonoBehaviour
                         InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
                     }
 
-                    if (PlayerInfo2.PJ == null && Input.GetKeyDown(KeyCode.UpArrow))
-                    {
-                        InitInfo(out PlayerInfo2, Player2, Visualizacion.Lado.Der);
-                    }
+                    if (gestion.IsMultiplayer)
+                        if (PlayerInfo2.PJ == null && Input.GetKeyDown(KeyCode.UpArrow))
+                        {
+                            InitInfo(out PlayerInfo2, Player2, Visualizacion.Lado.Der);
+                        }
                 }
                 else
                 {
@@ -107,27 +112,33 @@ public class GameManager : MonoBehaviour
                         InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
                     }
 
-                    if (PlayerInfo2.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaDerecha))
-                    {
-                        InitInfo(out PlayerInfo2, Player2, Visualizacion.Lado.Der);
-                    }
+                    if (gestion.IsMultiplayer)
+                        if (PlayerInfo2.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaDerecha))
+                        {
+                            InitInfo(out PlayerInfo2, Player2, Visualizacion.Lado.Der);
+                        }
                 }
 
-                //cuando los 2 pj terminaron los tutoriales empiesa la carrera
-                if (PlayerInfo1.PJ != null && PlayerInfo2.PJ != null)
+                if (gestion.IsMultiplayer)
                 {
-                    if (PlayerInfo1.FinTuto2 && PlayerInfo2.FinTuto2)
+                    if (PlayerInfo1.PJ != null && PlayerInfo2.PJ != null)
                     {
-                        EmpezarCarrera();
+                        if (PlayerInfo1.FinTuto2 && PlayerInfo2.FinTuto2)
+                        {
+                            EmpezarCarrera();
+                        }
                     }
                 }
+                else if (PlayerInfo1.PJ != null && PlayerInfo1.FinTuto2)
+                    EmpezarCarrera();
 
                 break;
             case GestionadoDeEstados.Estados.Jugando:
 
                 CanvasJuego.SetActive(true);
-                Player1.ChequearDescarga();
-                Player2.ChequearDescarga();
+                Player1?.ChequearDescarga();
+                if (gestion.IsMultiplayer)
+                    Player2?.ChequearDescarga();
 
                 //SKIP LA CARRERA
                 if (Input.GetKey(KeyCode.Mouse1) &&
@@ -143,8 +154,8 @@ public class GameManager : MonoBehaviour
 
                 if (ConteoRedresivo)
                 {
-                    ConteoParaInicion -= Time.deltaTime;
-                    if (ConteoParaInicion < 0)
+                    ConteoParaInicio -= Time.deltaTime;
+                    if (ConteoParaInicio < 0)
                     {
                         EmpezarCarrera();
                         ConteoRedresivo = false;
@@ -189,16 +200,21 @@ public class GameManager : MonoBehaviour
         }
 
 
-        Player1.CambiarACalibracion();
-        Player2.CambiarACalibracion();
+        Player1?.CambiarACalibracion();
+        if (gestion.IsMultiplayer)
+            Player2?.CambiarACalibracion();
     }
+
     void EmpezarCarrera()
     {
         Player1.Frenado.RestaurarVel();
         Player1.Direccion.Habilitado = true;
 
-        Player2.Frenado.RestaurarVel();
-        Player2.Direccion.Habilitado = true;
+        if (Player2 != null && gestion.IsMultiplayer)
+        {
+            Player2.Frenado.RestaurarVel();
+            Player2.Direccion.Habilitado = true;
+        }
     }
 
     void FinalizarCarrera()
@@ -207,61 +223,83 @@ public class GameManager : MonoBehaviour
 
         TiempoDeJuego = 0;
 
-        if (Player1.Dinero > Player2.Dinero)
+        if (gestion.IsMultiplayer)
         {
-            //lado que gano
-            if (PlayerInfo1.LadoAct == Visualizacion.Lado.Der)
-                DatosPartida.LadoGanadaor = DatosPartida.Lados.Der;
-            else
-                DatosPartida.LadoGanadaor = DatosPartida.Lados.Izq;
+            if (Player1.Dinero > Player2.Dinero)
+            {
+                //lado que gano
+                if (PlayerInfo1.LadoAct == Visualizacion.Lado.Der)
+                    DatosPartida.LadoGanadaor = DatosPartida.Lados.Der;
+                else
+                    DatosPartida.LadoGanadaor = DatosPartida.Lados.Izq;
 
-            //puntajes
-            DatosPartida.PtsGanador = Player1.Dinero;
-            DatosPartida.PtsPerdedor = Player2.Dinero;
+                //puntajes
+                DatosPartida.PtsGanador = Player1.Dinero;
+                DatosPartida.PtsPerdedor = Player2.Dinero;
+            }
+            else
+            {
+                //lado que gano
+                if (PlayerInfo2.LadoAct == Visualizacion.Lado.Der)
+                    DatosPartida.LadoGanadaor = DatosPartida.Lados.Der;
+                else
+                    DatosPartida.LadoGanadaor = DatosPartida.Lados.Izq;
+
+                //puntajes
+                DatosPartida.PtsGanador = Player2.Dinero;
+                DatosPartida.PtsPerdedor = Player1.Dinero;
+            }
         }
         else
         {
-            //lado que gano
-            if (PlayerInfo2.LadoAct == Visualizacion.Lado.Der)
-                DatosPartida.LadoGanadaor = DatosPartida.Lados.Der;
-            else
-                DatosPartida.LadoGanadaor = DatosPartida.Lados.Izq;
-
-            //puntajes
-            DatosPartida.PtsGanador = Player2.Dinero;
-            DatosPartida.PtsPerdedor = Player1.Dinero;
+            DatosPartida.PtsGanador = Player1.Dinero;
+            DatosPartida.PtsPerdedor = 0;
+            DatosPartida.LadoGanadaor = DatosPartida.Lados.Non;
         }
 
         Player1?.Frenado.Frenar();
-        Player2?.Frenado.Frenar();
-
         Player1?.ContrDesc?.FinDelJuego();
-        Player2?.ContrDesc?.FinDelJuego();
+
+        if (gestion.IsMultiplayer)
+        {
+            Player2?.Frenado.Frenar();
+            Player2?.ContrDesc?.FinDelJuego();
+        }
     }
 
     //se encarga de posicionar la camara derecha para el jugador que esta a la derecha y viseversa
     void SetPosicion(InfoJugador pjInf)
     {
+
+        if (!gestion)
+            return;
+
         pjInf.PJ.MiVisualizacion.SetLado(pjInf.LadoAct);
-        //en este momento, solo la primera vez, deberia setear la otra camara asi no se superponen
         pjInf.PJ.ContrCalib.IniciarTesteo();
 
 
-        if (pjInf.PJ == Player1)
+        if (!gestion.IsMultiplayer)
         {
-            if (pjInf.LadoAct == Visualizacion.Lado.Izq)
-                Player2.MiVisualizacion.SetLado(Visualizacion.Lado.Der);
-            else
-                Player2.MiVisualizacion.SetLado(Visualizacion.Lado.Izq);
+            Player1.MiVisualizacion.SetLado(Visualizacion.Lado.Non);
+            Player2 = null;
         }
         else
         {
-            if (pjInf.LadoAct == Visualizacion.Lado.Izq)
-                Player1.MiVisualizacion.SetLado(Visualizacion.Lado.Der);
+            if (pjInf.PJ == Player1)
+            {
+                if (pjInf.LadoAct == Visualizacion.Lado.Izq)
+                    Player2.MiVisualizacion.SetLado(Visualizacion.Lado.Der);
+                else
+                    Player2.MiVisualizacion.SetLado(Visualizacion.Lado.Izq);
+            }
             else
-                Player1.MiVisualizacion.SetLado(Visualizacion.Lado.Izq);
+            {
+                if (pjInf.LadoAct == Visualizacion.Lado.Izq)
+                    Player1.MiVisualizacion.SetLado(Visualizacion.Lado.Der);
+                else
+                    Player1.MiVisualizacion.SetLado(Visualizacion.Lado.Izq);
+            }
         }
-
     }
 
     void CambiarACarrera()
@@ -273,54 +311,61 @@ public class GameManager : MonoBehaviour
         PlayerInfo1.FinCalibrado = true;
 
         //posiciona los camiones dependiendo de que lado de la pantalla esten
+
         if (PlayerInfo1.LadoAct == Visualizacion.Lado.Izq)
         {
             Player1.gameObject.transform.position = PosCamionesCarrera[0];
             Player2.gameObject.transform.position = PosCamionesCarrera[1];
         }
-        else
+        else if (PlayerInfo1.LadoAct == Visualizacion.Lado.Der)
         {
             Player1.gameObject.transform.position = PosCamionesCarrera[1];
             Player2.gameObject.transform.position = PosCamionesCarrera[0];
         }
+        else
+            Player1.gameObject.transform.position = PosCamionesCarrera[0];
+
+        if (gestion.IsMultiplayer)
+        {
+            Player2.transform.forward = Vector3.forward;
+            Player2?.Frenado.Frenar();
+            Player2?.CambiarAConduccion();
+            Player2?.Frenado.RestaurarVel();
+            Player2.Direccion.Habilitado = false;
+            Player2.transform.forward = Vector3.forward;
+        }
 
         Player1.transform.forward = Vector3.forward;
-        Player1.Frenado.Frenar();
-        Player1.CambiarAConduccion();
-
-        Player2.transform.forward = Vector3.forward;
-        Player2.Frenado.Frenar();
-        Player2.CambiarAConduccion();
-
-        //los deja andando
-        Player1.Frenado.RestaurarVel();
-        Player2.Frenado.RestaurarVel();
-        //cancela la direccion
+        Player1?.Frenado.Frenar();
+        Player1?.CambiarAConduccion();
+        Player1?.Frenado.RestaurarVel();
         Player1.Direccion.Habilitado = false;
-        Player2.Direccion.Habilitado = false;
-        //les de direccion
         Player1.transform.forward = Vector3.forward;
-        Player2.transform.forward = Vector3.forward;
 
         GestionEstados.EstAct = GestionadoDeEstados.Estados.Jugando;
     }
 
     public void FinCalibracion(int playerID)
     {
-        if (playerID == 0)
+        if (gestion.IsMultiplayer)
         {
-            PlayerInfo1.FinTuto1 = true;
+            if (playerID == 0)
+            {
+                PlayerInfo1.FinTuto1 = true;
 
+            }
+            else if (playerID == 1)
+            {
+                PlayerInfo2.FinTuto1 = true;
+            }
+
+            if (PlayerInfo1.PJ != null && PlayerInfo2.PJ != null)
+                if (PlayerInfo1.FinTuto1 && PlayerInfo2.FinTuto1)
+                    CambiarACarrera();
         }
-        else if (playerID == 1)
-        {
-            PlayerInfo2.FinTuto1 = true;
-        }
-
-        if (PlayerInfo1.PJ != null && PlayerInfo2.PJ != null)
-            if (PlayerInfo1.FinTuto1 && PlayerInfo2.FinTuto1)
-                CambiarACarrera();
-
+        else
+            if (PlayerInfo1.PJ != null)
+            CambiarACarrera();
     }
 
     public Rect ZonaCorrespondeA(int camionId)
