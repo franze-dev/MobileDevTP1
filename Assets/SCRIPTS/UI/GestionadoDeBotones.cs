@@ -11,7 +11,7 @@ public class GestionadoDeBotones : MonoBehaviour
 
     public void ACreditos()
     {
-       gestion.TransicionA(new EstadoCreditos());
+        gestion.TransicionA(new EstadoCreditos());
     }
 
     public void ASalir()
@@ -37,6 +37,8 @@ public class GestionadoDeBotones : MonoBehaviour
 
     public void AJuego()
     {
+        if (gestion.EstadoActual is EstadoPausa)
+            DespachadorEventos.Despachar<IEventoPausa>(new EventoPausa(gameObject));
         DespachadorEventos.Despachar<IEventoActivarEscena>(new EventoActivarJuego(gameObject, false));
     }
 

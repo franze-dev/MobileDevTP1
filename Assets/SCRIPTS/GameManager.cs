@@ -312,15 +312,18 @@ public class GameManager : MonoBehaviour
 
         //posiciona los camiones dependiendo de que lado de la pantalla esten
 
-        if (PlayerInfo1.LadoAct == Visualizacion.Lado.Izq)
+        if (gestion.IsMultiplayer)
         {
-            Player1.gameObject.transform.position = PosCamionesCarrera[0];
-            Player2.gameObject.transform.position = PosCamionesCarrera[1];
-        }
-        else if (PlayerInfo1.LadoAct == Visualizacion.Lado.Der)
-        {
-            Player1.gameObject.transform.position = PosCamionesCarrera[1];
-            Player2.gameObject.transform.position = PosCamionesCarrera[0];
+            if (PlayerInfo1.LadoAct == Visualizacion.Lado.Izq)
+            {
+                Player1.gameObject.transform.position = PosCamionesCarrera[0];
+                Player2.gameObject.transform.position = PosCamionesCarrera[1];
+            }
+            else if (PlayerInfo1.LadoAct == Visualizacion.Lado.Der)
+            {
+                Player1.gameObject.transform.position = PosCamionesCarrera[1];
+                Player2.gameObject.transform.position = PosCamionesCarrera[0];
+            }
         }
         else
             Player1.gameObject.transform.position = PosCamionesCarrera[0];
