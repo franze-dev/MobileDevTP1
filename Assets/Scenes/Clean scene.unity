@@ -132,6 +132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasDescarga
       objectReference: {fileID: 0}
+    - target: {fileID: 6288448718591159750, guid: b57c0dde558479a418a7c6d4c8683a70,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8724278339939237383, guid: b57c0dde558479a418a7c6d4c8683a70,
         type: 3}
       propertyPath: m_Pivot.x
@@ -542,7 +547,7 @@ PrefabInstance:
     - target: {fileID: 6220497705198960727, guid: 3c68c545b523e414486636e3242c0567,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7787532022435200048, guid: 3c68c545b523e414486636e3242c0567,
         type: 3}
