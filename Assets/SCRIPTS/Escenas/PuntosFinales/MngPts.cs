@@ -96,6 +96,7 @@ public class MngPts : MonoBehaviour
                 break;
 
             case DatosPartida.Lados.Izq:
+            case DatosPartida.Lados.Non:
 
                 GS_Ganador.box.normal.background = Ganadores[0];
 
@@ -116,7 +117,7 @@ public class MngPts : MonoBehaviour
         R.x = DineroPos[0].x * Screen.width / 100;
         R.y = DineroPos[0].y * Screen.height / 100;
 
-        if (DatosPartida.LadoGanadaor == DatosPartida.Lados.Izq)//izquierda
+        if (DatosPartida.LadoGanadaor == DatosPartida.Lados.Izq || DatosPartida.LadoGanadaor == DatosPartida.Lados.Non)//izquierda
         {
             if (!PrimerImaParp)//para que parpadee
                 GUI.Box(R, "$" + Viz.PrepararNumeros(DatosPartida.PtsGanador));

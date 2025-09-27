@@ -252,9 +252,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            DatosPartida.LadoGanadaor = DatosPartida.Lados.Non;
             DatosPartida.PtsGanador = Player1.Dinero;
             DatosPartida.PtsPerdedor = 0;
-            DatosPartida.LadoGanadaor = DatosPartida.Lados.Non;
         }
 
         Player1?.Frenado.Frenar();
