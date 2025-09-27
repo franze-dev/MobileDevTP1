@@ -76,8 +76,11 @@ public class EstadoMenuPrincipal : IEstadoMenu
 {
     public void Entrar(GestionadoDeMenues gestion)
     {
-        GestionadoDeMenues.ResetGame();
+        if (GestionadoDePausa.Pausado)
+            DespachadorEventos.Despachar<IEventoPausa>(new EventoPausa(null));
 
+        GestionadoDeMenues.ResetGame();
+            
         gestion.MostrarObjeto(gestion.MenuPrincipalObjeto);
     }
 }

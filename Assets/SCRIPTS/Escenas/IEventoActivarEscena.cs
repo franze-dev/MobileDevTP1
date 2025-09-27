@@ -19,6 +19,12 @@ public class EventoActivarJuego : IEventoActivarEscena
     {
         Objeto = ObjetoActivador;
         DescargaAnterior = DescargarAnterior;
+
+        if (GestionadoDePausa.Pausado)
+            DespachadorEventos.Despachar<IEventoPausa>(new EventoPausa(null));
+
+        Time.timeScale = 1;
+
         if (!DescargaAnterior)
         {
             ProveedorServicios.IntentarObtenerServicio<GestionadoDeMenues>(out var gestion);
@@ -45,7 +51,7 @@ public class EventoActivarMenu : IEventoActivarEscena
 
         menu?.TransicionA(Siguiente);
     }
-}   
+}
 
 public class EventoActivarFinal : IEventoActivarEscena
 {
