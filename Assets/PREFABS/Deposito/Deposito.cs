@@ -6,16 +6,11 @@ public class Deposito : MonoBehaviour
 	Jugador PjActual;
 	public string PlayerTag = "Player";
 	public bool Vacio = true;
-	public ControladorDeDescarga Contr1;
-	public ControladorDeDescarga Contr2;
 	
 	Collider[] PjColl;
 	
 	void Start () 
 	{
-		if (!Contr1 || !Contr2)
-			Debug.LogError("No se han asignado los controladores de descarga en el deposito");
-
         Physics.IgnoreLayerCollision(8,9,false);
 	}
 	
@@ -61,16 +56,9 @@ public class Deposito : MonoBehaviour
 			Vacio = false;
 			
 			Physics.IgnoreLayerCollision(8,9,true);
-			
-			Entro();
+
+			PjActual.ContrDesc.Activar(this);
 		}
 	}
 	
-	public void Entro()
-	{
-		if(PjActual.IdPlayer == 0)
-			Contr1.Activar(this);
-		else
-			Contr2.Activar(this);
-	}
 }

@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using System;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -42,9 +45,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject CanvasJuego;
     [SerializeField] private DetectorInput GestorInput;
 
-    private GestionDeModoDeJuego gestion;
+    [SerializeField] private AssetReferenceGameObject DepositosRef;
+    [SerializeField] private Transform AssetPos;
+    [SerializeField] private GameObject InstanciaDeposito;
 
-    public bool Multijugador = true;
+    private GestionDeModoDeJuego gestion;
 
     void Awake()
     {
@@ -66,6 +71,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        DepositosRef.ReleaseInstance(InstanciaDeposito);
         DespachadorEventos.Despachar<IFinJuegoEvento>(new FinJuegoEvento(gameObject));
     }
 
@@ -307,6 +313,8 @@ public class GameManager : MonoBehaviour
 
     void CambiarACarrera()
     {
+        StartCoroutine(InstanciarAsset());
+
         for (int i = 0; i < ObjsCarrera.Length; i++)
             ObjsCarrera[i].SetActive(true);
 
@@ -351,6 +359,14 @@ public class GameManager : MonoBehaviour
         GestionEstados.EstAct = GestionadoDeEstados.Estados.Jugando;
     }
 
+    private IEnumerator InstanciarAsset()
+    {
+        var operacion = DepositosRef.InstantiateAsync(AssetPos);
+        yield return operacion;
+
+        InstanciaDeposito = operacion.Result;
+    }
+
     public void FinCalibracion(int playerID)
     {
         if (gestion.IsMultiplayer)
@@ -376,7 +392,7 @@ public class GameManager : MonoBehaviour
 
     public Rect ZonaCorrespondeA(int camionId)
     {
-        if (Multijugador)
+        if (gestion.IsMultiplayer)
         {
             if (camionId == 0)
                 return DetectorGestos.ZonaIzquierda;

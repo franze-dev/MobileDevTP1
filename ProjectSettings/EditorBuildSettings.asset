@@ -20,5 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PantallaCarga.unity
     guid: d8129d6653e49c34abe86ed365a064e3
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 7d64eb5009bd87542b397d1cd2537865,
+      type: 2}
   m_UseUCBPForAssetBundles: 0

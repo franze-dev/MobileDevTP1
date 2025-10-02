@@ -45,7 +45,7 @@ public class GestionDeModoDeJuego : MonoBehaviour
         valueVersions.Clear();
     }
 
-    public void GuardarValor(float ValorFacil, float ValorDificil, 
+    public void GuardarValor(float ValorFacil, float ValorDificil,
                              string NombreVariable)
     {
         float[] valores = new float[2];
@@ -53,7 +53,8 @@ public class GestionDeModoDeJuego : MonoBehaviour
         valores[Facil] = ValorFacil;
         valores[Dificil] = ValorDificil;
 
-        valueVersions.Add(NombreVariable, valores);
+        if (!valueVersions.ContainsKey(NombreVariable))
+            valueVersions.Add(NombreVariable, valores);
     }
 
     public float ObtenerValor(string NombreVariable)
