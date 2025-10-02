@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public Jugador Player1;
     public Jugador Player2;
 
-    bool ConteoRedresivo = true;
+    bool ConteoRegresivo = true;
     public Rect ConteoPosEsc;
     public float ConteoParaInicio = 3;
     public GUISkin GS_ConteoInicio;
@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Falta el Canvas de Juego en " + gameObject.name);
 
         CanvasJuego?.SetActive(false);
+        CanvasSingle?.SetActive(false);
     }
 
     private void OnDestroy()
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        ProveedorServicios.IntentarObtenerServicio<GestionDeModoDeJuego>(out gestion);
+        ProveedorServicios.IntentarObtenerServicio(out gestion);
 
         if (!gestion.IsMultiplayer)
             CanvasSingle.SetActive(true);
@@ -95,6 +96,7 @@ public class GameManager : MonoBehaviour
             case GestionadoDeEstados.Estados.Calibrando:
 
                 CanvasJuego.SetActive(false);
+                CanvasSingle.SetActive(false);
 
                 if (GestorInput.InputAct == DetectorInput.TipoInput.Teclado)
                 {
@@ -148,30 +150,26 @@ public class GameManager : MonoBehaviour
                 break;
             case GestionadoDeEstados.Estados.Jugando:
 
-                CanvasJuego.SetActive(true);
+                if (gestion.IsMultiplayer)
+                    CanvasJuego.SetActive(true);
+                else
+                    CanvasSingle.SetActive(true);
                 Player1?.ChequearDescarga();
                 if (gestion.IsMultiplayer)
                     Player2?.ChequearDescarga();
-
-                //SKIP LA CARRERA
-                if (Input.GetKey(KeyCode.Mouse1) &&
-                   Input.GetKey(KeyCode.Keypad0))
-                {
-                    TiempoDeJuego = 0;
-                }
 
                 if (TiempoDeJuego <= 0)
                 {
                     FinalizarCarrera();
                 }
 
-                if (ConteoRedresivo)
+                if (ConteoRegresivo)
                 {
                     ConteoParaInicio -= Time.deltaTime;
                     if (ConteoParaInicio < 0)
                     {
                         EmpezarCarrera();
-                        ConteoRedresivo = false;
+                        ConteoRegresivo = false;
                     }
                 }
                 else
@@ -182,6 +180,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GestionadoDeEstados.Estados.Finalizado:
                 CanvasJuego.SetActive(false);
+                CanvasSingle.SetActive(false);
                 TiempEspMuestraPts -= Time.deltaTime;
                 if (TiempEspMuestraPts <= 0)
                     DespachadorEventos.Despachar<IEventoActivarEscena>(new EventoActivarFinal(gameObject));
@@ -402,6 +401,9 @@ public class GameManager : MonoBehaviour
 
     public Rect ZonaCorrespondeA(int camionId)
     {
+        if (gestion == null)
+            ProveedorServicios.IntentarObtenerServicio(out gestion);
+
         if (gestion.IsMultiplayer)
         {
             if (camionId == 0)

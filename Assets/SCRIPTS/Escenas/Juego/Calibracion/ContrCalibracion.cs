@@ -17,6 +17,7 @@ public class ContrCalibracion : MonoBehaviour
     public EstadoCalibracion EstAct = EstadoCalibracion.Calibrando;
 
     [SerializeField] private GameManager GM;
+    [SerializeField] private Tutorial Tutorial;
 
     void Start()
     {
@@ -52,12 +53,14 @@ public class ContrCalibracion : MonoBehaviour
     {
         EstAct = EstadoCalibracion.Tutorial;
         bolsasMover.enabled = true;
+        Tutorial.ActivarMover(Pj.IdPlayer);
     }
 
     public void FinTutorial()
     {
         EstAct = EstadoCalibracion.Finalizado;
         bolsasMover.enabled = false;
+        Tutorial.DesactivarMover(Pj.IdPlayer);
         GM.FinCalibracion(Pj.IdPlayer);
     }
 

@@ -16,9 +16,10 @@ public class BolsaMover : ManejoBolsas
 
     public ManejoBolsas Desde, Hasta;
     private int ContadorPasos = 0;
-    [SerializeField] int CamionId = 0;
-    private GameManager GameManager => GameManager.Instancia;
-    private Rect ZonaCorrespondiente;
+    [SerializeField] Jugador PJ;
+    [SerializeField] private GameObject BotonTransladar;
+    [SerializeField] private GameObject BotonTransladarSingle;
+    private GestionDeModoDeJuego gestion;
 
     private bool PrimerCompleto => ContadorPasos == 1;
     private bool SegundoCompleto => ContadorPasos == 2;
@@ -33,62 +34,90 @@ public class BolsaMover : ManejoBolsas
         {
             miInput = MoveType.Gestos;
 
-            ZonaCorrespondiente = GameManager.ZonaCorrespondeA(CamionId);
+            ProveedorServicios.IntentarObtenerServicio(out gestion);
+
+            if (BotonTransladar != null && BotonTransladarSingle != null)
+            {
+                if (gestion.IsMultiplayer)
+                {
+                    Destroy(BotonTransladarSingle);
+                    BotonTransladar.SetActive(false);
+                }
+                else
+                {
+                    Destroy(BotonTransladar);
+                    BotonTransladarSingle.SetActive(false);
+                }
+            }
         }
+        else
+        {
+            if (BotonTransladar != null && BotonTransladarSingle != null)
+                if (BotonTransladar)
+                {
+                    Destroy(BotonTransladar);
+                    Destroy(BotonTransladarSingle);
+                }
+        }
+    }
+
+    public void Trasladar()
+    {
+        if (TercerCompleto && !Tenencia() && Desde.Tenencia())
+            PrimerPaso();
+
+        else if (PrimerCompleto && Tenencia())
+            SegundoPaso();
+
+        else if (SegundoCompleto && Tenencia())
+            TercerPaso();
     }
 
     private void Update()
     {
         InputDetector.DetectorGestos.Actualizar();
 
-        switch (miInput)
-        {
-            case MoveType.WASD:
-                if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.A))
-                {
-                    PrimerPaso();
-                }
-                if (Tenencia() && Input.GetKeyDown(KeyCode.S))
-                {
-                    SegundoPaso();
-                }
-                if (SegundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.D))
-                {
-                    TercerPaso();
-                }
-                break;
-            case MoveType.Arrows:
-                if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.LeftArrow))
-                {
-                    PrimerPaso();
-                }
-                if (Tenencia() && Input.GetKeyDown(KeyCode.DownArrow))
-                {
-                    SegundoPaso();
-                }
-                if (SegundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    TercerPaso();
-                }
-                break;
-
-            case MoveType.Gestos:
-
-                if (InputDetector.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Der, ZonaCorrespondiente))
-                {
-                    if (TercerCompleto && !Tenencia() && Desde.Tenencia())
+        if (PJ.EstAct == Jugador.Estados.EnDescarga)
+            switch (miInput)
+            {
+                case MoveType.WASD:
+                    if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.A))
+                    {
                         PrimerPaso();
-
-                    else if (PrimerCompleto && Tenencia())
+                    }
+                    if (Tenencia() && Input.GetKeyDown(KeyCode.S))
+                    {
                         SegundoPaso();
-
-                    else if (SegundoCompleto && Tenencia())
+                    }
+                    if (SegundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.D))
+                    {
                         TercerPaso();
-                }
-                break;
-            default:
-                break;
-        }
+                    }
+                    break;
+                case MoveType.Arrows:
+                    if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+                        PrimerPaso();
+                    }
+                    if (Tenencia() && Input.GetKeyDown(KeyCode.DownArrow))
+                    {
+                        SegundoPaso();
+                    }
+                    if (SegundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.RightArrow))
+                    {
+                        TercerPaso();
+                    }
+                    break;
+                default:
+                    if (BotonTransladar != null || BotonTransladarSingle != null)
+                    {
+                        if (gestion.IsMultiplayer)
+                            BotonTransladar.SetActive(true);
+                        else
+                            BotonTransladarSingle.SetActive(true);
+                    }
+                    break;
+            }
     }
 
     void PrimerPaso()
