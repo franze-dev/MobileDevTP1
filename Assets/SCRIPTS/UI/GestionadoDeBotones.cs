@@ -4,6 +4,16 @@ public class GestionadoDeBotones : MonoBehaviour
 {
     private GestionadoDeMenues gestion;
 
+    private void Awake()
+    {
+        ProveedorServicios.DefinirServicio(this);
+    }
+
+    private void OnDestroy()
+    {
+        ProveedorServicios.DefinirServicio<GestionadoDeBotones>(null);
+    }
+
     private void Start()
     {
         ProveedorServicios.IntentarObtenerServicio(out gestion);
@@ -30,7 +40,7 @@ public class GestionadoDeBotones : MonoBehaviour
         gestion.TransicionA(Anterior);
     }
 
-    public void Despausar()
+    public void Pausar()
     {
         DespachadorEventos.Despachar<IEventoPausa>(new EventoPausa(gameObject));
     }
@@ -46,6 +56,7 @@ public class GestionadoDeBotones : MonoBehaviour
     {
         gestion.TransicionA(new EstadoModos());
     }
+
     public void SalirDeJuego()
     {
         DespachadorEventos.Despachar<IEventoSalirDeJuego>(new EventoSalirDeJuego(gameObject));
