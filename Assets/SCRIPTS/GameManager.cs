@@ -64,6 +64,11 @@ public class GameManager : MonoBehaviour
         CanvasJuego?.SetActive(false);
     }
 
+    private void OnDestroy()
+    {
+        DespachadorEventos.Despachar<IFinJuegoEvento>(new FinJuegoEvento(gameObject));
+    }
+
     void Start()
     {
         ProveedorServicios.IntentarObtenerServicio<GestionDeModoDeJuego>(out gestion);
@@ -81,17 +86,6 @@ public class GameManager : MonoBehaviour
 
                 CanvasJuego.SetActive(false);
 
-                //SKIP EL TUTORIAL
-                if (Input.GetKey(KeyCode.Mouse0) &&
-                       Input.GetKey(KeyCode.Keypad0))
-                {
-                    if (PlayerInfo1 != null && PlayerInfo2 != null)
-                    {
-                        FinCalibracion(0);
-                        FinCalibracion(1);
-                    }
-                }
-
                 if (GestorInput.InputAct == DetectorInput.TipoInput.Teclado)
                 {
                     if (PlayerInfo1.PJ == null && Input.GetKeyDown(KeyCode.W))
@@ -107,16 +101,25 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    if (PlayerInfo1.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaIzquierda))
-                    {
-                        InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
-                    }
-
                     if (gestion.IsMultiplayer)
+                    {
+                        if (PlayerInfo1.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaIzquierda))
+                        {
+                            InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
+                        }
+
                         if (PlayerInfo2.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaDerecha))
                         {
                             InitInfo(out PlayerInfo2, Player2, Visualizacion.Lado.Der);
                         }
+                    }
+                    else
+                    {
+                        if (PlayerInfo1.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaPantalla))
+                        {
+                            InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
+                        }
+                    }
                 }
 
                 if (gestion.IsMultiplayer)
@@ -404,4 +407,19 @@ public class GameManager : MonoBehaviour
         public Jugador PJ;
     }
 
+}
+
+public class FinJuegoEvento : IFinJuegoEvento
+{
+    private GameObject objeto;
+    public GameObject ObjetoPadre => objeto;
+
+    public FinJuegoEvento(GameObject objeto)
+    {
+        this.objeto = objeto;
+    }
+}
+
+public interface IFinJuegoEvento : IEvento
+{
 }

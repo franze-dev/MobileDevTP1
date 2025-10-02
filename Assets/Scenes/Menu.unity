@@ -1390,9 +1390,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MultijugadorID: 0
   UnJugadorID: 1
-  FacilID: 1
-  NormalID: 0
-  DificilID: 2
+  FacilID: 0
+  DificilID: 1
   JugadoresOpciones: {fileID: 367050888}
   DificultadOpciones: {fileID: 2082042390}
 --- !u!1 &425187042
@@ -4004,7 +4003,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Normal
+  m_text: Easy
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a964e80c1fb6b2640ababd7b2febd31f, type: 2}
   m_sharedMaterial: {fileID: -6898593334169295839, guid: a964e80c1fb6b2640ababd7b2febd31f,
@@ -6928,9 +6927,6 @@ MonoBehaviour:
   m_MultiSelect: 0
   m_Options:
     m_Options:
-    - m_Text: Normal
-      m_Image: {fileID: 0}
-      m_Color: {r: 0.48235297, g: 0.7803922, b: 0.8431373, a: 1}
     - m_Text: Easy
       m_Image: {fileID: 0}
       m_Color: {r: 0.28622285, g: 0.9056604, b: 0.6922185, a: 1}

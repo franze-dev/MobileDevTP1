@@ -10,14 +10,12 @@ public class GestionDeModoDeJuego : MonoBehaviour
     [SerializeField] private int MultijugadorID = 0;
     [SerializeField] private int UnJugadorID = 1;
     [Header("Dificultades")]
-    [SerializeField] private int FacilID = 1;
-    [SerializeField] private int NormalID = 0;
-    [SerializeField] private int DificilID = 2;
+    [SerializeField] private int FacilID = 0;
+    [SerializeField] private int DificilID = 1;
 
     public int Multijugador => MultijugadorID;
     public int UnJugador => UnJugadorID;
     public int Facil => FacilID;
-    public int Normal => NormalID;
     public int Dificil => DificilID;
 
     [Header("Opciones")]
@@ -34,19 +32,25 @@ public class GestionDeModoDeJuego : MonoBehaviour
     {
         ProveedorServicios.DefinirServicio(this);
         valueVersions = new();
+        ProveedorEventos.Suscribir<IFinJuegoEvento>(FinDeJuego);
     }
 
     private void OnDestroy()
     {
         ProveedorServicios.DefinirServicio<GestionDeModoDeJuego>(null);
     }
-    public void GuardarValor(float ValorFacil, float ValorNormal, float ValorDificil, 
+
+    private void FinDeJuego(IFinJuegoEvento evento)
+    {
+        valueVersions.Clear();
+    }
+
+    public void GuardarValor(float ValorFacil, float ValorDificil, 
                              string NombreVariable)
     {
-        float[] valores = new float[3];
+        float[] valores = new float[2];
 
         valores[Facil] = ValorFacil;
-        valores[Normal] = ValorNormal;
         valores[Dificil] = ValorDificil;
 
         valueVersions.Add(NombreVariable, valores);

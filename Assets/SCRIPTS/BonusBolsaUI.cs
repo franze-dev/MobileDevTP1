@@ -11,6 +11,8 @@ public class BonusBolsaUI : MonoBehaviour
 
     [SerializeField] string PrefijoBonus = "$ ";
     [SerializeField] TextMeshProUGUI TextoBonus;
+    private float BonusSpeed = 6f;
+    private GestionDeModoDeJuego modoDeJuego;
 
     private void Awake()
     {
@@ -19,6 +21,13 @@ public class BonusBolsaUI : MonoBehaviour
             TextoBonus = GetComponentInChildren<TextMeshProUGUI>();
 
         TextoBonus.text = PrefijoBonus + "0";
+    }
+    private void Start()
+    {
+        ProveedorServicios.IntentarObtenerServicio<GestionDeModoDeJuego>(out modoDeJuego);
+
+        modoDeJuego.GuardarValor(BonusSpeed / 2, BonusSpeed, nameof(BonusSpeed));
+        BonusSpeed = modoDeJuego.ObtenerValor(nameof(BonusSpeed));
     }
 
     private void Update()
@@ -29,7 +38,7 @@ public class BonusBolsaUI : MonoBehaviour
 
             float fill = Mathf.Clamp01((float)Pj.ContrDesc.Bonus / MaxBonus);
 
-            Relleno.fillAmount = Mathf.Lerp(Relleno.fillAmount, fill, Time.deltaTime * 5f);
+            Relleno.fillAmount = Mathf.Lerp(Relleno.fillAmount, fill, Time.deltaTime * BonusSpeed);
 
             TextoBonus.text = PrefijoBonus + ((int)Pj.ContrDesc.Bonus).ToString("N0");
         }
