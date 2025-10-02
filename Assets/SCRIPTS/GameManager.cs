@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     //la pista de carreras
     public GameObject[] ObjsCarrera;
     [SerializeField] private GameObject CanvasJuego;
+    [SerializeField] private GameObject CanvasSingle;
     [SerializeField] private DetectorInput GestorInput;
 
     [SerializeField] private AssetReferenceGameObject DepositosRef;
@@ -78,6 +79,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ProveedorServicios.IntentarObtenerServicio<GestionDeModoDeJuego>(out gestion);
+
+        if (!gestion.IsMultiplayer)
+            CanvasSingle.SetActive(true);
 
         IniciarCalibracion();
     }

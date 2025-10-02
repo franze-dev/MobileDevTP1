@@ -13,6 +13,8 @@ public class Jugador : MonoBehaviour
     public Estados EstAct = Estados.EnConduccion;
 
     public GameObject CanvasPlayer;
+    [SerializeField] private GameObject CanvasDescarga;
+    [SerializeField] private GameObject CanvasDescargaSingle;
 
     [HideInInspector] public ControladorDeDescarga ContrDesc;
     [HideInInspector] public ContrCalibracion ContrCalib;
@@ -22,10 +24,9 @@ public class Jugador : MonoBehaviour
     [HideInInspector] public Rigidbody Rigidbody;
     [HideInInspector] public Collider[] Colliders;
 
-    [SerializeField] private GameObject CanvasDescarga;
-
     public Visualizacion MiVisualizacion;
     public ControlDireccion Direccion;
+    private GestionDeModoDeJuego gestion;
 
     void Start()
     {
@@ -40,6 +41,13 @@ public class Jugador : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody>();
         Respawn = GetComponent<Respawn>();
         Colliders = GetComponentsInChildren<Collider>();
+
+        ProveedorServicios.IntentarObtenerServicio<GestionDeModoDeJuego>(out gestion);
+
+        CanvasDescargaSingle.SetActive(false);
+
+        if (!gestion.IsMultiplayer)
+            CanvasDescarga = CanvasDescargaSingle;
 
         CanvasDescarga?.SetActive(false);
     }
@@ -133,17 +141,19 @@ public class Jugador : MonoBehaviour
 
     public void ChequearDescarga()
     {
-        if (EstAct == Estados.EnDescarga)
+        if (gestion.IsMultiplayer)
         {
-            if (CanvasPlayer.activeSelf)
-                CanvasPlayer.SetActive(false);
-        }
+            if (EstAct == Estados.EnDescarga)
+            {
+                if (CanvasPlayer.activeSelf)
+                    CanvasPlayer.SetActive(false);
+            }
 
-        if (EstAct != Estados.EnDescarga)
-        {
-            if (CanvasPlayer.activeSelf == false)
-                CanvasPlayer.SetActive(true);
+            if (EstAct != Estados.EnDescarga)
+            {
+                if (CanvasPlayer.activeSelf == false)
+                    CanvasPlayer.SetActive(true);
+            }
         }
-
     }
 }
