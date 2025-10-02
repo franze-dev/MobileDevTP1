@@ -39,7 +39,9 @@ public class MngPts : MonoBehaviour
 
         TiempEspReiniciar -= Time.deltaTime;
         if (TiempEspReiniciar <= 0)
+        {
             DespachadorEventos.Despachar<IEventoActivarEscena>(new EventoActivarJuego(gameObject));
+        }
 
         if (ActivadoAnims)
         {
