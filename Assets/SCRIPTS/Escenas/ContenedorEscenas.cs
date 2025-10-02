@@ -14,6 +14,7 @@ public class ContenedorEscenas : ScriptableObject
     public int EscenaJuegoIndice => JuegoIndice;
     public int EscenaCargandoIndice => CargandoIndice;
     public int EscenaFinalIndice => FinalIndice;
+    public int EscenaComienzoIndice => ComienzoIndice;
 
 #if UNITY_EDITOR
     [SerializeField] private SceneAsset EscenaMenu;

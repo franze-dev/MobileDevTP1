@@ -1,4 +1,8 @@
+using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CargadorEscenas))]
 public class ControladorFlujoEscenas : MonoBehaviour
@@ -42,6 +46,11 @@ public class ControladorFlujoEscenas : MonoBehaviour
             Cargador.CargarEscena(indice, Contenedor.EscenaCargandoIndice, evento.DescargaAnterior);
         else
             Cargador.ActivarEscena(indice);
+    }
+
+    public IEnumerator UsarCarga(AsyncOperationHandle<GameObject> operacion)
+    {
+        return Cargador.UsarCarga(operacion, Contenedor.EscenaCargandoIndice, Contenedor.EscenaJuegoIndice);
     }
 
     public bool EstaCargada(int index)

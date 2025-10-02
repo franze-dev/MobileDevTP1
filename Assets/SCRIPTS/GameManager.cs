@@ -362,7 +362,13 @@ public class GameManager : MonoBehaviour
     private IEnumerator InstanciarAsset()
     {
         var operacion = DepositosRef.InstantiateAsync(AssetPos);
-        yield return operacion;
+
+        ProveedorServicios.IntentarObtenerServicio<ControladorFlujoEscenas>(out var cargador);
+
+        if (!cargador)
+            yield return operacion;
+        else
+            yield return cargador.UsarCarga(operacion);
 
         InstanciaDeposito = operacion.Result;
     }

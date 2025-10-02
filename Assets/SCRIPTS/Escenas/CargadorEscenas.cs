@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 
 public class CargadorEscenas : MonoBehaviour
@@ -85,6 +87,30 @@ public class CargadorEscenas : MonoBehaviour
         yield return null;
 
         ActivarEscena(nuevaEscena);
+        DespachadorEventos.Despachar<IEventoReiniciarCarga>(new EventoReiniciarCarga(gameObject));
+    }
+
+    public IEnumerator UsarCarga(AsyncOperationHandle<GameObject> operacion, int transicion, int nextToActivate)
+    {
+        var cargando = operacion;
+
+        if (!EstaCargada(transicion))
+        {
+            yield return SceneManager.LoadSceneAsync(transicion, LoadSceneMode.Additive);
+            listaEscenas.Add(ObtenerEscena(transicion));
+        }
+
+        ActivarEscena(transicion);
+
+        while (!cargando.IsDone)
+        {
+            DespachadorEventos.Despachar<IEventoCarga>(new EventoCarga(gameObject, cargando.PercentComplete));
+            yield return null;
+        }
+
+        yield return cargando;
+
+        ActivarEscena(nextToActivate);
         DespachadorEventos.Despachar<IEventoReiniciarCarga>(new EventoReiniciarCarga(gameObject));
     }
 
