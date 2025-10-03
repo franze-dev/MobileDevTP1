@@ -13,7 +13,6 @@ public class GestionDeCamaras : MonoBehaviour
         ProveedorServicios.IntentarObtenerServicio(out Gestion);
 
         if (Gestion != null)
-        {
             if (Gestion.JugadoresOpcionActual == Gestion.UnJugador)
             {
                 foreach (var cam in CamerasP2)
@@ -27,27 +26,7 @@ public class GestionDeCamaras : MonoBehaviour
                     res.width = 1;
                     cam.rect = res;
                 }
-            }
-            else
-            {
-                //foreach (var cam in CamerasP2)
-                //{
-                //    cam.gameObject.SetActive(true);
-                //    var res = cam.rect;
-                //    res.width = 0.5f;
-                //    res.x = 0.5f;
-                //    cam.rect = res;
-                //}
 
-                //foreach (var cam in CamerasP1)
-                //{
-                //    cam.gameObject.SetActive(true);
-                //    var res = cam.rect;
-                //    res.width = 0.5f;
-                //    res.x = 0;
-                //    cam.rect = res;
-                //}
             }
-        }
     }
 }

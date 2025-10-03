@@ -148,8 +148,7 @@ public class Jugador : MonoBehaviour
                 if (CanvasPlayer.activeSelf)
                     CanvasPlayer.SetActive(false);
             }
-
-            if (EstAct != Estados.EnDescarga)
+            else
             {
                 if (CanvasPlayer.activeSelf == false)
                     CanvasPlayer.SetActive(true);
