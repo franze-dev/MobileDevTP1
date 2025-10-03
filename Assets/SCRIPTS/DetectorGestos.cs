@@ -49,31 +49,19 @@ public class DetectorGestos : MonoBehaviour
         {
             case Direccion.Arr:
                 if (PosFinal.y > PosInicial.y)
-                {
-                    //Reiniciar();
                     return true;
-                }
                 break;
             case Direccion.Aba:
                 if (PosFinal.y < PosInicial.y)
-                {
-                    //Reiniciar();
                     return true;
-                }
                 break;
             case Direccion.Izq:
                 if (PosFinal.x < PosInicial.x)
-                {
-                    //Reiniciar();
                     return true;
-                }
                 break;
             case Direccion.Der:
                 if (PosFinal.x > PosInicial.x)
-                {
-                    //Reiniciar();
                     return true;
-                }
                 break;
             default:
                 return false;

@@ -22,13 +22,7 @@ public class GameManager : MonoBehaviour
     public Jugador Player2;
 
     bool ConteoRegresivo = true;
-    public Rect ConteoPosEsc;
     public float ConteoParaInicio = 3;
-    public GUISkin GS_ConteoInicio;
-
-    public Rect TiempoGUI = new Rect();
-    public GUISkin GS_TiempoGUI;
-
     public float TiempEspMuestraPts = 3;
 
     //posiciones de los camiones dependientes del lado que les toco en la pantalla
@@ -43,6 +37,7 @@ public class GameManager : MonoBehaviour
     //la pista de carreras
     public GameObject[] ObjsCarrera;
     [SerializeField] private GameObject CanvasJuego;
+    [SerializeField] private List<GameObject> CanvasJugadores;
     [SerializeField] private GameObject CanvasSingle;
     [SerializeField] private DetectorInput GestorInput;
 
@@ -98,6 +93,9 @@ public class GameManager : MonoBehaviour
                 CanvasJuego.SetActive(false);
                 CanvasSingle.SetActive(false);
 
+                foreach (var canvas in CanvasJugadores)
+                    canvas.SetActive(false);
+
                 if (GestorInput.InputAct == DetectorInput.TipoInput.Teclado)
                 {
                     if (PlayerInfo1.PJ == null && Input.GetKeyDown(KeyCode.W))
@@ -150,10 +148,19 @@ public class GameManager : MonoBehaviour
                 break;
             case GestionadoDeEstados.Estados.Jugando:
 
-                if (gestion.IsMultiplayer)
-                    CanvasJuego.SetActive(true);
-                else
+                CanvasJuego.SetActive(true);
+                if (!gestion.IsMultiplayer)
+                {
+                    foreach (var canvas in CanvasJugadores)
+                        canvas.SetActive(false);
                     CanvasSingle.SetActive(true);
+                }
+                else
+                {
+                    CanvasSingle.SetActive(false);
+                    foreach (var canvas in CanvasJugadores)
+                        canvas.SetActive(true);
+                }
                 Player1?.ChequearDescarga();
                 if (gestion.IsMultiplayer)
                     Player2?.ChequearDescarga();
@@ -181,6 +188,8 @@ public class GameManager : MonoBehaviour
             case GestionadoDeEstados.Estados.Finalizado:
                 CanvasJuego.SetActive(false);
                 CanvasSingle.SetActive(false);
+                foreach (var canvas in CanvasJugadores)
+                    canvas.SetActive(false);
                 TiempEspMuestraPts -= Time.deltaTime;
                 if (TiempEspMuestraPts <= 0)
                     DespachadorEventos.Despachar<IEventoActivarEscena>(new EventoActivarFinal(gameObject));
