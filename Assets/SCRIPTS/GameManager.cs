@@ -1,9 +1,7 @@
-using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.SceneManagement;
-using UnityEngine.AddressableAssets;
-using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class GameManager : MonoBehaviour
 {
@@ -39,13 +37,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject CanvasJuego;
     [SerializeField] private List<GameObject> CanvasJugadores;
     [SerializeField] private GameObject CanvasSingle;
-    [SerializeField] private DetectorInput GestorInput;
+    [SerializeField] private DetectorInput InputDetector;
 
     [SerializeField] private AssetReferenceGameObject DepositosRef;
     [SerializeField] private Transform AssetPos;
     [SerializeField] private GameObject InstanciaDeposito;
 
-    private GestionDeModoDeJuego gestion;
+    private GestionDeModoDeJuego Modos;
+    private GestionDeTeclas Teclas;
+    private GestionDeGestos Gestos;
+    private ComandoArriba InfoComando1;
+    private ComandoArriba InfoComando2;
 
     void Awake()
     {
@@ -53,7 +55,8 @@ public class GameManager : MonoBehaviour
 
         Instancia = this;
 
-        if (GestorInput == null)
+        #region Debug
+        if (InputDetector == null)
             Debug.LogError("Falta el Input Detector en " + gameObject.name);
 
         if (GestionEstados == null)
@@ -61,6 +64,8 @@ public class GameManager : MonoBehaviour
 
         if (CanvasJuego == null)
             Debug.LogError("Falta el Canvas de Juego en " + gameObject.name);
+
+        #endregion
 
         CanvasJuego?.SetActive(false);
         CanvasSingle?.SetActive(false);
@@ -74,17 +79,48 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        ProveedorServicios.IntentarObtenerServicio(out gestion);
+        ProveedorServicios.IntentarObtenerServicio(out Modos);
 
-        if (!gestion.IsMultiplayer)
+        if (!Modos.IsMultiplayer)
             CanvasSingle.SetActive(true);
+
+        Teclas = new GestionDeTeclas();
+        Gestos = new GestionDeGestos(InputDetector.DetectorGestos);
+
+        if (InputDetector.InputAct == DetectorInput.TipoInput.Teclado)
+        {
+            if (Modos.IsMultiplayer)
+            {
+                InfoComando2 = Teclas.Conectar(KeyCode.UpArrow,
+                              new ComandoArriba(this, PlayerInfo2, Player2, Visualizacion.Lado.Der));
+                InfoComando1 = Teclas.Conectar(KeyCode.W,
+                              new ComandoArriba(this, PlayerInfo1, Player1, Visualizacion.Lado.Izq));
+            }
+            else
+                InfoComando1 = Teclas.Conectar(KeyCode.W,
+                              new ComandoArriba(this, PlayerInfo1, Player1, Visualizacion.Lado.Non));
+        }
+        else
+        {
+            if (Modos.IsMultiplayer)
+            {
+                InfoComando1 = Gestos.Conectar(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaIzquierda, 
+                              new ComandoArriba(this, PlayerInfo1, Player1, Visualizacion.Lado.Izq));
+                InfoComando2 = Gestos.Conectar(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaDerecha, 
+                              new ComandoArriba(this, PlayerInfo2, Player2, Visualizacion.Lado.Der));
+            }
+            else
+                InfoComando1 = Gestos.Conectar(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaPantalla, 
+                              new ComandoArriba(this, PlayerInfo1, Player1, Visualizacion.Lado.Non));
+        }
 
         IniciarCalibracion();
     }
 
     void Update()
     {
-        GestorInput.DetectorGestos.Actualizar();
+        if (InputDetector.InputAct == DetectorInput.TipoInput.Touch)
+            InputDetector.DetectorGestos.Actualizar();
 
         switch (GestionEstados.EstAct)
         {
@@ -96,43 +132,15 @@ public class GameManager : MonoBehaviour
                 foreach (var canvas in CanvasJugadores)
                     canvas.SetActive(false);
 
-                if (GestorInput.InputAct == DetectorInput.TipoInput.Teclado)
-                {
-                    if (PlayerInfo1.PJ == null && Input.GetKeyDown(KeyCode.W))
-                    {
-                        InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
-                    }
-
-                    if (gestion.IsMultiplayer)
-                        if (PlayerInfo2.PJ == null && Input.GetKeyDown(KeyCode.UpArrow))
-                        {
-                            InitInfo(out PlayerInfo2, Player2, Visualizacion.Lado.Der);
-                        }
-                }
+                if (InputDetector.InputAct == DetectorInput.TipoInput.Teclado)
+                    Teclas.EjecutarInputsUnaVez();
                 else
-                {
-                    if (gestion.IsMultiplayer)
-                    {
-                        if (PlayerInfo1.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaIzquierda))
-                        {
-                            InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
-                        }
+                    Gestos.EjecutarInputs();
 
-                        if (PlayerInfo2.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaDerecha))
-                        {
-                            InitInfo(out PlayerInfo2, Player2, Visualizacion.Lado.Der);
-                        }
-                    }
-                    else
-                    {
-                        if (PlayerInfo1.PJ == null && GestorInput.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Arr, DetectorGestos.ZonaPantalla))
-                        {
-                            InitInfo(out PlayerInfo1, Player1, Visualizacion.Lado.Izq);
-                        }
-                    }
-                }
+                PlayerInfo1 = InfoComando1.Info;
+                PlayerInfo2 = InfoComando2.Info;
 
-                if (gestion.IsMultiplayer)
+                if (Modos.IsMultiplayer)
                 {
                     if (PlayerInfo1.PJ != null && PlayerInfo2.PJ != null)
                     {
@@ -148,21 +156,31 @@ public class GameManager : MonoBehaviour
                 break;
             case GestionadoDeEstados.Estados.Jugando:
 
-                CanvasJuego.SetActive(true);
-                if (!gestion.IsMultiplayer)
+                if (!CanvasJuego.activeInHierarchy)
+                    CanvasJuego.SetActive(true);
+
+                if (!Modos.IsMultiplayer)
                 {
                     foreach (var canvas in CanvasJugadores)
-                        canvas.SetActive(false);
-                    CanvasSingle.SetActive(true);
+                    {
+                        if (!canvas.activeInHierarchy)
+                            canvas.SetActive(false);
+                    }
+                    if (!CanvasSingle.activeInHierarchy)
+                        CanvasSingle.SetActive(true);
                 }
                 else
                 {
-                    CanvasSingle.SetActive(false);
+                    if (!CanvasSingle.activeInHierarchy)
+                        CanvasSingle.SetActive(false);
                     foreach (var canvas in CanvasJugadores)
-                        canvas.SetActive(true);
+                        if (!canvas.activeInHierarchy)
+                            canvas.SetActive(true);
                 }
+
                 Player1?.ChequearDescarga();
-                if (gestion.IsMultiplayer)
+
+                if (Modos.IsMultiplayer)
                     Player2?.ChequearDescarga();
 
                 if (TiempoDeJuego <= 0)
@@ -184,12 +202,22 @@ public class GameManager : MonoBehaviour
                     //baja el tiempo del juego
                     TiempoDeJuego -= Time.deltaTime;
                 }
+
                 break;
             case GestionadoDeEstados.Estados.Finalizado:
-                CanvasJuego.SetActive(false);
-                CanvasSingle.SetActive(false);
+
+                if (CanvasJuego.activeInHierarchy)
+                    CanvasJuego.SetActive(false);
+
+                if (CanvasSingle.activeInHierarchy)
+                    CanvasSingle.SetActive(false);
+
                 foreach (var canvas in CanvasJugadores)
-                    canvas.SetActive(false);
+                {
+                    if (canvas.activeInHierarchy)
+                        canvas.SetActive(false);
+                }
+
                 TiempEspMuestraPts -= Time.deltaTime;
                 if (TiempEspMuestraPts <= 0)
                     DespachadorEventos.Despachar<IEventoActivarEscena>(new EventoActivarFinal(gameObject));
@@ -200,7 +228,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void InitInfo(out InfoJugador PlayerInfo, Jugador Jugador, Visualizacion.Lado lado)
+    public void InitInfo(out InfoJugador PlayerInfo, Jugador Jugador, Visualizacion.Lado lado)
     {
         PlayerInfo = new InfoJugador(0, Jugador);
         PlayerInfo.LadoAct = lado;
@@ -222,7 +250,7 @@ public class GameManager : MonoBehaviour
 
 
         Player1?.CambiarACalibracion();
-        if (gestion.IsMultiplayer)
+        if (Modos.IsMultiplayer)
             Player2?.CambiarACalibracion();
     }
 
@@ -231,7 +259,7 @@ public class GameManager : MonoBehaviour
         Player1.Frenado.RestaurarVel();
         Player1.Direccion.Habilitado = true;
 
-        if (Player2 != null && gestion.IsMultiplayer)
+        if (Player2 != null && Modos.IsMultiplayer)
         {
             Player2.Frenado.RestaurarVel();
             Player2.Direccion.Habilitado = true;
@@ -244,7 +272,7 @@ public class GameManager : MonoBehaviour
 
         TiempoDeJuego = 0;
 
-        if (gestion.IsMultiplayer)
+        if (Modos.IsMultiplayer)
         {
             if (Player1.Dinero > Player2.Dinero)
             {
@@ -281,7 +309,7 @@ public class GameManager : MonoBehaviour
         Player1?.Frenado.Frenar();
         Player1?.ContrDesc?.FinDelJuego();
 
-        if (gestion.IsMultiplayer)
+        if (Modos.IsMultiplayer)
         {
             Player2?.Frenado.Frenar();
             Player2?.ContrDesc?.FinDelJuego();
@@ -292,14 +320,14 @@ public class GameManager : MonoBehaviour
     void SetPosicion(InfoJugador pjInf)
     {
 
-        if (!gestion)
+        if (!Modos)
             return;
 
         pjInf.PJ.MiVisualizacion.SetLado(pjInf.LadoAct);
         pjInf.PJ.ContrCalib.IniciarTesteo();
 
 
-        if (!gestion.IsMultiplayer)
+        if (!Modos.IsMultiplayer)
         {
             Player1.MiVisualizacion.SetLado(Visualizacion.Lado.Non);
             Player2 = null;
@@ -335,7 +363,7 @@ public class GameManager : MonoBehaviour
 
         //posiciona los camiones dependiendo de que lado de la pantalla esten
 
-        if (gestion.IsMultiplayer)
+        if (Modos.IsMultiplayer)
         {
             if (PlayerInfo1.LadoAct == Visualizacion.Lado.Izq)
             {
@@ -351,7 +379,7 @@ public class GameManager : MonoBehaviour
         else
             Player1.gameObject.transform.position = PosCamionesCarrera[0];
 
-        if (gestion.IsMultiplayer)
+        if (Modos.IsMultiplayer)
         {
             Player2.transform.forward = Vector3.forward;
             Player2?.Frenado.Frenar();
@@ -387,7 +415,7 @@ public class GameManager : MonoBehaviour
 
     public void FinCalibracion(int playerID)
     {
-        if (gestion.IsMultiplayer)
+        if (Modos.IsMultiplayer)
         {
             if (playerID == 0)
             {
@@ -410,10 +438,10 @@ public class GameManager : MonoBehaviour
 
     public Rect ZonaCorrespondeA(int camionId)
     {
-        if (gestion == null)
-            ProveedorServicios.IntentarObtenerServicio(out gestion);
+        if (Modos == null)
+            ProveedorServicios.IntentarObtenerServicio(out Modos);
 
-        if (gestion.IsMultiplayer)
+        if (Modos.IsMultiplayer)
         {
             if (camionId == 0)
                 return DetectorGestos.ZonaIzquierda;
@@ -444,6 +472,28 @@ public class GameManager : MonoBehaviour
         public Jugador PJ;
     }
 
+}
+
+public class ComandoArriba : IInputComando
+{
+    public GameManager GM;
+    public GameManager.InfoJugador Info;
+    public Jugador Jugador;
+    public Visualizacion.Lado Lado;
+
+    public ComandoArriba(GameManager gm, GameManager.InfoJugador info, Jugador jugador, Visualizacion.Lado lado)
+    {
+        GM = gm;
+        Info = info;
+        Jugador = jugador;
+        Lado = lado;
+    }
+
+    public void Execute()
+    {
+        if (Info.PJ == null)
+            GM.InitInfo(out Info, Jugador, Lado);
+    }
 }
 
 public class FinJuegoEvento : IFinJuegoEvento

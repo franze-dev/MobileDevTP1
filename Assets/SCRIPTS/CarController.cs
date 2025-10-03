@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarController : MonoBehaviour {
+public class CarController : MonoBehaviour 
+{
 
     public List<WheelCollider> throttleWheels = new List<WheelCollider>();
     public List<WheelCollider> steeringWheels = new List<WheelCollider>();
     public float throttleCoefficient = 20000f;
     public float maxTurn = 20f;
-    float giro = 0f;
+    [SerializeField] float giro = 0f;
     float acel = 1f;
 
 	void FixedUpdate () 
     {
-        foreach (var wheel in throttleWheels) {
+        foreach (var wheel in throttleWheels) 
             wheel.motorTorque = throttleCoefficient * Time.fixedDeltaTime * acel;
-        }
-        foreach (var wheel in steeringWheels) {
+
+        foreach (var wheel in steeringWheels) 
             wheel.steerAngle = maxTurn * giro;
-        }
+
         giro = 0f;
     }
 

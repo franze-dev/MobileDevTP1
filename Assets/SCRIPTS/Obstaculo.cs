@@ -43,9 +43,4 @@ public class Obstaculo : MonoBehaviour
 			Chocado = true;
 	}
 
-	protected virtual void Desaparecer()
-	{}
-	
-	protected virtual void Colision()
-	{}
 }

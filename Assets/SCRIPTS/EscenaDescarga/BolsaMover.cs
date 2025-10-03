@@ -20,6 +20,7 @@ public class BolsaMover : ManejoBolsas
     [SerializeField] private GameObject BotonTransladar;
     [SerializeField] private GameObject BotonTransladarSingle;
     private GestionDeModoDeJuego gestion;
+    private GestionDeTeclas Teclas;
 
     private bool PrimerCompleto => ContadorPasos == 1;
     private bool SegundoCompleto => ContadorPasos == 2;
@@ -29,6 +30,8 @@ public class BolsaMover : ManejoBolsas
     {
         if (InputDetector == null)
             Debug.LogError("Falta detector de input en " + gameObject.name);
+
+        Teclas = new();
 
         if (InputDetector.InputAct == DetectorInput.TipoInput.Touch)
         {
@@ -52,12 +55,21 @@ public class BolsaMover : ManejoBolsas
         }
         else
         {
-            if (BotonTransladar != null && BotonTransladarSingle != null)
-                if (BotonTransladar)
-                {
-                    Destroy(BotonTransladar);
-                    Destroy(BotonTransladarSingle);
-                }
+            Destroy(BotonTransladar);
+            Destroy(BotonTransladarSingle);
+
+            if (miInput == MoveType.WASD)
+            {
+                Teclas.Conectar(KeyCode.A, new MoverPaso(0, this));
+                Teclas.Conectar(KeyCode.S, new MoverPaso(1, this));
+                Teclas.Conectar(KeyCode.D, new MoverPaso(2, this));
+            }
+            else
+            {
+                Teclas.Conectar(KeyCode.LeftArrow, new MoverPaso(0, this));
+                Teclas.Conectar(KeyCode.DownArrow, new MoverPaso(1, this));
+                Teclas.Conectar(KeyCode.RightArrow, new MoverPaso(2, this));
+            }
         }
     }
 
@@ -73,51 +85,42 @@ public class BolsaMover : ManejoBolsas
             TercerPaso();
     }
 
+    public void HacerPaso(int pasoid)
+    {
+        if (pasoid == 0)
+        {
+            if (TercerCompleto && !Tenencia() && Desde.Tenencia())
+                PrimerPaso();
+        }
+        else if (pasoid == 1)
+        {
+            if (PrimerCompleto && Tenencia())
+                SegundoPaso();
+        }
+        else
+        {
+            if (SegundoCompleto && Tenencia())
+                TercerPaso();
+        }
+    }
+
     private void Update()
     {
-        InputDetector.DetectorGestos.Actualizar();
-
-        if (PJ.EstAct == Jugador.Estados.EnDescarga)
-            switch (miInput)
+        if (PJ.EstAct == Jugador.Estados.EnDescarga || PJ.EstAct == Jugador.Estados.EnCalibracion)
+        {
+            if (InputDetector.InputAct == DetectorInput.TipoInput.Teclado)
+                Teclas.EjecutarInputsUnaVez();
+            else
             {
-                case MoveType.WASD:
-                    if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.A))
-                    {
-                        PrimerPaso();
-                    }
-                    if (Tenencia() && Input.GetKeyDown(KeyCode.S))
-                    {
-                        SegundoPaso();
-                    }
-                    if (SegundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.D))
-                    {
-                        TercerPaso();
-                    }
-                    break;
-                case MoveType.Arrows:
-                    if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.LeftArrow))
-                    {
-                        PrimerPaso();
-                    }
-                    if (Tenencia() && Input.GetKeyDown(KeyCode.DownArrow))
-                    {
-                        SegundoPaso();
-                    }
-                    if (SegundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.RightArrow))
-                    {
-                        TercerPaso();
-                    }
-                    break;
-                default:
-                    if (BotonTransladar != null || BotonTransladarSingle != null)
-                    {
-                        if (gestion.IsMultiplayer)
-                            BotonTransladar.SetActive(true);
-                        else
-                            BotonTransladarSingle.SetActive(true);
-                    }
-                    break;
+                if (BotonTransladar != null || BotonTransladarSingle != null)
+                {
+                    if (gestion.IsMultiplayer)
+                        BotonTransladar.SetActive(true);
+                    else
+                        BotonTransladarSingle.SetActive(true);
+                }
             }
+        }
     }
 
     void PrimerPaso()
@@ -156,5 +159,22 @@ public class BolsaMover : ManejoBolsas
         }
         else
             return false;
+    }
+}
+
+internal class MoverPaso : IInputComando
+{
+    private int PasoID;
+    private BolsaMover Mover;
+
+    public MoverPaso(int pasoID, BolsaMover mover)
+    {
+        PasoID = pasoID;
+        Mover = mover;
+    }
+
+    public void Execute()
+    {
+        Mover.HacerPaso(PasoID);
     }
 }

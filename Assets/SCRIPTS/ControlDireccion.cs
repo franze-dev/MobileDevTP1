@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class ControlDireccion : MonoBehaviour
 {
-    public enum TipoInput { Mouse, AWSD, Flechas, Gestos }
-    public TipoInput InputAct = ControlDireccion.TipoInput.Mouse;
+    public enum TipoInput { WASD, Flechas, Gestos }
+    public TipoInput InputAct = ControlDireccion.TipoInput.WASD;
 
     public Transform ManoDer;
     public Transform ManoIzq;
 
     public float MaxAng = 90;
     public float DesSensibilidad = 90;
-
-    private float Giro = 0;
 
     public bool Habilitado = true;
     private CarController CarController;
@@ -20,6 +18,10 @@ public class ControlDireccion : MonoBehaviour
     private Rect ZonaCorrespondiente;
 
     [SerializeField] private DetectorInput InputDetector;
+    private GestionDeTeclas Teclas;
+    private GestionDeGestos Gestos;
+    private GiroComando InfoComandoIzq;
+    private GiroComando InfoComandoDer;
 
     void Start()
     {
@@ -31,70 +33,58 @@ public class ControlDireccion : MonoBehaviour
         if (InputDetector.DetectorGestos == null)
             Debug.LogError("Falta el Detector de Gestos en " + gameObject.name);
 
+        Teclas = new();
+        Gestos = new(InputDetector.DetectorGestos);
+
         if (InputDetector.InputAct == DetectorInput.TipoInput.Touch)
         {
             InputAct = TipoInput.Gestos;
 
             ZonaCorrespondiente = GameManager.ZonaCorrespondeA(CamionId);
+
+            Gestos.Conectar(DetectorGestos.Direccion.Izq, ZonaCorrespondiente, new GiroComando(-1, CarController));
+            Gestos.Conectar(DetectorGestos.Direccion.Der, ZonaCorrespondiente, new GiroComando(1, CarController));
+        }
+        else
+        {
+            if (InputAct == TipoInput.WASD)
+            {
+                Teclas.Conectar(KeyCode.A, new GiroComando(-1, CarController));
+                Teclas.Conectar(KeyCode.D, new GiroComando(1, CarController));
+            }
+            else
+            {
+                Teclas.Conectar(KeyCode.LeftArrow, new GiroComando(-1, CarController));
+                Teclas.Conectar(KeyCode.RightArrow, new GiroComando(1, CarController));
+            }
         }
     }
 
     void Update()
     {
-        if (InputDetector.InputAct == DetectorInput.TipoInput.Touch)
-            InputDetector.DetectorGestos.Actualizar();
-
-        switch (InputAct)
+        if (Habilitado)
         {
-            case TipoInput.Mouse:
-                if (Habilitado)
-                    CarController.SetGiro(MousePos.Relation(MousePos.AxisRelation.Horizontal));
-
-                break;
-            case TipoInput.AWSD:
-                if (Habilitado)
-                {
-                    if (Input.GetKey(KeyCode.A))
-                    {
-                        CarController.SetGiro(-1);
-                    }
-                    if (Input.GetKey(KeyCode.D))
-                    {
-                        CarController.SetGiro(1);
-                    }
-                }
-                break;
-            case TipoInput.Flechas:
-                if (Habilitado)
-                {
-                    if (Input.GetKey(KeyCode.LeftArrow))
-                    {
-                        CarController.SetGiro(-1);
-                    }
-                    if (Input.GetKey(KeyCode.RightArrow))
-                    {
-                        CarController.SetGiro(1);
-                    }
-                }
-                break;
-            case TipoInput.Gestos:
-                if (Habilitado)
-                {
-                    if (InputDetector.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Izq, ZonaCorrespondiente))
-                    {
-                        CarController.SetGiro(-1);
-                    }
-                    if (InputDetector.DetectorGestos.DeslizarDesde(DetectorGestos.Direccion.Der, ZonaCorrespondiente))
-                    {
-                        CarController.SetGiro(1);
-                    }
-                }
-                break;
+            if (InputDetector.InputAct == DetectorInput.TipoInput.Touch)
+                Gestos.EjecutarInputs();
+            else
+                Teclas.EjecutarInputs();
         }
     }
+}
 
-    public float GetGiro()
+internal class GiroComando : IInputComando
+{
+    private int Dir;
+    private CarController Auto;
+
+    public GiroComando(int dir, CarController auto)
     {
-        return Giro;
+        Dir = dir;
+        Auto = auto;
+    }
+
+    public void Execute()
+    {
+        Auto.SetGiro(Dir);
     }
 }
