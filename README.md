@@ -1,7 +1,7 @@
 # MobileDevTP1
 Sofia Alvarez
 
-A game coded in spanish made 15 years ago that I had to improve for my college in 2 months.
+A game coded in spanish made 10+ years ago that I had to improve for my college in 2 months.
 ### Added:
 - Single player
 - Main Menu (and credits)
