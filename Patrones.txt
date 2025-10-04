@@ -1,0 +1,32 @@
+Patrones
+- Observador
+
+Donde: CargadorEscenas.cs, PantallaCarga.cs, IniciadorJuego.cs, GestionadoDePausa.cs y varias clases de ejentos (IEventoPausa, IEventoCarga, IEventoEmpezarJuego, etc)
+
+Como: Se usa un sistema de eventos propio (clases ProveedorDeEventos y DespachadorDeEventos). Las clases se suscriben a eventos específicos y reaccionan cuando éstos son disparados. Por ejemplo, PantallaCarga se suscribe a IEventoCarga para actualizar la barra de carga, este evento lo activan la carga de escenas y assets.
+
+Problema que resuelve: Permite comunicar distintos sistemas (carga de escenas, pausas, inicio de juego) sin acoplarlos directamente. Cada clase "observa" eventos de interés y reacciona, sin necesitar una correlación directa con la clase que los dispara.
+
+- Service Locator
+
+Donde: La clase ProveedorServicios. Se usa en ControladorFlujoEscenas.cd, GestionDeModoDeJuego, GestionadoDeMenues, PantallaCarga, GestionadoDeBotones.
+
+Como: Las clases se registran como servicios y otras clases pueden obtenerlas a traves del ProveedorServicios.
+
+Problema que resuelve: Facilita la obtención de referencias entre sistemas sin necesidad de pasar objetos por inspector o constructor. Por ejemplo, GestionadoDeBotones puede manejar el evento que generan los botones sin tener una referencia directa a GestionadoDeMenues. Se usa mucho para chequear si el juego es multijugador o no, entonces accede al GestionDeModoDeJuego suscrito y chequea si es multijugador a través de él.
+
+- State
+
+Donde: GestionadoDeMenues.cs y sus implementaciones de IEstadoMenu: EstadoMenuPrincipal, EstadoPausa, EstadoCreditos, EstadoSalir, EstadoModos
+
+Como: Cada estado de menu implementa la interfaz IEstadoMenu. La clase GestionadoDeMenues mantiene el EstadoActual y hace la transición con TransicionA(estado). Cada estado tiene su propia lógica cuando se transiciona.
+
+Problemas que resuelve: Evita lógica de menu con muchas condiciones y permite añadir nuevos menues sin modificar el código existente. Es extensible.
+
+- Command
+
+Donde: GestionDeTeclas.cs y GestionDeGestos.cs con la interfaz IInputComando. Se nota su uso en BolsaMover.cs y GameManager.cs principalmente.
+
+Como: Cada acción de input (tecla o gesto) se encapsula en un comando que implementa IInputComando. GestionDeTeclas y GestionDeGestos ejecutan los comandos correspondientes cuando se detecta la entrada que se conectó con el comando correspondiente.
+
+Problema que resuelve: Acorta mucho el código de detección de input, evita condiciones muy largas (switches largos que chequean qué tipo de input se usa y qué tecla detectar, además de la lógica que le sigue a cada input) y lo encapsula todo en clases separadas, lo que permite modificar esa lógica con mas control.
